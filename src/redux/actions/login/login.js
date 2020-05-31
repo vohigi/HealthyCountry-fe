@@ -8,11 +8,12 @@ export const authStart = () => {
   };
 };
 
-export const authSuccess = (token, userId) => {
+export const authSuccess = (token, user) => {
   return {
     type: actionTypes.AUTH_SUCCESS,
     idToken: token,
-    userId: userId,
+    userId: user.userId,
+    user: user,
   };
 };
 
@@ -40,32 +41,29 @@ export const checkAuthTimeout = (expirationTime) => {
   };
 };
 
-export const auth = (email, password, isSignup) => {
+export const auth = (email, password) => {
   return (dispatch) => {
     dispatch(authStart());
     const authData = {
       email: email,
       password: password,
-      returnSecureToken: true,
     };
-    let url =
-      "https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=AIzaSyB5cHT6x62tTe-g27vBDIqWcwQWBSj3uiY";
-    if (!isSignup) {
-      url = "/api/users/login";
-    }
+    let url = "/api/users/login";
     axios
       .post(url, authData)
       .then((response) => {
-        const expirationDate = new Date(new Date().getTime() + 60 * 1000);
+        const expirationDate = new Date(new Date().getTime() + 3600 * 1000);
         console.log(expirationDate);
         localStorage.setItem("token", response.data.token);
         localStorage.setItem("expirationDate", expirationDate);
         localStorage.setItem("userId", response.data.user.userId);
-        dispatch(authSuccess(response.data.token, response.data.user.userId));
-        //dispatch(checkAuthTimeout(new Date(new Date().getTime() + 60 * 1000)));
+        dispatch(authSuccess(response.data.token, response.data.user));
+        dispatch(
+          checkAuthTimeout(new Date(new Date().getTime() + 3600 * 1000))
+        );
       })
       .catch((err) => {
-        console.log(err.response);
+        console.log(err);
         dispatch(authFail(err.response.data.errors));
       });
   };
@@ -89,12 +87,25 @@ export const authCheckState = () => {
         dispatch(logout());
       } else {
         const userId = localStorage.getItem("userId");
-        dispatch(authSuccess(token, userId));
-        dispatch(
-          checkAuthTimeout(
-            (expirationDate.getTime() - new Date().getTime()) / 1000
-          )
-        );
+        let url = "/api/users/" + userId;
+        axios
+          .get(url, {
+            headers: {
+              Authorization: "Bearer " + token,
+            },
+          })
+          .then((response) => {
+            dispatch(authSuccess(token, response.data));
+            dispatch(
+              checkAuthTimeout(
+                (expirationDate.getTime() - new Date().getTime()) / 1000
+              )
+            );
+          })
+          .catch((err) => {
+            console.log(err);
+            dispatch(authFail(err.response.data.errors));
+          });
       }
     }
   };

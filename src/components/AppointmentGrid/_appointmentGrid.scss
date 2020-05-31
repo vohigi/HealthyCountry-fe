@@ -1,0 +1,34 @@
+.appointmentGrid {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #c4bdbd;
+  box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.25);
+  &Slots {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 20px;
+  }
+  &Text {
+    background-color: #dfdbdb;
+    width: 100%;
+    margin: auto;
+    text-align: center;
+    padding: 20px;
+    border: 1px solid #c4bdbd;
+  }
+}
+.slot {
+  margin-left: 30px;
+  margin-bottom: 20px;
+  text-align: center;
+  width: 140px;
+  height: 68px;
+  background-color: #31b33c;
+  color: #fff;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+  &:hover {
+    background-color: #5ed668;
+  }
+}

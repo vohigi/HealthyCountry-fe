@@ -7,6 +7,8 @@ import Login from "./pages/login/Login";
 import Home from "./pages/home/Home";
 import * as actions from "./redux/actions/index";
 import PrivateRoute from "./components/PrivateRoute";
+import { Register } from "./pages/register/Register";
+import AppointmentBooking from "./pages/appointment/AppointmentBooking";
 
 class App extends Component {
   componentDidMount() {
@@ -16,13 +18,24 @@ class App extends Component {
   render() {
     let routes = (
       <Switch>
-        <Route path="/login" component={Login} />
+        <Route exact path="/login" component={Login} />
+        <Route exact path="/register" component={Register} />
         <PrivateRoute
           path="/"
           exact
           component={Home}
           setAuthRedirectPath={this.props.onSetAuthRedirectPath}
           userId={this.props.userId}
+          userRole={this.props.userRole}
+          role="ANY"
+        />
+        <PrivateRoute
+          path="/doctor/:doctorId"
+          component={AppointmentBooking}
+          setAuthRedirectPath={this.props.onSetAuthRedirectPath}
+          userId={this.props.userId}
+          userRole={this.props.user.role}
+          role="PATIENT"
         />
         <Route path="/logout" component={Logout} />
         <Redirect to="/" />
@@ -41,6 +54,7 @@ const mapStateToProps = (state) => {
   return {
     isAuthenticated: state.auth.token !== null,
     userId: state.auth.userId,
+    user: state.auth.user,
   };
 };
 

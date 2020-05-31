@@ -1,0 +1,36 @@
+.doctorCard {
+  display: flex;
+  width: 30%;
+  max-width: 324px;
+  padding: 10px;
+  flex-direction: column;
+  border: 1px solid #c4bdbd;
+  box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.25);
+  &Top {
+    display: flex;
+    justify-content: space-evenly;
+    &Text {
+      margin-left: 10px;
+    }
+  }
+  &Button {
+    display: block;
+    width: 100%;
+    background-color: #31b33c;
+    border: none;
+    height: 48px;
+    color: #ffff;
+    cursor: pointer;
+    &:hover {
+      background-color: #5ed668;
+    }
+  }
+}
+.doctorImageContainer {
+  width: 50%;
+  min-width: 50%;
+  max-width: 50%;
+}
+.doctorImg {
+  width: 100%;
+}

@@ -4,6 +4,8 @@ import { Route, Redirect } from "react-router-dom";
 const PrivateRoute = ({
   component: Component,
   userId,
+  userRole,
+  role,
   setAuthRedirectPath,
   ...rest
 }) => (
@@ -12,17 +14,18 @@ const PrivateRoute = ({
     render={(props) => {
       if (!userId) {
         // not logged in so redirect to login page with the return url
-        //setAuthRedirectPath(props.location);
+        setAuthRedirectPath(props.location.pathname + props.location.search);
         return <Redirect to={{ pathname: "/login" }} />;
       }
-
+      console.log(userRole);
+      console.log(role);
+      console.log(userId);
       // check if route is restricted by role
-      // if (roles && roles.indexOf(currentUser.employeeType) === -1) {
-      //     // role not authorised so redirect to home page
-      //     return <Redirect to={{ pathname: '/'}} />
+      // if (userRole !== role && role !== "ANY" && userRole !== "ADMIN") {
+      //   // role not authorised so redirect to home page
+      //   return <Redirect to={{ pathname: "/" }} />;
       // }
 
-      // authorised so return component
       return <Component {...props} />;
     }}
   />

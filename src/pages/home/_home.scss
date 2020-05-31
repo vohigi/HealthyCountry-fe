@@ -1,3 +1,40 @@
 .cards-holder {
   display: flex;
+  padding: 20px;
+}
+.search {
+  display: flex;
+  justify-content: center;
+  margin: auto;
+  align-items: center;
+  &Input {
+    display: block;
+    width: 50%;
+    max-width: 520px;
+    height: 48px;
+    font-size: 1.5rem;
+    outline: none;
+    border: 1px solid #ccc;
+    background-color: white;
+    padding: 6px 10px;
+    box-sizing: border-box;
+    margin-right: 20px;
+    &:focus {
+      outline: none;
+      background-color: #ccc;
+    }
+  }
+  &Button {
+    display: block;
+    width: 100px;
+    height: 48px;
+    background-color: #31b33c;
+    border: none;
+    color: #ffff;
+    font-size: 1.1rem;
+    cursor: pointer;
+    &:hover {
+      background-color: #5ed668;
+    }
+  }
 }

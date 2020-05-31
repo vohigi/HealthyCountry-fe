@@ -7,9 +7,9 @@ import { checkValidity, updateObject } from "../../shared/utility";
 import Button from "../../components/UI/Button/Button";
 import Input from "../../components/UI/Input/Input";
 import * as actions from "../../redux/actions/index";
-import "./_login.scss";
+import "./_register.scss";
 
-export class Login extends Component {
+export class Register extends Component {
   static propTypes = {};
   state = {
     controls: {
@@ -37,6 +37,71 @@ export class Login extends Component {
         validation: {
           required: true,
           minLength: 8,
+        },
+        valid: false,
+        touched: false,
+      },
+      firstName: {
+        elementType: "input",
+        elementConfig: {
+          type: "text",
+          placeholder: "Ім'я",
+        },
+        value: "",
+        validation: {
+          required: true,
+        },
+        valid: false,
+        touched: false,
+      },
+      lastName: {
+        elementType: "input",
+        elementConfig: {
+          type: "text",
+          placeholder: "Прізвище",
+        },
+        value: "",
+        validation: {
+          required: true,
+        },
+        valid: false,
+        touched: false,
+      },
+      middleName: {
+        elementType: "input",
+        elementConfig: {
+          type: "text",
+          placeholder: "По батькові",
+        },
+        value: "",
+        validation: {
+          required: true,
+        },
+        valid: false,
+        touched: false,
+      },
+      birthDate: {
+        elementType: "date",
+        elementConfig: {
+          type: "text",
+          placeholder: "Дата народження",
+        },
+        value: "",
+        validation: {
+          required: true,
+        },
+        valid: false,
+        touched: false,
+      },
+      taxId: {
+        elementType: "input",
+        elementConfig: {
+          type: "text",
+          placeholder: "ІПН",
+        },
+        value: "",
+        validation: {
+          required: true,
         },
         valid: false,
         touched: false,
@@ -108,12 +173,12 @@ export class Login extends Component {
       loginRedirect = <Redirect to={this.props.loginRedirectPath} />;
     }
     return (
-      <div className="login">
+      <div className="register">
         {loginRedirect}
         {errorMessage}
         <form onSubmit={this.submitHandler}>
           {form}
-          <Button btnType="success">Увійти</Button>
+          <Button btnType="success">Зареєструватись</Button>
         </form>
       </div>
     );
@@ -135,4 +200,4 @@ const mapDispatchToProps = (dispatch) => {
     onSetAuthRedirectPath: () => dispatch(actions.setAuthRedirectPath("/")),
   };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(Register);
