@@ -3,18 +3,19 @@ import React from "react";
 import "./_navigationItems.scss";
 import NavigationItem from "./Item/NavigationItem";
 
-const NavigationItems = (props) => {
+const NavigationItems = ({ isAuthenticated }) => {
   return (
     <ul className="navigationItems">
-      <NavigationItem link="/" exact>
-        Головна
-      </NavigationItem>
-      {props.isAuthenticated
-        ? //<NavigationItem link="/orders">Orders</NavigationItem>
-          null
-        : null}
-      {!props.isAuthenticated ? (
-        <NavigationItem link="/login">Увійти</NavigationItem>
+      {isAuthenticated ? (
+        <NavigationItem link="/" exact>
+          Головна
+        </NavigationItem> //<NavigationItem link="/orders">Orders</NavigationItem>
+      ) : null}
+      {!isAuthenticated ? (
+        <>
+          <NavigationItem link="/login">Увійти</NavigationItem>
+          <NavigationItem link="/register">Зареєструватись</NavigationItem>
+        </>
       ) : (
         <NavigationItem link="/logout">Вийти з системи</NavigationItem>
       )}

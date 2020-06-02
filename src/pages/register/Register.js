@@ -1,7 +1,5 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { Redirect } from "react-router-dom";
 import Loader from "../../components/Loader/Loader";
 import { checkValidity, updateObject } from "../../shared/utility";
 import Button from "../../components/UI/Button/Button";
@@ -9,8 +7,7 @@ import Input from "../../components/UI/Input/Input";
 import * as actions from "../../redux/actions/index";
 import "./_register.scss";
 
-export class Register extends Component {
-  static propTypes = {};
+class Register extends Component {
   state = {
     controls: {
       email: {
@@ -93,6 +90,22 @@ export class Register extends Component {
         valid: false,
         touched: false,
       },
+      gender: {
+        elementType: "select",
+        elementConfig: {
+          options: [
+            { displayValue: "Чоловіча", value: "MALE" },
+            { displayValue: "Жіноча", value: "FEMALE" },
+          ],
+          placeholder: "Стать",
+        },
+        value: "MALE",
+        validation: {
+          required: true,
+        },
+        valid: false,
+        touched: false,
+      },
       taxId: {
         elementType: "input",
         elementConfig: {
@@ -125,14 +138,23 @@ export class Register extends Component {
   submitHandler = (event) => {
     event.preventDefault();
     if (this.state.controls.email.valid && this.state.controls.password.valid) {
-      this.props.onAuth(
-        this.state.controls.email.value,
-        this.state.controls.password.value,
-        this.state.isSignup
-      );
+      const data = {
+        email: this.state.controls.email.value,
+        password: this.state.controls.password.value,
+        firstName: this.state.controls.firstName.value,
+        lastName: this.state.controls.lastName.value,
+        middleName: this.state.controls.middleName.value,
+        birthDate: this.state.controls.birthDate.value,
+        taxId: this.state.controls.taxId.value,
+        gender: this.state.controls.gender.value,
+        role: "PATIENT",
+      };
+      console.log(this.props);
+      console.log(this.props.onRegister);
+      console.log(this.props.loading);
+      this.props.onRegister(data, this.props.history);
     }
   };
-  //loginRef = React.createRef();
   render() {
     const formElementsArray = [];
     for (let key in this.state.controls) {
@@ -168,13 +190,8 @@ export class Register extends Component {
         </p>
       ));
     }
-    let loginRedirect = null;
-    if (this.props.isAuthenticated) {
-      loginRedirect = <Redirect to={this.props.loginRedirectPath} />;
-    }
     return (
       <div className="register">
-        {loginRedirect}
         {errorMessage}
         <form onSubmit={this.submitHandler}>
           {form}
@@ -186,18 +203,14 @@ export class Register extends Component {
 }
 const mapStateToProps = (state) => {
   return {
-    loading: state.auth.loading,
-    errors: state.auth.errors,
-    isAuthenticated: state.auth.token !== null,
-    loginRedirectPath: state.auth.authRedirectPath,
+    loading: state.register.loading,
+    errors: state.register.errors,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onAuth: (email, password, isSignup) =>
-      dispatch(actions.auth(email, password, isSignup)),
-    onSetAuthRedirectPath: () => dispatch(actions.setAuthRedirectPath("/")),
+    onRegister: (data, history) => dispatch(actions.register(data, history)),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Register);

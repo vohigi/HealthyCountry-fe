@@ -7,7 +7,7 @@ import Login from "./pages/login/Login";
 import Home from "./pages/home/Home";
 import * as actions from "./redux/actions/index";
 import PrivateRoute from "./components/PrivateRoute";
-import { Register } from "./pages/register/Register";
+import Register from "./pages/register/Register";
 import AppointmentBooking from "./pages/appointment/AppointmentBooking";
 
 class App extends Component {

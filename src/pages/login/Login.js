@@ -62,12 +62,10 @@ export class Login extends Component {
     if (this.state.controls.email.valid && this.state.controls.password.valid) {
       this.props.onAuth(
         this.state.controls.email.value,
-        this.state.controls.password.value,
-        this.state.isSignup
+        this.state.controls.password.value
       );
     }
   };
-  //loginRef = React.createRef();
   render() {
     const formElementsArray = [];
     for (let key in this.state.controls) {
@@ -105,6 +103,7 @@ export class Login extends Component {
     }
     let loginRedirect = null;
     if (this.props.isAuthenticated) {
+      // this.props.history.push(this.props.loginRedirectPath);
       loginRedirect = <Redirect to={this.props.loginRedirectPath} />;
     }
     return (

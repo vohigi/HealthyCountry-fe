@@ -12,7 +12,7 @@ const DoctorCard = ({
   <div className="doctorCard">
     <div className="doctorCardTop">
       <div className="doctorImageContainer">
-        <img src={portrait} className="doctorImg"></img>
+        <img src={portrait} alt="doctor image" className="doctorImg"></img>
       </div>
       <div className="doctorCardTopText">
         <p>{lastName + " " + firstName + " " + middleName}</p>

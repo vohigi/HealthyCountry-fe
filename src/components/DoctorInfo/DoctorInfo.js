@@ -13,7 +13,7 @@ const DoctorInfo = ({
   <div className="doctorInfo">
     <div className="doctorInfoLeft">
       <div className="doctorInfoLeftImageContainer">
-        <img src={portrait} className="doctorImg"></img>
+        <img src={portrait} alt="doctor image" className="doctorImg"></img>
       </div>
     </div>
     <div className="doctorInfoRight">

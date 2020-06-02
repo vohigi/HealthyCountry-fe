@@ -7,10 +7,11 @@ import * as actions from "../../redux/actions/index";
 class Logout extends Component {
   componentDidMount() {
     this.props.onLogout();
+    console.log("logout + logout");
   }
 
   render() {
-    return <Redirect to="/" />;
+    return <Redirect to="/login" />;
   }
 }
 const mapDispatchToProps = (dispatch) => {
