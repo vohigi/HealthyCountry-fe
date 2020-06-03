@@ -14,6 +14,7 @@ import OrganizationManagement from "./pages/management/OrganizationManagement";
 import UserManagementEdit from "./pages/management/UserManagementEdit";
 import UserManagementCreate from "./pages/management/UserManagementCreate";
 import PatientProfile from "./pages/profile/PatientProfile";
+import DoctorProfile from "./pages/profile/DoctorProfile";
 
 class App extends Component {
   componentDidMount() {
@@ -35,6 +36,15 @@ class App extends Component {
           role="PATIENT"
         />
         <PrivateRoute
+          path="/doctor/profile"
+          exact
+          component={DoctorProfile}
+          setAuthRedirectPath={this.props.onSetAuthRedirectPath}
+          userId={this.props.userId}
+          userRole={this.props.role}
+          role="DOCTOR"
+        />
+        <PrivateRoute
           path="/doctor/:doctorId"
           component={AppointmentBooking}
           setAuthRedirectPath={this.props.onSetAuthRedirectPath}
@@ -42,6 +52,7 @@ class App extends Component {
           userRole={this.props.role}
           role="PATIENT"
         />
+
         <PrivateRoute
           path="/management/users"
           exact

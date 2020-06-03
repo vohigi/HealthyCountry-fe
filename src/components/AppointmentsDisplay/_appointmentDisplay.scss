@@ -1,0 +1,70 @@
+.appointmentCard {
+  display: flex;
+  flex-direction: column;
+
+  width: 80%;
+  margin: auto;
+  // max-height: 390px;
+  border: 1px solid #ada9a9;
+  background-color: #eceaea;
+  box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.25);
+  padding: 20px;
+  margin-bottom: 40px;
+  &Row {
+    display: flex;
+    justify-content: space-evenly;
+  }
+  &Column {
+    display: flex;
+    flex-direction: column;
+    // justify-content: space-evenly;
+    &Item {
+      margin-right: 20px;
+    }
+  }
+  &Control {
+    display: block;
+    background-color: #31b33c;
+    border: none;
+    width: 100%;
+    min-width: 100px;
+    height: 48px;
+    color: #ffff;
+    cursor: pointer;
+    &:disabled {
+      color: #333;
+      background-color: #ada9a9;
+    }
+  }
+}
+.controls {
+  margin: auto;
+  display: flex;
+  justify-content: space-evenly;
+  width: 30%;
+  &Button {
+    display: block;
+    background-color: #31b33c;
+    border: none;
+    width: 30%;
+    height: 48px;
+    color: #ffff;
+    cursor: pointer;
+    &:hover {
+      background-color: #5ed668;
+    }
+    &:focus {
+      outline: none;
+    }
+  }
+}
+.active {
+  background-color: #5ed668;
+  border-bottom: 4px solid #40a4c8;
+}
+.border {
+  border-top: 1px solid #ada9a9;
+}
+.padding {
+  padding: 20px;
+}

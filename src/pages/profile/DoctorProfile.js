@@ -1,17 +1,17 @@
 import React, { Component } from "react";
 import axios from "axios";
 import Loader from "../../components/Loader/Loader";
-import UserInfo from "../../components/DoctorInfo/UserInfo";
+import DoctorInfo from "../../components/DoctorInfo/DoctorInfo";
 import { getBearer } from "../../shared/utility";
 import AppointmentsDisplay from "../../components/AppointmentsDisplay/AppointmentsDisplay";
 import moment from "moment";
 
-class PatientProfile extends Component {
+class DoctorProfile extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      patientData: null,
+      doctorData: null,
       appointments: [],
       loading: true,
       currentTab: "today",
@@ -53,7 +53,7 @@ class PatientProfile extends Component {
       .then((response) => {
         console.log(response);
         this.setState({
-          patientData: response.data,
+          doctorData: response.data,
         });
         console.log(response.data);
       })
@@ -62,7 +62,7 @@ class PatientProfile extends Component {
       });
 
     axios
-      .get(`/api/appointments/patient/${localStorage.getItem("userId")}`, {
+      .get(`/api/appointments/doctor/${localStorage.getItem("userId")}`, {
         headers: {
           Authorization: "Bearer " + getBearer(),
         },
@@ -74,6 +74,22 @@ class PatientProfile extends Component {
         })
       );
   }
+  onStartClick(appointmentId) {
+    this.props.history.push(`/appointments/${appointmentId}/edit`);
+  }
+  onCancelClick(appointmentId) {
+    const data = this.state.appointments.find(
+      (appointment) => appointment.appointmentId === appointmentId
+    );
+    data.status = "CANCELED";
+    axios
+      .patch(`/api/appointments/${appointmentId}`, data, {
+        headers: {
+          Authorization: "Bearer " + getBearer(),
+        },
+      })
+      .then((response) => this.loadData());
+  }
   onTabChangeClick(tab) {
     this.setState({
       currentTab: tab,
@@ -83,19 +99,18 @@ class PatientProfile extends Component {
     this.loadData();
   }
   render() {
-    const { patientData, loading, appointments, currentTab } = this.state;
+    const { doctorData, loading, appointments, currentTab } = this.state;
     return (
       <div>
         {loading && <Loader />}
-        {patientData && (
-          <UserInfo
-            isPatient={true}
-            firstName={patientData.firstName}
-            lastName={patientData.lastName}
-            middleName={patientData.middleName}
-            phone={patientData.phone}
-            birthDate={patientData.birthDate}
-            gender={patientData.gender}
+        {doctorData && (
+          <DoctorInfo
+            firstName={doctorData.firstName}
+            lastName={doctorData.lastName}
+            middleName={doctorData.middleName}
+            address={doctorData.organization.address}
+            orgName={doctorData.organization.name}
+            phone={doctorData.phone}
           />
         )}
         {appointments && (
@@ -103,10 +118,13 @@ class PatientProfile extends Component {
             appointments={this.getList(currentTab, appointments)}
             currentTab={currentTab}
             changeTabClickHandler={this.onTabChangeClick.bind(this)}
+            enableControls={true}
+            handleCancelClick={this.onCancelClick.bind(this)}
+            handleStartClick={this.onStartClick.bind(this)}
           />
         )}
       </div>
     );
   }
 }
-export default PatientProfile;
+export default DoctorProfile;
