@@ -8,4 +8,4 @@ export {
 export { register } from "./register/register";
 export { getUsers } from "./management/getUsers";
 export { getUser } from "./management/getUser";
-export { editUser } from "./management/editUser";
+export { editUser, deactivateUser } from "./management/editUser";

@@ -14,11 +14,19 @@ class UserManagement extends Component {
     console.log(`edit click + ${id}`);
     this.props.history.push(`/management/users/${id}/edit`);
   };
+  onCreateClickHandler = () => {
+    this.props.history.push(`/management/users/create`);
+  };
+  onDeactivateClickHandler = (id, status) => {
+    this.props.onDeactivateUser(id, status);
+  };
   render() {
     const { users, errors, loading } = this.props;
     return (
       <div>
-        <button className="addButton">Додати користувача</button>
+        <button className="addButton" onClick={this.onCreateClickHandler}>
+          Додати користувача
+        </button>
         {loading ? (
           <Loader />
         ) : (
@@ -29,6 +37,9 @@ class UserManagement extends Component {
                   key={user.userId}
                   user={user}
                   onEditClick={() => this.onEditClickHandler(user.userId)}
+                  onDeactivateClick={() =>
+                    this.onDeactivateClickHandler(user.userId, !user.isActive)
+                  }
                 />
               ))}
           </div>
@@ -40,6 +51,8 @@ class UserManagement extends Component {
 const mapDispatchToProps = (dispatch) => {
   return {
     onGetUsers: () => dispatch(actions.getUsers()),
+    onDeactivateUser: (id, status) =>
+      dispatch(actions.deactivateUser(id, status)),
   };
 };
 export default connect(

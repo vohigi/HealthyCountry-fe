@@ -20,11 +20,11 @@ const PrivateRoute = ({
       console.log(userRole);
       console.log(role);
       console.log(userId);
-      // check if route is restricted by role
-      // if (userRole !== role && role !== "ANY" && userRole !== "ADMIN") {
-      //   // role not authorised so redirect to home page
-      //   return <Redirect to={{ pathname: "/" }} />;
-      // }
+      //check if route is restricted by role
+      if (userRole !== role && role !== "ANY" && userRole !== "ADMIN") {
+        // role not authorised so redirect to home page
+        return <Redirect to={{ pathname: "/" }} />;
+      }
 
       return <Component {...props} />;
     }}

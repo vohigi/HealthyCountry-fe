@@ -64,7 +64,7 @@ const Input = (props) => {
           onChange={props.changed}
           value={props.value}
           styles={colourStyles}
-          placeholder="Стать"
+          placeholder={props.elementConfig.placeholder}
         />
         // <select
         //   className={inputClasses.join(" ")}
@@ -86,6 +86,7 @@ const Input = (props) => {
           selected={Date.parse(props.value)}
           className={inputClasses.join(" ")}
           dateFormat="yyyy-MM-dd"
+          placeholderText={props.elementConfig.placeholder}
         />
       );
       break;

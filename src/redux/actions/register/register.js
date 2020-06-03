@@ -20,7 +20,7 @@ export const registerFail = (errors) => {
   };
 };
 
-export const register = (data, history) => {
+export const register = (data, history, path) => {
   return (dispatch) => {
     dispatch(registerStart());
     const url = "/api/users/register";
@@ -28,7 +28,7 @@ export const register = (data, history) => {
       .post(url, data)
       .then((response) => {
         dispatch(registerSuccess());
-        history.push("/login");
+        history.push(path);
       })
       .catch((err) => {
         console.log(err);

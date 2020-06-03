@@ -61,7 +61,7 @@ class AppointmentBooking extends Component {
     );
     console.log(appointment);
     appointment.status = "BOOKED";
-    appointment.patientId = this.props.patientId;
+    appointment.patientId = localStorage.getItem("userId");
     axios
       .patch(`/api/appointments/${id}`, appointment, {
         headers: {

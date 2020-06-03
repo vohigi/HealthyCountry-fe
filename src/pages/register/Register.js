@@ -29,7 +29,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onRegister: (data, history) => dispatch(actions.register(data, history)),
+    onRegister: (data, history) =>
+      dispatch(actions.register(data, history, "/login")),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Register);

@@ -273,6 +273,19 @@ class RegisterForm extends Component {
           valid: false,
           touched: false,
         },
+        phone: {
+          elementType: "input",
+          elementConfig: {
+            type: "phone",
+            placeholder: "Телефон",
+          },
+          value: this.props.phone,
+          validation: {
+            required: true,
+          },
+          valid: false,
+          touched: false,
+        },
         ...(this.props.isAdmin && {
           role: {
             elementType: "select",
@@ -281,7 +294,8 @@ class RegisterForm extends Component {
               placeholder: "Роль",
             },
             value:
-              this.roles.find((role) => role.value === this.props.role) ?? {},
+              this.roles.find((role) => role.value === this.props.role) ??
+              this.roles[0],
             validation: {
               required: true,
             },
@@ -294,7 +308,7 @@ class RegisterForm extends Component {
             elementType: "select",
             elementConfig: {
               options: [{ label: "Тестова Поліклініка", value: "org_1" }],
-              placeholder: "Стать",
+              placeholder: "Організація",
             },
             value: this.props.organization
               ? { label: "Тестова Поліклініка", value: "org_1" }
@@ -344,10 +358,14 @@ class RegisterForm extends Component {
       birthDate: this.state.controls.birthDate.value,
       taxId: this.state.controls.taxId.value,
       gender: this.state.controls.gender.value.value,
-      role: this.props.isAdmin ? this.state.controls.role.value.с : "PATIENT",
-      ...(this.props.isAdmin && {
-        organizationId: this.state.controls.organization.value.value,
-      }),
+      phone: this.state.controls.phone.value,
+      role: this.props.isAdmin
+        ? this.state.controls.role.value.value
+        : "PATIENT",
+      ...(this.props.isAdmin &&
+        this.state.controls.role.value.value !== "PATIENT" && {
+          organizationId: this.state.controls.organization.value.value,
+        }),
     };
     this.props.onSubmit(data);
   }

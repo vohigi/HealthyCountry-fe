@@ -5,6 +5,7 @@ const initialState = {
   token: null,
   userId: null,
   errors: null,
+  role: null,
   loading: false,
   authRedirectPath: "/",
   user: {},
@@ -18,6 +19,7 @@ const authSuccess = (state, action) => {
   return updateObject(state, {
     token: action.idToken,
     userId: action.user.userId,
+    role: action.user.role,
     errors: null,
     loading: false,
     user: action.user,

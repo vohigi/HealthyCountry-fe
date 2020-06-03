@@ -12,6 +12,8 @@ import AppointmentBooking from "./pages/appointment/AppointmentBooking";
 import UserManagement from "./pages/management/UserManagement";
 import OrganizationManagement from "./pages/management/OrganizationManagement";
 import UserManagementEdit from "./pages/management/UserManagementEdit";
+import UserManagementCreate from "./pages/management/UserManagementCreate";
+import PatientProfile from "./pages/profile/PatientProfile";
 
 class App extends Component {
   componentDidMount() {
@@ -29,7 +31,7 @@ class App extends Component {
           component={Home}
           setAuthRedirectPath={this.props.onSetAuthRedirectPath}
           userId={this.props.userId}
-          userRole={this.props.userRole}
+          userRole={this.props.role}
           role="PATIENT"
         />
         <PrivateRoute
@@ -37,7 +39,7 @@ class App extends Component {
           component={AppointmentBooking}
           setAuthRedirectPath={this.props.onSetAuthRedirectPath}
           userId={this.props.userId}
-          userRole={this.props.user.role}
+          userRole={this.props.role}
           role="PATIENT"
         />
         <PrivateRoute
@@ -46,7 +48,17 @@ class App extends Component {
           component={UserManagement}
           setAuthRedirectPath={this.props.onSetAuthRedirectPath}
           userId={this.props.userId}
-          userRole={this.props.user.role}
+          userRole={this.props.role}
+          role="ADMIN"
+        />
+        {console.log(this.props.role)}
+        <PrivateRoute
+          path="/management/users/create"
+          exact
+          component={UserManagementCreate}
+          setAuthRedirectPath={this.props.onSetAuthRedirectPath}
+          userId={this.props.userId}
+          userRole={this.props.role}
           role="ADMIN"
         />
         <PrivateRoute
@@ -54,7 +66,7 @@ class App extends Component {
           component={UserManagementEdit}
           setAuthRedirectPath={this.props.onSetAuthRedirectPath}
           userId={this.props.userId}
-          userRole={this.props.user.role}
+          userRole={this.props.role}
           role="ADMIN"
         />
         <PrivateRoute
@@ -62,11 +74,19 @@ class App extends Component {
           component={OrganizationManagement}
           setAuthRedirectPath={this.props.onSetAuthRedirectPath}
           userId={this.props.userId}
-          userRole={this.props.user.role}
+          userRole={this.props.role}
           role="ADMIN"
         />
+        <PrivateRoute
+          path="/patient/profile"
+          component={PatientProfile}
+          setAuthRedirectPath={this.props.onSetAuthRedirectPath}
+          userId={this.props.userId}
+          userRole={this.props.role}
+          role="PATIENT"
+        />
         <Route path="/logout" component={Logout} />
-        <Redirect to="/" />
+        {/* <Redirect to="/" /> */}
       </Switch>
     );
 
@@ -83,6 +103,7 @@ const mapStateToProps = (state) => {
     isAuthenticated: state.auth.token !== null,
     userId: state.auth.userId,
     user: state.auth.user,
+    role: state.auth.role,
   };
 };
 

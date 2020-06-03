@@ -65,6 +65,27 @@ const editUserFail = (state, action) => {
   });
 };
 
+const deactivateUserStart = (state, action) => {
+  return updateObject(state, { errors: null, loading: true });
+};
+
+const deactivateUserSuccess = (state, action) => {
+  return updateObject(state, {
+    errors: null,
+    loading: false,
+    users: state.users.map((user) =>
+      user.userId === action.id ? (user.isActive = action.status) : null
+    ),
+  });
+};
+
+const deactivateUserFail = (state, action) => {
+  return updateObject(state, {
+    errors: action.errors,
+    loading: false,
+  });
+};
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.GET_USERS_START:
@@ -85,6 +106,12 @@ const reducer = (state = initialState, action) => {
       return editUserSuccess(state, action);
     case actionTypes.EDIT_USER_FAIL:
       return editUserFail(state, action);
+    case actionTypes.DEACTIVATE_USER_START:
+      return deactivateUserStart(state, action);
+    case actionTypes.DEACTIVATE_USER_SUCCESS:
+      return deactivateUserSuccess(state, action);
+    case actionTypes.DEACTIVATE_USER_FAIL:
+      return deactivateUserFail(state, action);
     default:
       return state;
   }

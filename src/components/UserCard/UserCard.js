@@ -39,7 +39,7 @@ export const UserCard = ({
           Редагувати
         </button>
         <button className="userCardButton" onClick={onDeactivateClick}>
-          Деактивувати
+          {isActive ? "Деактивувати" : "Активувати"}
         </button>
       </div>
     </div>
