@@ -2,6 +2,7 @@ import React from "react";
 import "./_doctorCard.scss";
 import portrait from "../../img/Portrait_Placeholder.png";
 const DoctorCard = ({
+  userId,
   firstName,
   lastName,
   middleName,
@@ -22,7 +23,10 @@ const DoctorCard = ({
     <div className="doctorCardBottom">
       <p>{orgName}</p>
       <p>{address}</p>
-      <button className="doctorCardButton" onClick={appointmentClickHandler}>
+      <button
+        className="doctorCardButton"
+        onClick={(e) => appointmentClickHandler(e, userId)}
+      >
         Записатись на прийом
       </button>
     </div>

@@ -21,7 +21,7 @@ class AppointmentBooking extends Component {
   }
   loadData() {
     axios
-      .get("/api/users/" + this.props.match.params.doctorId, {
+      .get(`/api/users/${this.props.match.params.doctorId}`, {
         headers: {
           Authorization: "Bearer " + this.props.token,
         },
@@ -38,7 +38,7 @@ class AppointmentBooking extends Component {
       });
 
     axios
-      .get("/api/appointments/" + this.props.match.params.doctorId, {
+      .get(`/api/appointments/${this.props.match.params.doctorId}`, {
         headers: {
           Authorization: "Bearer " + this.props.token,
         },
@@ -50,6 +50,35 @@ class AppointmentBooking extends Component {
         })
       );
   }
+  handleAppointmentClick(id) {
+    this.setState({
+      loading: true,
+    });
+    console.log(id);
+    console.log(this.state.appointments);
+    const appointment = this.state.appointments.find(
+      (appointment) => appointment.appointmentId === id
+    );
+    console.log(appointment);
+    appointment.status = "BOOKED";
+    appointment.patientId = this.props.patientId;
+    axios
+      .patch(`/api/appointments/${id}`, appointment, {
+        headers: {
+          Authorization: "Bearer " + this.props.token,
+        },
+      })
+      .then((response) => {
+        this.setState({
+          //appointments: response.data,
+          loading: false,
+        });
+        this.loadData();
+      })
+      .catch((errors) => {
+        this.setState({ errors: errors.data });
+      });
+  }
   componentDidMount() {
     this.loadData();
   }
@@ -58,7 +87,7 @@ class AppointmentBooking extends Component {
     return (
       <>
         {loading && <Loader />}
-        {doctorData && (
+        {doctorData.lastName && (
           <DoctorInfo
             firstName={doctorData.firstName}
             lastName={doctorData.lastName}
@@ -68,8 +97,15 @@ class AppointmentBooking extends Component {
             phone={doctorData.phone}
           />
         )}
-        <div className="cards-holder">
-          {appointments && <AppointmentGrid appointments={appointments} />}
+        <div className="appointmentContainer">
+          {appointments && (
+            <AppointmentGrid
+              appointments={appointments}
+              appointmentClickHandler={(e, id) =>
+                this.handleAppointmentClick(id)
+              }
+            />
+          )}
         </div>
       </>
     );

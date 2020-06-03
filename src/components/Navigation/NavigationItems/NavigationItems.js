@@ -3,13 +3,21 @@ import React from "react";
 import "./_navigationItems.scss";
 import NavigationItem from "./Item/NavigationItem";
 
-const NavigationItems = ({ isAuthenticated }) => {
+const NavigationItems = ({ isAuthenticated, userRole }) => {
   return (
     <ul className="navigationItems">
-      {isAuthenticated ? (
+      {isAuthenticated && userRole === "PATIENT" ? (
         <NavigationItem link="/" exact>
           Головна
         </NavigationItem> //<NavigationItem link="/orders">Orders</NavigationItem>
+      ) : null}
+      {userRole === "ADMIN" ? (
+        <>
+          <NavigationItem link="/management/users">Користувачі</NavigationItem>
+          <NavigationItem link="/management/organizations">
+            Організації
+          </NavigationItem>
+        </>
       ) : null}
       {!isAuthenticated ? (
         <>

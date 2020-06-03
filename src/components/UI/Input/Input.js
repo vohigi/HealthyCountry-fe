@@ -1,11 +1,37 @@
 import React from "react";
-
+import DatePicker from "react-datepicker";
+import Select from "react-select";
 import "./_input.scss";
+import "react-datepicker/dist/react-datepicker.css";
+const colourStyles = {
+  control: (styles) => ({ ...styles, backgroundColor: "white" }),
+  option: (styles, { data, isDisabled, isFocused, isSelected }) => {
+    return {
+      ...styles,
+      backgroundColor: isDisabled
+        ? null
+        : isSelected
+        ? "#31b33c"
+        : isFocused
+        ? "#5ed668"
+        : null,
+      color: isDisabled ? "#ccc" : isSelected || isFocused ? "#fff" : "#333",
+      cursor: isDisabled ? "not-allowed" : "default",
 
+      ":active": {
+        ...styles[":active"],
+        backgroundColor: !isDisabled && "#31b33c",
+      },
+    };
+  },
+  input: (styles) => ({ ...styles }),
+  placeholder: (styles) => ({ ...styles }),
+  singleValue: (styles, { data }) => ({ ...styles }),
+};
 const Input = (props) => {
   let inputElement = null;
   const inputClasses = ["inputElement"];
-
+  console.log(props.elementType + " " + props.value);
   if (props.invalid && props.shouldValidate && props.touched) {
     inputClasses.push("invalid");
   }
@@ -33,17 +59,34 @@ const Input = (props) => {
       break;
     case "select":
       inputElement = (
-        <select
-          className={inputClasses.join(" ")}
-          value={props.value}
+        <Select
+          options={props.elementConfig.options}
           onChange={props.changed}
-        >
-          {props.elementConfig.options.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.displayValue}
-            </option>
-          ))}
-        </select>
+          value={props.value}
+          styles={colourStyles}
+          placeholder="Стать"
+        />
+        // <select
+        //   className={inputClasses.join(" ")}
+        //   value={props.value}
+        //   onChange={props.changed}
+        // >
+        //   {props.elementConfig.options.map((option) => (
+        //     <option key={option.value} value={option.value}>
+        //       {option.displayValue}
+        //     </option>
+        //   ))}
+        // </select>
+      );
+      break;
+    case "date":
+      inputElement = (
+        <DatePicker
+          onChange={props.changed}
+          selected={Date.parse(props.value)}
+          className={inputClasses.join(" ")}
+          dateFormat="yyyy-MM-dd"
+        />
       );
       break;
     default:

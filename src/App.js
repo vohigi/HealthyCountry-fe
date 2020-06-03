@@ -9,6 +9,9 @@ import * as actions from "./redux/actions/index";
 import PrivateRoute from "./components/PrivateRoute";
 import Register from "./pages/register/Register";
 import AppointmentBooking from "./pages/appointment/AppointmentBooking";
+import UserManagement from "./pages/management/UserManagement";
+import OrganizationManagement from "./pages/management/OrganizationManagement";
+import UserManagementEdit from "./pages/management/UserManagementEdit";
 
 class App extends Component {
   componentDidMount() {
@@ -27,7 +30,7 @@ class App extends Component {
           setAuthRedirectPath={this.props.onSetAuthRedirectPath}
           userId={this.props.userId}
           userRole={this.props.userRole}
-          role="ANY"
+          role="PATIENT"
         />
         <PrivateRoute
           path="/doctor/:doctorId"
@@ -36,6 +39,31 @@ class App extends Component {
           userId={this.props.userId}
           userRole={this.props.user.role}
           role="PATIENT"
+        />
+        <PrivateRoute
+          path="/management/users"
+          exact
+          component={UserManagement}
+          setAuthRedirectPath={this.props.onSetAuthRedirectPath}
+          userId={this.props.userId}
+          userRole={this.props.user.role}
+          role="ADMIN"
+        />
+        <PrivateRoute
+          path="/management/users/:userId/edit"
+          component={UserManagementEdit}
+          setAuthRedirectPath={this.props.onSetAuthRedirectPath}
+          userId={this.props.userId}
+          userRole={this.props.user.role}
+          role="ADMIN"
+        />
+        <PrivateRoute
+          path="/management/organizations"
+          component={OrganizationManagement}
+          setAuthRedirectPath={this.props.onSetAuthRedirectPath}
+          userId={this.props.userId}
+          userRole={this.props.user.role}
+          role="ADMIN"
         />
         <Route path="/logout" component={Logout} />
         <Redirect to="/" />

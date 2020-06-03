@@ -2,6 +2,7 @@
   display: flex;
   width: 80%;
   margin: auto;
+  // max-height: 390px;
   border: 1px solid #ada9a9;
   background-color: #eceaea;
   box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.25);
@@ -12,7 +13,9 @@
   }
   &Left {
     width: 35%;
+    // max-height: 350px;
     &ImageContainer {
+      // max-height: 350px;
       box-sizing: border-box;
       padding: 15px;
       width: 100%;

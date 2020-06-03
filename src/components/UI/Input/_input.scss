@@ -30,3 +30,9 @@
   border: 1px solid red;
   background-color: #fda49a;
 }
+.react-datepicker__day--selected {
+  background-color: #31b33c !important;
+}
+.react-datepicker-wrapper {
+  display: block !important;
+}

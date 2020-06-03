@@ -33,6 +33,10 @@ class Home extends Component {
       query: e.target.value,
     });
   }
+  handleAppointmentClick(id) {
+    console.log(id);
+    this.props.history.push("/doctor/" + id);
+  }
   loadData() {
     this.setState({
       loading: true,
@@ -86,11 +90,15 @@ class Home extends Component {
               ({ userId, firstName, lastName, middleName, organization }) => (
                 <DoctorCard
                   key={userId}
+                  userId={userId}
                   firstName={firstName}
                   lastName={lastName}
                   middleName={middleName}
                   address={organization.address}
                   orgName={organization.name}
+                  appointmentClickHandler={(e, id) =>
+                    this.handleAppointmentClick(id)
+                  }
                 />
               )
             )}

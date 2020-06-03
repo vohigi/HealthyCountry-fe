@@ -15,6 +15,9 @@ const AppointmentGrid = ({ appointments, appointmentClickHandler }) => (
               className="slot"
               key={appointment.appointmentId}
               disabled={appointment.status !== "FREE"}
+              onClick={(e) =>
+                appointmentClickHandler(e, appointment.appointmentId)
+              }
             >
               {dateTime[0]}
               <br />
