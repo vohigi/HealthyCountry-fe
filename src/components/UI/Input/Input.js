@@ -1,6 +1,7 @@
 import React from "react";
 import DatePicker from "react-datepicker";
 import Select from "react-select";
+import AsyncSelect from "react-select/async";
 import "./_input.scss";
 import "react-datepicker/dist/react-datepicker.css";
 const colourStyles = {
@@ -77,6 +78,19 @@ const Input = (props) => {
         //     </option>
         //   ))}
         // </select>
+      );
+      break;
+    case "asyncSelect":
+      inputElement = (
+        <AsyncSelect
+          value={props.value}
+          placeholder={props.elementConfig.placeholder}
+          cacheOptions
+          loadOptions={props.loadOptions}
+          defaultOptions
+          onInputChange={props.changed}
+          styles={colourStyles}
+        />
       );
       break;
     case "date":

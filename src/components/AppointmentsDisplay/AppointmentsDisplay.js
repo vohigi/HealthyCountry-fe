@@ -56,9 +56,11 @@ export const AppointmentsDisplay = ({
                   key={appointmentId}
                   dateTime={dateTime}
                   status={status}
-                  reason={reason}
-                  diagnosis={diagnosis}
-                  action={action}
+                  reason={reason ? reason.name + " " + reason.code : ""}
+                  diagnosis={
+                    diagnosis ? diagnosis.name + " " + diagnosis.code : ""
+                  }
+                  action={action ? action.name + " " + action.code : ""}
                   comment={comment}
                   doctorName={`${employee.lastName} ${employee.firstName} ${employee.middleName}`}
                   enableControls={enableControls}

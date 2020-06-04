@@ -14,9 +14,9 @@ const NavigationItems = ({ isAuthenticated, userRole, userId }) => {
       {isAuthenticated && userRole === "ADMIN" ? (
         <>
           <NavigationItem link="/management/users">Користувачі</NavigationItem>
-          <NavigationItem link="/management/organizations">
+          {/* <NavigationItem link="/management/organizations">
             Організації
-          </NavigationItem>
+          </NavigationItem> */}
         </>
       ) : null}
       {isAuthenticated ? (
