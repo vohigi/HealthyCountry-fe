@@ -22,22 +22,21 @@ class PatientProfile extends Component {
     switch (tab) {
       case "past":
         list = apps.filter(
-          (appointment) => moment().diff(appointment.dateTime, "days") > 0
+          (appointment) =>
+            moment().startOf("day").diff(appointment.dateTime, "days") > 0
         );
         break;
       case "today":
-        //console.log(moment().diff(apps[0].dateTime, "days"));
         list = apps.filter((appointment) => {
-          console.log(moment().diff(appointment.dateTime, "days"));
-          console.log(moment());
-          console.log(moment(appointment.dateTime));
-          console.log(appointment.dateTime);
-          return moment().diff(appointment.dateTime, "days") === 0;
+          return (
+            moment().startOf("day").diff(appointment.dateTime, "days") === 0
+          );
         });
         break;
       case "future":
         list = apps.filter(
-          (appointment) => moment().diff(appointment.dateTime, "days") < 0
+          (appointment) =>
+            moment().startOf("day").diff(appointment.dateTime, "days") < 0
         );
         break;
     }
