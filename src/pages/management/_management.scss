@@ -8,6 +8,7 @@
   margin: auto;
   display: block;
   width: 40%;
+  min-width: 200px;
   background-color: #31b33c;
   border: none;
   height: 48px;
@@ -18,5 +19,13 @@
   }
   &:focus {
     outline: none;
+  }
+}
+@media screen and (max-width: 768px) {
+  .addButton {
+    width: 100%;
+  }
+  .cardContainer {
+    padding: 0;
   }
 }

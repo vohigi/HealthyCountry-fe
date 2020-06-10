@@ -39,6 +39,13 @@ class PatientProfile extends Component {
             moment().startOf("day").diff(appointment.dateTime, "days") < 0
         );
         break;
+      default:
+        list = apps.filter((appointment) => {
+          return (
+            moment().startOf("day").diff(appointment.dateTime, "days") === 0
+          );
+        });
+        break;
     }
     return list;
   };

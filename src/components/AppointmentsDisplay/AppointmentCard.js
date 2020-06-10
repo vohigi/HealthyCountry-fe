@@ -33,6 +33,9 @@ export const AppointmentCard = ({
       case "CANCELED":
         displayStatus = "Відмінено";
         break;
+      default:
+        displayStatus = "Заплановано";
+        break;
     }
     return displayStatus;
   };

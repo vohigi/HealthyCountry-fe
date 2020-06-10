@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="9px" height="15px" viewBox="0 0 9 15" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 40.2 (33826) - http://www.bohemiancoding.com/sketch -->
+    <title>fa-chevron-right</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="icons" transform="translate(-227.000000, -421.000000)" fill="#585F73">
+            <g id="fa-chevron-right" transform="translate(220.100000, 417.727273)">
+                <path d="M11.9060035,14.3863899 C11.6504122,14.6478977 11.3167235,14.77806 10.9830349,14.77806 C10.6493462,14.77806 10.3144742,14.6478977 10.0600662,14.3863899 C10.0600662,14.3863899 5.03580335,9.6011523 4.5589362,9.11245222 C4.08206905,8.62256885 4.04893684,7.74219872 4.5589362,7.21918314 C5.06893556,6.69616755 5.78009476,6.65475229 6.40605685,7.21918314 L10.9842182,11.6092008 L15.5623795,7.21918314 C16.1871582,6.65475229 16.8995007,6.69616755 17.4095001,7.21918314 C17.9171329,7.74219872 17.885184,8.62256885 17.4071335,9.11245222 C16.9302664,9.6011523 11.9060035,14.3863899 11.9060035,14.3863899 Z" id="Shape-Copy-3" transform="translate(10.983408, 10.794651) scale(-1, 1) rotate(90.000000) translate(-10.983408, -10.794651) "></path>
+            </g>
+        </g>
+    </g>
+</svg>

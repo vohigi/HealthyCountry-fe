@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Route, Switch, withRouter, Redirect } from "react-router-dom";
+import { Route, Switch, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import Layout from "./hoc/Layout";
 import Logout from "./pages/logout/Logout";
@@ -16,6 +16,7 @@ import UserManagementCreate from "./pages/management/UserManagementCreate";
 import PatientProfile from "./pages/profile/PatientProfile";
 import DoctorProfile from "./pages/profile/DoctorProfile";
 import AppointementEdit from "./pages/appointment/AppointementEdit";
+import News from "./pages/home/News";
 
 class App extends Component {
   componentDidMount() {
@@ -29,6 +30,15 @@ class App extends Component {
         <Route exact path="/register" component={Register} />
         <PrivateRoute
           path="/"
+          exact
+          component={News}
+          setAuthRedirectPath={this.props.onSetAuthRedirectPath}
+          userId={this.props.userId}
+          userRole={this.props.role}
+          role="ANY"
+        />
+        <PrivateRoute
+          path="/search"
           exact
           component={Home}
           setAuthRedirectPath={this.props.onSetAuthRedirectPath}

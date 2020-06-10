@@ -42,6 +42,7 @@
   display: flex;
   justify-content: space-evenly;
   width: 30%;
+  min-width: 300px;
   &Button {
     display: block;
     background-color: #31b33c;
@@ -67,4 +68,19 @@
 }
 .padding {
   padding: 20px;
+}
+@media screen and (max-width: 768px) {
+  .appointmentCard {
+    &:first-child {
+      margin-top: 25px;
+    }
+    &Row {
+      flex-direction: column;
+    }
+    &Control {
+      &:first-child {
+        margin-bottom: 15px;
+      }
+    }
+  }
 }

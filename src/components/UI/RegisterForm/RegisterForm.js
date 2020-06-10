@@ -10,6 +10,10 @@ class RegisterForm extends Component {
     { value: "DOCTOR", label: "Лікар" },
     { value: "ADMIN", label: "Адмін" },
   ];
+  specializations = [
+    { label: "Терапевт", value: "Therapist" },
+    { label: "Педіатр", value: "Pediatrician" },
+  ];
   state = {
     controls: {
       email: {
@@ -90,6 +94,19 @@ class RegisterForm extends Component {
         valid: false,
         touched: false,
       },
+      phone: {
+        elementType: "input",
+        elementConfig: {
+          type: "phone",
+          placeholder: "Телефон",
+        },
+        value: this.props.phone,
+        validation: {
+          required: true,
+        },
+        valid: false,
+        touched: false,
+      },
       gender: {
         elementType: "select",
         elementConfig: {
@@ -123,6 +140,29 @@ class RegisterForm extends Component {
         touched: false,
       },
       ...(this.props.isAdmin && {
+        specialization: {
+          elementType: "select",
+          elementConfig: {
+            options: this.specializations,
+            placeholder: "Спеціальність",
+          },
+          value:
+            this.specializations.find((spec) => {
+              console.log(
+                `${spec.value} ${this.props.specialization} ${
+                  spec.value === this.props.specialization
+                }`
+              );
+              return spec.value === this.props.specialization;
+            }) ?? {},
+          validation: {
+            required: true,
+          },
+          valid: false,
+          touched: false,
+        },
+      }),
+      ...(this.props.isAdmin && {
         role: {
           elementType: "select",
           elementConfig: {
@@ -143,11 +183,11 @@ class RegisterForm extends Component {
           elementType: "select",
           elementConfig: {
             options: [{ label: "Тестова Поліклініка", value: "org_1" }],
-            placeholder: "Стать",
+            placeholder: "Організація",
           },
           value: this.props.organization
             ? { label: "Тестова Поліклініка", value: "org_1" }
-            : null,
+            : {},
           validation: {
             required: true,
           },
@@ -161,167 +201,6 @@ class RegisterForm extends Component {
     //   for (let key in this.state.controls) {
     //       this.props.key
     //   }
-    this.setState({
-      controls: {
-        email: {
-          elementType: "input",
-          elementConfig: {
-            type: "email",
-            placeholder: "Логін",
-          },
-          value: this.props.email,
-          validation: {
-            required: true,
-            isEmail: true,
-          },
-          valid: false,
-          touched: false,
-        },
-        password: {
-          elementType: "input",
-          elementConfig: {
-            type: "password",
-            placeholder: "Пароль",
-          },
-          value: "",
-          validation: {
-            ...(this.props.isAdmin && { required: true }),
-            ...(this.props.isAdmin && { minLength: 8 }),
-          },
-          valid: false,
-          touched: false,
-        },
-        firstName: {
-          elementType: "input",
-          elementConfig: {
-            type: "text",
-            placeholder: "Ім'я",
-          },
-          value: this.props.firstName,
-          validation: {
-            required: true,
-          },
-          valid: false,
-          touched: false,
-        },
-        lastName: {
-          elementType: "input",
-          elementConfig: {
-            type: "text",
-            placeholder: "Прізвище",
-          },
-          value: this.props.lastName,
-          validation: {
-            required: true,
-          },
-          valid: false,
-          touched: false,
-        },
-        middleName: {
-          elementType: "input",
-          elementConfig: {
-            type: "text",
-            placeholder: "По батькові",
-          },
-          value: this.props.middleName,
-          validation: {},
-          valid: false,
-          touched: false,
-        },
-        birthDate: {
-          elementType: "date",
-          elementConfig: {
-            type: "text",
-            placeholder: "Дата народження",
-          },
-          value: this.props.birthDate,
-          validation: {
-            required: true,
-          },
-          valid: false,
-          touched: false,
-        },
-        gender: {
-          elementType: "select",
-          elementConfig: {
-            options: [
-              { label: "Чоловіча", value: "MALE" },
-              { label: "Жіноча", value: "FEMALE" },
-            ],
-            placeholder: "Стать",
-          },
-          value:
-            this.props.gender === "MALE"
-              ? { value: "MALE", label: "Чоловіча" }
-              : { value: "FEMALE", label: "Жіноча" },
-          validation: {
-            required: true,
-          },
-          valid: false,
-          touched: false,
-        },
-        taxId: {
-          elementType: "input",
-          elementConfig: {
-            type: "text",
-            placeholder: "ІПН",
-          },
-          value: this.props.taxId,
-          validation: {
-            required: true,
-          },
-          valid: false,
-          touched: false,
-        },
-        phone: {
-          elementType: "input",
-          elementConfig: {
-            type: "phone",
-            placeholder: "Телефон",
-          },
-          value: this.props.phone,
-          validation: {
-            required: true,
-          },
-          valid: false,
-          touched: false,
-        },
-        ...(this.props.isAdmin && {
-          role: {
-            elementType: "select",
-            elementConfig: {
-              options: this.roles,
-              placeholder: "Роль",
-            },
-            value:
-              this.roles.find((role) => role.value === this.props.role) ??
-              this.roles[0],
-            validation: {
-              required: true,
-            },
-            valid: false,
-            touched: false,
-          },
-        }),
-        ...(this.props.isAdmin && {
-          organization: {
-            elementType: "select",
-            elementConfig: {
-              options: [{ label: "Тестова Поліклініка", value: "org_1" }],
-              placeholder: "Організація",
-            },
-            value: this.props.organization
-              ? { label: "Тестова Поліклініка", value: "org_1" }
-              : null,
-            validation: {
-              required: true,
-            },
-            valid: false,
-            touched: false,
-          },
-        }),
-      },
-    });
   }
   inputChangedHandler = (event, controlName) => {
     console.log(event);
@@ -365,6 +244,10 @@ class RegisterForm extends Component {
       ...(this.props.isAdmin &&
         this.state.controls.role.value.value !== "PATIENT" && {
           organizationId: this.state.controls.organization.value.value,
+        }),
+      ...(this.props.isAdmin &&
+        this.state.controls.role.value.value !== "PATIENT" && {
+          specialization: this.state.controls.specialization.value.value,
         }),
     };
     this.props.onSubmit(data);

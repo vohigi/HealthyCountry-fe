@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 import Loader from "../../components/Loader/Loader";
@@ -14,6 +13,7 @@ export class Login extends Component {
   state = {
     controls: {
       email: {
+        label: "Email",
         elementType: "input",
         elementConfig: {
           type: "email",
@@ -28,6 +28,7 @@ export class Login extends Component {
         touched: false,
       },
       password: {
+        label: "Пароль",
         elementType: "input",
         elementConfig: {
           type: "password",
@@ -78,6 +79,7 @@ export class Login extends Component {
     let form = formElementsArray.map((formElement) => (
       <Input
         key={formElement.id}
+        label={formElement.config.label}
         elementType={formElement.config.elementType}
         elementConfig={formElement.config.elementConfig}
         value={formElement.config.value}

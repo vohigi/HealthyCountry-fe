@@ -36,6 +36,7 @@ class UserManagementEdit extends Component {
             phone={user.phone}
             taxId={user.taxId}
             organization={user.organization}
+            specialization={user.specialization}
             gender={user.gender}
           />
         )}

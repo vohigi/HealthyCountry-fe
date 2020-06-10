@@ -23,10 +23,11 @@ class UserManagement extends Component {
   render() {
     const { users, errors, loading } = this.props;
     return (
-      <div>
+      <div style={{ padding: "25px" }}>
         <button className="addButton" onClick={this.onCreateClickHandler}>
           Додати користувача
         </button>
+        {errors && <p>errors</p>}
         {loading ? (
           <Loader />
         ) : (

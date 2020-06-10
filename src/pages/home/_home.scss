@@ -1,7 +1,37 @@
-.cards-holder {
+.cardsHolder {
   display: flex;
   padding: 20px;
+  width: 100%;
+  flex-wrap: wrap;
 }
+.carouselContainer {
+  //position: relative;
+  // width: 100%;
+  // padding-top: 56.25%;
+  width: 60%;
+  max-width: 700px;
+  // height: 450px;
+  margin: auto;
+  display: flex;
+}
+
+.homeContainer {
+  display: flex;
+  width: 90%;
+  margin: auto;
+  &Controls {
+    padding-top: 20px;
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+    max-width: 350px;
+  }
+  &Controls .input {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
 .search {
   display: flex;
   justify-content: center;
@@ -39,10 +69,21 @@
   }
 }
 .pagination {
+  padding: 0;
   margin: auto 15px;
   display: flex;
   list-style: none;
   outline: none;
+  & > .active > a,
+  & > .active > span,
+  & > .active > a:hover,
+  & > .active > span:hover,
+  & > .active > a:focus,
+  & > .active > span:focus {
+    background-color: #5ed668;
+    //border-color: #ccc;
+    outline: none;
+  }
 }
 .pagination > .active > a {
   background-color: #47ccde;
@@ -54,16 +95,6 @@
   padding: 5px 10px;
   outline: none;
   cursor: pointer;
-}
-.pagination > .active > a,
-.pagination > .active > span,
-.pagination > .active > a:hover,
-.pagination > .active > span:hover,
-.pagination > .active > a:focus,
-.pagination > .active > span:focus {
-  background-color: #5ed668;
-  //border-color: #ccc;
-  outline: none;
 }
 .pagination > li > a,
 .pagination > li > span {
@@ -82,6 +113,289 @@
 }
 .pagianateContainer {
   margin-top: 40px;
+  margin-bottom: 40px;
   display: flex;
   justify-content: center;
+}
+@media screen and (max-width: 1024px) {
+  .homeContainer {
+    flex-direction: column;
+    width: 100%;
+    padding: 25px;
+    &Controls {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      max-width: 100%;
+    }
+    &Controls .input {
+      padding-left: 0;
+      padding-right: 0;
+    }
+  }
+}
+@media screen and (max-width: 768px) {
+  .cardsHolder {
+    padding: 0;
+  }
+  .search {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 25px;
+    &Button {
+      width: 100%;
+    }
+    &Input {
+      width: 100%;
+      max-width: 100%;
+      margin-bottom: 10px;
+    }
+  }
+}
+.slick-list,
+.slick-track,
+.slick-slide {
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+}
+.banner {
+  margin: auto;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  min-height: 247px;
+  max-height: 500px;
+  min-width: 340px;
+  max-width: 700px;
+  margin-right: 5px;
+  margin-bottom: 20px;
+  margin-left: 5px;
+  &Img {
+    width: 100%;
+    height: 100%;
+    // object-fit: cover;
+    overflow: hidden;
+    // height: 100%;
+  }
+  &Card {
+    text-decoration: none;
+    width: 100%;
+    height: 90%;
+    &Text {
+      padding: 20px 20px;
+      width: 100%;
+      text-align: center;
+      color: #ffff;
+      background-color: #888;
+      margin: 0;
+      height: 100%;
+      min-height: 40px;
+    }
+  }
+  &Dots {
+    position: relative;
+    bottom: -10px;
+    display: block;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    text-align: center;
+
+    @media screen and (max-width: 375px) {
+      padding: 0 40px;
+    }
+
+    li {
+      position: relative;
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      padding: 0;
+      margin: 0 5px;
+      cursor: pointer;
+    }
+
+    li button {
+      display: block;
+      width: 20px;
+      height: 20px;
+      padding: 5px;
+      border: 0;
+      background: 0 0;
+      color: transparent;
+      cursor: pointer;
+      font-size: 0;
+      line-height: 0;
+      outline: 0;
+
+      &::before {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 10px;
+        height: 10px;
+        background-color: #31b33c;
+        border-radius: 100px;
+        content: "";
+        opacity: 0.4;
+      }
+    }
+
+    .slick-active button::before {
+      opacity: 1;
+    }
+  }
+}
+.newsHeading {
+  text-transform: uppercase;
+  text-align: center;
+}
+.page-main__step-img {
+  min-width: 145px;
+  height: 145px;
+  margin-bottom: 10px;
+  background-image: url("../../img/way/1_step.svg");
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: 130px auto;
+
+  &::after {
+    position: relative;
+    top: 50px;
+    left: 190px;
+    display: block;
+    width: 30px;
+    height: 30px;
+    background: url("../../img/way/step-arrow.svg") no-repeat;
+    background-size: contain;
+    content: "";
+    opacity: 0.7;
+  }
+
+  @media screen and (max-width: 1300px) {
+    background-size: 120px auto;
+
+    &::after {
+      left: 170px;
+    }
+  }
+
+  @media screen and (max-width: 500px) {
+    background-size: 100px auto;
+
+    &::after {
+      top: 60px;
+      left: 155px;
+    }
+  }
+
+  @media screen and (max-width: 375px) {
+    min-width: 110px;
+    height: 110px;
+
+    &::after {
+      top: 40px;
+      left: 120px;
+    }
+  }
+}
+
+.page-main__step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 30px 55px;
+
+  @media screen and (max-width: 1300px) {
+    margin: 20px 30px;
+  }
+
+  @media screen and (max-width: 500px) {
+    width: 140px;
+    margin: 15px;
+
+    &:nth-child(odd) {
+      margin-right: 5px;
+      margin-left: 5px;
+    }
+
+    &:last-child {
+      width: 100%;
+      margin: 15px;
+
+      .page-main__step-descr {
+        max-width: 170px;
+      }
+    }
+  }
+}
+.page-main__way {
+  background: white;
+}
+
+.page-main__way-container {
+  display: flex;
+  overflow: hidden;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 20px auto;
+
+  @media screen and (max-width: 1050px) {
+    max-width: 740px;
+  }
+
+  @media screen and (max-width: 720px) {
+    max-width: 600px;
+  }
+
+  @media screen and (max-width: 500px) {
+    justify-content: space-around;
+  }
+}
+.page-main__step_choose-time .page-main__step-img {
+  background-image: url("../../img/way/2_step.svg");
+}
+
+.page-main__step_visit .page-main__step-img {
+  background-image: url("../../img/way/3_step.svg");
+}
+
+.page-main__step_without-queue .page-main__step-img {
+  background-image: url("../../img/way/4_step.svg");
+}
+
+.page-main__step_medical-card .page-main__step-img {
+  margin-right: 0;
+  background-image: url("../../img/way/5_step.svg");
+
+  &::after {
+    display: none;
+  }
+}
+
+.page-main__step_choose-time .page-main__step-img,
+.page-main__step_without-queue .page-main__step-img {
+  background-size: 110px 110px;
+
+  @media screen and (max-width: 1300px) {
+    background-size: 105px 105px;
+  }
+
+  @media screen and (max-width: 500px) {
+    background-size: 90px 90px;
+  }
+}
+
+.page-main__step-descr {
+  display: inline-block;
+  max-width: 170px;
+  font-size: 16px;
+  text-align: center;
+
+  @media screen and (max-width: 600px) {
+    max-width: 150px;
+  }
 }

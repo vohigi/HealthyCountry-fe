@@ -27,12 +27,7 @@ class DoctorProfile extends Component {
         );
         break;
       case "today":
-        //console.log(moment().diff(apps[0].dateTime, "days"));
         list = apps.filter((appointment) => {
-          console.log(moment().diff(appointment.dateTime, "days"));
-          console.log(moment());
-          console.log(moment(appointment.dateTime));
-          console.log(appointment.dateTime);
           return (
             moment().startOf("day").diff(appointment.dateTime, "days") === 0
           );
@@ -43,6 +38,13 @@ class DoctorProfile extends Component {
           (appointment) =>
             moment().startOf("day").diff(appointment.dateTime, "days") < 0
         );
+        break;
+      default:
+        list = apps.filter((appointment) => {
+          return (
+            moment().startOf("day").diff(appointment.dateTime, "days") === 0
+          );
+        });
         break;
     }
     return list;

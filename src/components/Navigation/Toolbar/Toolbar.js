@@ -10,7 +10,11 @@ const Toolbar = ({ drawerToggleClicked, isAuth, userRole }) => (
     <DrawerToggle clicked={drawerToggleClicked} />
     <div className="logo">{/* <Logo /> */}</div>
     <nav className="desktopOnly">
-      <NavigationItems isAuthenticated={isAuth} userRole={userRole} />
+      <NavigationItems
+        isAuthenticated={isAuth}
+        userRole={userRole}
+        isOpen={false}
+      />
     </nav>
   </header>
 );

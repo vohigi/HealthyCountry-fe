@@ -6,6 +6,7 @@
   width: 20%;
   margin-left: 30px;
   margin-top: 30px;
+  min-width: 350px;
   box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.25);
   &Content {
     display: flex;
@@ -27,5 +28,10 @@
     &:focus {
       outline: none;
     }
+  }
+}
+@media screen and (max-width: 768px) {
+  .userCard {
+    width: 100%;
   }
 }

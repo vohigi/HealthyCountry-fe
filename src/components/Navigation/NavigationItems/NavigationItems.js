@@ -2,14 +2,23 @@ import React from "react";
 
 import "./_navigationItems.scss";
 import NavigationItem from "./Item/NavigationItem";
+import NavigationItemDropdown from "./Item/NavigationItemDropdown";
 
-const NavigationItems = ({ isAuthenticated, userRole, userId }) => {
+const NavigationItems = ({ isAuthenticated, userRole, userId, isOpen }) => {
   return (
     <ul className="navigationItems">
       {isAuthenticated && (userRole === "PATIENT" || userRole === "ADMIN") ? (
-        <NavigationItem link="/" exact>
-          Головна
-        </NavigationItem> //<NavigationItem link="/orders">Orders</NavigationItem>
+        // <NavigationItem link="/" exact>
+        //   Головна
+        // </NavigationItem>
+        <NavigationItemDropdown
+          isOpen
+          name="Головна"
+          links={[
+            { link: "/", exact: true, children: "Новини" },
+            { link: "/search", exact: true, children: "Пошук" },
+          ]}
+        />
       ) : null}
       {isAuthenticated && userRole === "ADMIN" ? (
         <>
@@ -25,7 +34,7 @@ const NavigationItems = ({ isAuthenticated, userRole, userId }) => {
           exact
         >
           Профіль
-        </NavigationItem> //<NavigationItem link="/orders">Orders</NavigationItem>
+        </NavigationItem>
       ) : null}
       {!isAuthenticated ? (
         <>

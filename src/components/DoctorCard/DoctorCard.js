@@ -1,6 +1,7 @@
 import React from "react";
 import "./_doctorCard.scss";
 import portrait from "../../img/Portrait_Placeholder.png";
+import cat from "../../img/cat.jpg";
 const DoctorCard = ({
   userId,
   firstName,
@@ -8,16 +9,22 @@ const DoctorCard = ({
   middleName,
   address,
   orgName,
+  spec,
   appointmentClickHandler,
+  isCat,
 }) => (
   <div className="doctorCard">
     <div className="doctorCardTop">
       <div className="doctorImageContainer">
-        <img src={portrait} alt="doctor image" className="doctorImg"></img>
+        <img
+          src={isCat ? cat : portrait}
+          alt="doctor"
+          className="doctorImg"
+        ></img>
       </div>
       <div className="doctorCardTopText">
         <p>{lastName + " " + firstName + " " + middleName}</p>
-        <p>Терапевт</p>
+        <p>{spec === "Therapist" ? "Терапевт" : "Педіатр"}</p>
       </div>
     </div>
     <div className="doctorCardBottom">

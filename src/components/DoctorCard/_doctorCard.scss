@@ -1,15 +1,17 @@
 .doctorCard {
   display: flex;
-  width: 30%;
+  width: 324px;
   max-width: 324px;
+  min-width: 324px;
   margin-left: 30px;
+  margin-bottom: 20px;
   padding: 10px;
   flex-direction: column;
   border: 1px solid #c4bdbd;
   box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.25);
   &Top {
     display: flex;
-    justify-content: space-evenly;
+    //justify-content: space-evenly;
     &Text {
       margin-left: 10px;
     }
@@ -34,8 +36,22 @@
   width: 50%;
   min-width: 50%;
   max-width: 50%;
+  height: 151px;
+  display: flex;
+  background-color: #aaaa;
+  align-items: center;
 }
 .doctorImg {
   width: 100%;
   // height: 100%;
+}
+@media screen and (max-width: 1024px) {
+  .doctorCard {
+    margin-left: 5px;
+  }
+}
+@media screen and (max-width: 648px) {
+  .doctorCard {
+    margin-left: 0;
+  }
 }

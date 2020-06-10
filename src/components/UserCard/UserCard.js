@@ -17,6 +17,7 @@ export const UserCard = ({
     birthDate,
     gender,
     phone,
+    specialization,
   },
 }) => {
   return (
@@ -32,6 +33,7 @@ export const UserCard = ({
         <p>{gender === "MALE" ? "Чоловіча" : "Жіноча"}</p>
         <p>{phone}</p>
         <p>{taxId}</p>
+        <p>{specialization}</p>
         <p>{isActive ? "Активний" : "Деактивований"}</p>
       </div>
       <div className="userCardControls">

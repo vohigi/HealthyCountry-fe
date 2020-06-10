@@ -7,7 +7,9 @@
 .label {
   font-weight: bold;
   display: block;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
+  color: #444;
+  text-align: left;
 }
 
 .inputElement {
@@ -19,11 +21,10 @@
   display: block;
   width: 100%;
   box-sizing: border-box;
-}
-
-.inputElement:focus {
-  outline: none;
-  background-color: #ccc;
+  &:focus {
+    outline: none;
+    background-color: #ccc;
+  }
 }
 
 .invalid {

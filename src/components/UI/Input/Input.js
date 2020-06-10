@@ -33,6 +33,7 @@ const Input = (props) => {
   let inputElement = null;
   const inputClasses = ["inputElement"];
   console.log(props.elementType + " " + props.value);
+  if (props.className) inputClasses.push(props.className);
   if (props.invalid && props.shouldValidate && props.touched) {
     inputClasses.push("invalid");
   }
@@ -116,8 +117,12 @@ const Input = (props) => {
   }
 
   return (
-    <div className="input">
-      <label className="label">{props.label}</label>
+    <div
+      className={
+        props.containerClassName ? "input " + props.containerClassName : "input"
+      }
+    >
+      {props.label && <label className="label">{props.label}</label>}
       {inputElement}
     </div>
   );

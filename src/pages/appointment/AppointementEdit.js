@@ -50,7 +50,7 @@ class AppointementEdit extends Component {
             },
           ],
         },
-        value: {},
+        value: "",
         label: "Причина",
         validation: {},
         valid: false,
@@ -95,7 +95,8 @@ class AppointementEdit extends Component {
             },
           ],
         },
-        value: {},
+        value: "",
+        label: "Діагноз",
         validation: {},
         valid: false,
         touched: false,
@@ -139,7 +140,8 @@ class AppointementEdit extends Component {
             },
           ],
         },
-        value: {},
+        value: "",
+        label: "Дія",
         validation: {},
         valid: false,
         touched: false,
@@ -153,6 +155,7 @@ class AppointementEdit extends Component {
         validation: {
           required: true,
         },
+        label: "Коментар",
         valid: false,
         touched: false,
       },
@@ -216,7 +219,6 @@ class AppointementEdit extends Component {
       });
   }
   searchCode = (inputValue, group) => {
-    let options = [];
     axios
       .get(`/api/appointments/icpc2`, {
         params: {
@@ -255,6 +257,7 @@ class AppointementEdit extends Component {
         shouldValidate={formElement.config.validation}
         touched={formElement.config.touched}
         changed={(event) => this.inputChangedHandler(event, formElement.id)}
+        label={formElement.config.label}
         // loadOptions={(inputValue) =>
         //   this.searchCode(inputValue, formElement.id)
         // }

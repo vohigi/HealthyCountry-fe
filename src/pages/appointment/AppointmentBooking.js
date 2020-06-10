@@ -1,8 +1,6 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
 import axios from "axios";
 import Loader from "../../components/Loader/Loader";
-import DoctorCard from "../../components/DoctorCard/DoctorCard";
 import { connect } from "react-redux";
 import * as actions from "../../redux/actions/index";
 import "./_appointmentBooking.scss";
