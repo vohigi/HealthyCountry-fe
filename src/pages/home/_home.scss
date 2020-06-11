@@ -13,6 +13,11 @@
   // height: 450px;
   margin: auto;
   display: flex;
+  justify-content: center;
+  @media screen and (max-width: 760px) {
+    width: 90%;
+    max-width: 90%;
+  }
 }
 
 .homeContainer {
@@ -159,6 +164,11 @@
   width: 100%;
   height: 100%;
 }
+.slick-list {
+  @media screen and (max-width: 768px) {
+    margin: auto;
+  }
+}
 .banner {
   margin: auto;
   overflow: hidden;
@@ -171,6 +181,11 @@
   margin-right: 5px;
   margin-bottom: 20px;
   margin-left: 5px;
+  @media screen and (max-width: 760px) {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+  }
   &Img {
     width: 100%;
     height: 100%;
@@ -252,57 +267,8 @@
   text-transform: uppercase;
   text-align: center;
 }
-.page-main__step-img {
-  min-width: 145px;
-  height: 145px;
-  margin-bottom: 10px;
-  background-image: url("../../img/way/1_step.svg");
-  background-position: center center;
-  background-repeat: no-repeat;
-  background-size: 130px auto;
 
-  &::after {
-    position: relative;
-    top: 50px;
-    left: 190px;
-    display: block;
-    width: 30px;
-    height: 30px;
-    background: url("../../img/way/step-arrow.svg") no-repeat;
-    background-size: contain;
-    content: "";
-    opacity: 0.7;
-  }
-
-  @media screen and (max-width: 1300px) {
-    background-size: 120px auto;
-
-    &::after {
-      left: 170px;
-    }
-  }
-
-  @media screen and (max-width: 500px) {
-    background-size: 100px auto;
-
-    &::after {
-      top: 60px;
-      left: 155px;
-    }
-  }
-
-  @media screen and (max-width: 375px) {
-    min-width: 110px;
-    height: 110px;
-
-    &::after {
-      top: 40px;
-      left: 120px;
-    }
-  }
-}
-
-.page-main__step {
+.step {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -324,60 +290,86 @@
     &:last-child {
       width: 100%;
       margin: 15px;
+    }
+  }
+  &Descr {
+    max-width: 170px;
+    display: inline-block;
+    max-width: 170px;
+    font-size: 16px;
+    text-align: center;
 
-      .page-main__step-descr {
-        max-width: 170px;
+    @media screen and (max-width: 600px) {
+      max-width: 150px;
+    }
+  }
+  &Img {
+    min-width: 145px;
+    height: 145px;
+    margin-bottom: 10px;
+    background-image: url("../../img/way/1_step.svg");
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: 130px auto;
+
+    &::after {
+      position: relative;
+      top: 50px;
+      left: 190px;
+      display: block;
+      width: 30px;
+      height: 30px;
+      background: url("../../img/way/step-arrow.svg") no-repeat;
+      background-size: contain;
+      content: "";
+      opacity: 0.7;
+    }
+
+    @media screen and (max-width: 1300px) {
+      background-size: 120px auto;
+
+      &::after {
+        left: 170px;
+      }
+    }
+
+    @media screen and (max-width: 500px) {
+      background-size: 100px auto;
+
+      &::after {
+        top: 60px;
+        left: 155px;
+      }
+    }
+
+    @media screen and (max-width: 375px) {
+      min-width: 110px;
+      height: 110px;
+
+      &::after {
+        top: 40px;
+        left: 120px;
       }
     }
   }
 }
-.page-main__way {
-  background: white;
-}
-
-.page-main__way-container {
-  display: flex;
-  overflow: hidden;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: center;
-  margin: 20px auto;
-
-  @media screen and (max-width: 1050px) {
-    max-width: 740px;
-  }
-
-  @media screen and (max-width: 720px) {
-    max-width: 600px;
-  }
-
-  @media screen and (max-width: 500px) {
-    justify-content: space-around;
-  }
-}
-.page-main__step_choose-time .page-main__step-img {
+.stepChooseTime .stepImg {
   background-image: url("../../img/way/2_step.svg");
 }
-
-.page-main__step_visit .page-main__step-img {
+.stepVisit .stepImg {
   background-image: url("../../img/way/3_step.svg");
 }
-
-.page-main__step_without-queue .page-main__step-img {
+.stepWithoutQueue .stepImg {
   background-image: url("../../img/way/4_step.svg");
 }
-
-.page-main__step_medical-card .page-main__step-img {
-  margin-right: 0;
+.stepMedicalCard .stepImg {
   background-image: url("../../img/way/5_step.svg");
-
   &::after {
     display: none;
   }
 }
-
-.page-main__step_choose-time .page-main__step-img,
-.page-main__step_without-queue .page-main__step-img {
+.stepChooseTime .stepImg,
+.stepWithoutQueue .stepImg {
   background-size: 110px 110px;
 
   @media screen and (max-width: 1300px) {
@@ -388,14 +380,26 @@
     background-size: 90px 90px;
   }
 }
+.steps {
+  background: white;
+  &Container {
+    display: flex;
+    overflow: hidden;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 20px auto;
 
-.page-main__step-descr {
-  display: inline-block;
-  max-width: 170px;
-  font-size: 16px;
-  text-align: center;
+    @media screen and (max-width: 1050px) {
+      max-width: 740px;
+    }
 
-  @media screen and (max-width: 600px) {
-    max-width: 150px;
+    @media screen and (max-width: 720px) {
+      max-width: 600px;
+    }
+
+    @media screen and (max-width: 500px) {
+      justify-content: space-around;
+    }
   }
 }

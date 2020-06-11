@@ -14,7 +14,7 @@ class Home extends Component {
     query: "",
     currentPage: 0,
     pageCount: 0,
-    limit: 30,
+    limit: 2,
     loading: true,
     controls: {
       sort: {
@@ -94,7 +94,7 @@ class Home extends Component {
           ...(this.state.controls.organization.value && {
             orgId: this.state.controls.organization.value.value,
           }),
-          limit: 2,
+          limit: this.state.limit,
         },
       })
       .then((response) =>
@@ -102,9 +102,9 @@ class Home extends Component {
           doctorData: response.data.data,
           loading: false,
           pageCount:
-            response.data.paging.length % 2 === 0
-              ? response.data.paging.length / 2
-              : Math.floor(response.data.paging.length / 2) + 1,
+            response.data.paging.length % this.state.limit === 0
+              ? response.data.paging.length / this.state.limit
+              : Math.floor(response.data.paging.length / this.state.limit) + 1,
         })
       );
   }
@@ -133,7 +133,11 @@ class Home extends Component {
         value: event,
       }),
     });
-    this.setState({ controls: updatedControls }, () => {
+    const updatedObject =
+      controlName === "sort"
+        ? { controls: updatedControls }
+        : { currentPage: 0, controls: updatedControls };
+    this.setState(updatedObject, () => {
       this.loadData();
     });
   };

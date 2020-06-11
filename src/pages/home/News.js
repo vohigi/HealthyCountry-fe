@@ -45,42 +45,42 @@ class News extends Component {
             </a>
           </Slick>
         </div>
-        <article className="page-main__way">
-          <div className="page-main__way-container">
-            <div className="page-main__step page-main__step_find">
-              <div className="page-main__step-img" />
-              <span className="page-main__step-descr">
+        <article className="steps">
+          <div className="stepsContainer">
+            <div className="step step_find">
+              <div className="stepImg" />
+              <span className="stepDescr">
                 Знаходите <br />
                 лікаря
               </span>
             </div>
-            <div className="page-main__step page-main__step_choose-time">
-              <div className="page-main__step-img" />
-              <span className="page-main__step-descr">
+            <div className="step stepChooseTime">
+              <div className="stepImg" />
+              <span className="stepDescr">
                 Обираєте зручний <br />
                 для вас час
               </span>
             </div>
-            <div className="page-main__step page-main__step_visit">
-              <div className="page-main__step-img" />
-              <span className="page-main__step-descr">
+            <div className="step stepVisit">
+              <div className="stepImg" />
+              <span className="stepDescr">
                 Приходите до <br />
                 поліклініки у <br />
                 вказаний час
               </span>
             </div>
-            <div className="page-main__step page-main__step_without-queue">
-              <div className="page-main__step-img" />
-              <span className="page-main__step-descr">
+            <div className="step stepWithoutQueue">
+              <div className="stepImg" />
+              <span className="stepDescr">
                 Потрапляєте <br />
                 до лікаря
                 <br />
                 без черги
               </span>
             </div>
-            <div className="page-main__step page-main__step_medical-card">
-              <div className="page-main__step-img" />
-              <span className="page-main__step-descr">
+            <div className="step stepMedicalCard">
+              <div className="stepImg" />
+              <span className="stepDescr">
                 Слідкуєте за своєю електронною медичною карткою
               </span>
             </div>

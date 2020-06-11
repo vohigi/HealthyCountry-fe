@@ -17,6 +17,7 @@ class RegisterForm extends Component {
   state = {
     controls: {
       email: {
+        label: "Email",
         elementType: "input",
         elementConfig: {
           type: "email",
@@ -31,6 +32,7 @@ class RegisterForm extends Component {
         touched: false,
       },
       password: {
+        label: "Пароль",
         elementType: "input",
         elementConfig: {
           type: "password",
@@ -45,6 +47,7 @@ class RegisterForm extends Component {
         touched: false,
       },
       firstName: {
+        label: "Ім'я",
         elementType: "input",
         elementConfig: {
           type: "text",
@@ -58,6 +61,7 @@ class RegisterForm extends Component {
         touched: false,
       },
       lastName: {
+        label: "Прізвище",
         elementType: "input",
         elementConfig: {
           type: "text",
@@ -71,6 +75,7 @@ class RegisterForm extends Component {
         touched: false,
       },
       middleName: {
+        label: "По батькові",
         elementType: "input",
         elementConfig: {
           type: "text",
@@ -82,6 +87,7 @@ class RegisterForm extends Component {
         touched: false,
       },
       birthDate: {
+        label: "Дата народження",
         elementType: "date",
         elementConfig: {
           type: "text",
@@ -95,6 +101,7 @@ class RegisterForm extends Component {
         touched: false,
       },
       phone: {
+        label: "Телефон",
         elementType: "input",
         elementConfig: {
           type: "phone",
@@ -108,6 +115,7 @@ class RegisterForm extends Component {
         touched: false,
       },
       gender: {
+        label: "Стать",
         elementType: "select",
         elementConfig: {
           options: [
@@ -127,6 +135,7 @@ class RegisterForm extends Component {
         touched: false,
       },
       taxId: {
+        label: "ІПН",
         elementType: "input",
         elementConfig: {
           type: "text",
@@ -141,6 +150,7 @@ class RegisterForm extends Component {
       },
       ...(this.props.isAdmin && {
         specialization: {
+          label: "Спеціальність",
           elementType: "select",
           elementConfig: {
             options: this.specializations,
@@ -164,6 +174,7 @@ class RegisterForm extends Component {
       }),
       ...(this.props.isAdmin && {
         role: {
+          label: "Роль",
           elementType: "select",
           elementConfig: {
             options: this.roles,
@@ -180,6 +191,7 @@ class RegisterForm extends Component {
       }),
       ...(this.props.isAdmin && {
         organization: {
+          label: "Організація",
           elementType: "select",
           elementConfig: {
             options: [{ label: "Тестова Поліклініка", value: "org_1" }],
@@ -263,6 +275,7 @@ class RegisterForm extends Component {
 
     let form = formElementsArray.map((formElement) => (
       <Input
+        label={formElement.config.label}
         key={formElement.id}
         elementType={formElement.config.elementType}
         elementConfig={formElement.config.elementConfig}
