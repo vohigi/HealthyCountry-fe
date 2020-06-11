@@ -58,6 +58,6 @@ const DoctorInfo = ({
   </div>
 );
 export default GoogleApiWrapper({
-  apiKey: "AIzaSyB3ztWR2oCr75031dMgeGH3S60dfik7-aI",
+  apiKey: "",
   language: "uk",
 })(DoctorInfo);

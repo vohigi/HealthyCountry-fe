@@ -1,22 +1,32 @@
-import React, { Component } from "react";
+import React, { Component, lazy } from "react";
 import { Route, Switch, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import Layout from "./hoc/Layout";
-import Logout from "./pages/logout/Logout";
-import Login from "./pages/login/Login";
-import Home from "./pages/home/Home";
 import * as actions from "./redux/actions/index";
 import PrivateRoute from "./components/PrivateRoute";
-import Register from "./pages/register/Register";
-import AppointmentBooking from "./pages/appointment/AppointmentBooking";
-import UserManagement from "./pages/management/UserManagement";
-import OrganizationManagement from "./pages/management/OrganizationManagement";
-import UserManagementEdit from "./pages/management/UserManagementEdit";
-import UserManagementCreate from "./pages/management/UserManagementCreate";
-import PatientProfile from "./pages/profile/PatientProfile";
-import DoctorProfile from "./pages/profile/DoctorProfile";
-import AppointementEdit from "./pages/appointment/AppointementEdit";
-import News from "./pages/home/News";
+const Home = lazy(() => import("./pages/home/Home"));
+const Login = lazy(() => import("./pages/login/Login"));
+const Logout = lazy(() => import("./pages/logout/Logout"));
+const Register = lazy(() => import("./pages/register/Register"));
+const AppointmentBooking = lazy(() =>
+  import("./pages/appointment/AppointmentBooking")
+);
+const UserManagement = lazy(() => import("./pages/management/UserManagement"));
+const OrganizationManagement = lazy(() =>
+  import("./pages/management/OrganizationManagement")
+);
+const UserManagementEdit = lazy(() =>
+  import("./pages/management/UserManagementEdit")
+);
+const UserManagementCreate = lazy(() =>
+  import("./pages/management/UserManagementCreate")
+);
+const PatientProfile = lazy(() => import("./pages/profile/PatientProfile"));
+const DoctorProfile = lazy(() => import("./pages/profile/DoctorProfile"));
+const AppointementEdit = lazy(() =>
+  import("./pages/appointment/AppointementEdit")
+);
+const News = lazy(() => import("./pages/home/News"));
 
 class App extends Component {
   componentDidMount() {

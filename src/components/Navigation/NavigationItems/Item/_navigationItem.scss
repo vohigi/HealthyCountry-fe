@@ -7,6 +7,10 @@
   text-decoration: none;
   width: 100%;
   display: block;
+  border-right: 1px solid #427c0b;
+  &:last-child {
+    border-right: none;
+  }
   & a {
     color: #333;
     text-decoration: none;
@@ -54,10 +58,6 @@
       height: 100%;
       padding: 16px 10px;
       border-bottom: 4px solid transparent;
-      // &:hover,
-      // &:active,
-      // &.active {
-      // }
     }
   }
 }
