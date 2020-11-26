@@ -10,12 +10,8 @@ import Input from "../../components/UI/Input/Input";
 import { updateObject } from "../../shared/utility";
 class Home extends Component {
   state = {
-    doctorData: "",
     query: "",
     currentPage: 0,
-    pageCount: 0,
-    limit: 2,
-    loading: true,
     controls: {
       sort: {
         label: "Сортування",
@@ -74,39 +70,21 @@ class Home extends Component {
     this.props.history.push("/doctor/" + id);
   }
   loadData() {
-    this.setState({
-      loading: true,
-    });
-    axios
-      .get("api/users/doctors", {
-        headers: {
-          Authorization: "Bearer " + this.props.token,
-        },
-        params: {
-          page: this.state.currentPage + 1,
-          name: this.state.query,
-          ...(this.state.controls.sort.value && {
-            sort: this.state.controls.sort.value.value,
-          }),
-          ...(this.state.controls.specialization.value && {
-            spec: this.state.controls.specialization.value.value,
-          }),
-          ...(this.state.controls.organization.value && {
-            orgId: this.state.controls.organization.value.value,
-          }),
-          limit: this.state.limit,
-        },
-      })
-      .then((response) =>
-        this.setState({
-          doctorData: response.data.data,
-          loading: false,
-          pageCount:
-            response.data.paging.length % this.state.limit === 0
-              ? response.data.paging.length / this.state.limit
-              : Math.floor(response.data.paging.length / this.state.limit) + 1,
-        })
-      );
+    const params = {
+      page: this.state.currentPage + 1,
+      name: this.state.query,
+      ...(this.state.controls.sort.value && {
+        sort: this.state.controls.sort.value.value,
+      }),
+      ...(this.state.controls.specialization.value && {
+        spec: this.state.controls.specialization.value.value,
+      }),
+      ...(this.state.controls.organization.value && {
+        orgId: this.state.controls.organization.value.value,
+      }),
+      limit: this.props.limit,
+    };
+    this.props.onGetDoctors(params);
   }
   resetFilters() {
     const updatedControls = updateObject(this.state.controls, {
@@ -163,7 +141,7 @@ class Home extends Component {
         changed={(event) => this.inputChangedHandler(event, formElement.id)}
       />
     ));
-    const { doctorData, loading } = this.state;
+    const { doctors, loading, errors, pageCount } = this.props;
     return (
       <>
         <div className="search">
@@ -190,9 +168,10 @@ class Home extends Component {
           </div>
           <div className="cardsHolder">
             {loading && <Loader />}
-            {doctorData &&
+            {errors && <p>{errors}</p>}
+            {doctors &&
               !loading &&
-              doctorData.map(
+              doctors.map(
                 (
                   {
                     userId,
@@ -229,7 +208,7 @@ class Home extends Component {
               nextLabel={"Наступна"}
               breakLabel={"..."}
               breakClassName={"break-me"}
-              pageCount={this.state.pageCount}
+              pageCount={pageCount}
               marginPagesDisplayed={2}
               pageRangeDisplayed={5}
               forcePage={this.state.currentPage}
@@ -246,19 +225,18 @@ class Home extends Component {
 }
 const mapStateToProps = (state) => {
   return {
-    loading: state.auth.loading,
-    errors: state.auth.errors,
-    isAuthenticated: state.auth.token !== null,
-    loginRedirectPath: state.auth.authRedirectPath,
-    token: state.auth.token,
+    loading: state.doctors.loading,
+    errors: state.doctors.errors,
+    doctors: state.doctors.doctors,
+    length: state.doctors.length,
+    pageCount: state.doctors.pageCount,
+    limit: state.doctors.limit,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onAuth: (email, password, isSignup) =>
-      dispatch(actions.auth(email, password, isSignup)),
-    onSetAuthRedirectPath: () => dispatch(actions.setAuthRedirectPath("/")),
+    onGetDoctors: (params) => dispatch(actions.getDoctors(params)),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

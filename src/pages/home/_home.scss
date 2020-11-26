@@ -1,3 +1,4 @@
+@import "../../mixins";
 .cardsHolder {
   display: flex;
   padding: 20px;
@@ -5,16 +6,12 @@
   flex-wrap: wrap;
 }
 .carouselContainer {
-  //position: relative;
-  // width: 100%;
-  // padding-top: 56.25%;
   width: 60%;
   max-width: 700px;
-  // height: 450px;
   margin: auto;
   display: flex;
   justify-content: center;
-  @media screen and (max-width: 760px) {
+  @include respond-to(handhelds) {
     width: 90%;
     max-width: 90%;
   }
@@ -122,7 +119,7 @@
   display: flex;
   justify-content: center;
 }
-@media screen and (max-width: 1024px) {
+@include respond-to(medium-screens) {
   .homeContainer {
     flex-direction: column;
     width: 100%;
@@ -139,7 +136,24 @@
     }
   }
 }
-@media screen and (max-width: 768px) {
+@include respond-to(handhelds) {
+  .homeContainer {
+    flex-direction: column;
+    width: 100%;
+    padding: 25px;
+    &Controls {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      max-width: 100%;
+    }
+    &Controls .input {
+      padding-left: 0;
+      padding-right: 0;
+    }
+  }
+}
+@include respond-to(handhelds) {
   .cardsHolder {
     padding: 0;
   }
@@ -165,7 +179,7 @@
   height: 100%;
 }
 .slick-list {
-  @media screen and (max-width: 768px) {
+  @include respond-to(handhelds) {
     margin: auto;
   }
 }
@@ -181,7 +195,7 @@
   margin-right: 5px;
   margin-bottom: 20px;
   margin-left: 5px;
-  @media screen and (max-width: 760px) {
+  @include respond-to(handhelds) {
     width: 100%;
     max-width: 100%;
     margin: 0;
@@ -299,7 +313,7 @@
     font-size: 16px;
     text-align: center;
 
-    @media screen and (max-width: 600px) {
+    @include respond-to(handhelds) {
       max-width: 150px;
     }
   }
@@ -394,7 +408,7 @@
       max-width: 740px;
     }
 
-    @media screen and (max-width: 720px) {
+    @include respond-to(handhelds) {
       max-width: 600px;
     }
 

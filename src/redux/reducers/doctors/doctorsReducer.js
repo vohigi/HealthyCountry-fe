@@ -1,8 +1,12 @@
 import * as actionTypes from "../../actions/actionTypes";
 import { updateObject } from "../../../shared/utility";
-
+const limit = 2;
 const initialState = {
   doctors: [],
+  loading: false,
+  errors: null,
+  length: 0,
+  limit: limit,
 };
 
 const getDoctorsStart = (state, action) => {
@@ -13,7 +17,12 @@ const getDoctorsSuccess = (state, action) => {
   return updateObject(state, {
     errors: null,
     loading: false,
-    users: action.data,
+    doctors: action.data,
+    length: action.length,
+    pageCount:
+      action.length % limit === 0
+        ? action.length / limit
+        : Math.floor(action.length / limit) + 1,
   });
 };
 
