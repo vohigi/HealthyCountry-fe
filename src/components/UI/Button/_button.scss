@@ -5,15 +5,19 @@
   outline: none;
   cursor: pointer;
   font: inherit;
-  padding: 10px;
+  padding: 4px 15px;
   margin: 10px;
   font-weight: bold;
+  text-align: center;
+  font-size: 16px;
+  line-height: 22px;
+  vertical-align: middle;
 }
 
-.button:first-of-type {
-  margin-left: 0;
-  padding-left: 0;
-}
+// .button:first-of-type {
+//   margin-left: 0;
+//   padding-left: 0;
+// }
 
 .button:disabled {
   color: #ccc;
@@ -21,7 +25,11 @@
 }
 
 .success {
-  color: #5c9210;
+  background-color: #31b33c;
+  border: 1px solid #31b33c;
+  color: #fff;
+  border-radius: 2px;
+  font-weight: bold;
 }
 
 .danger {

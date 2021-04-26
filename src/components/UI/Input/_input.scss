@@ -14,7 +14,8 @@
 
 .inputElement {
   outline: none;
-  border: 1px solid #ccc;
+  border-radius: 2px;
+  border: 1px solid #d7dae0;
   background-color: white;
   font: inherit;
   padding: 6px 10px;
@@ -22,8 +23,10 @@
   width: 100%;
   box-sizing: border-box;
   &:focus {
-    outline: none;
-    background-color: #ccc;
+    border-color: #31b33c;
+    -webkit-box-shadow: initial;
+    box-shadow: initial;
+    background: transparent;
   }
 }
 

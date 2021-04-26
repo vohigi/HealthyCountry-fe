@@ -1,7 +1,7 @@
 import React, { Component, lazy } from "react";
 import { Route, Switch, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import Layout from "./hoc/Layout";
+import Layout from "./hoc/layout";
 import * as actions from "./redux/actions/index";
 import PrivateRoute from "./components/PrivateRoute";
 const Home = lazy(() => import("./pages/home/Home"));
