@@ -85,3 +85,21 @@
     }
   }
 }
+.ant-card-bordered {
+  border: 1px solid #cecdcd;
+}
+.ant-card-actions {
+  border-top: 1px solid #cecdcd;
+}
+.ant-card-actions > li:not(:last-child) {
+  border-right: 1px solid #cecdcd;
+}
+.ant-card-head {
+  border-bottom: 1px solid #cecdcd;
+}
+.ant-tabs-top > .ant-tabs-nav::before,
+.ant-tabs-bottom > .ant-tabs-nav::before,
+.ant-tabs-top > div > .ant-tabs-nav::before,
+.ant-tabs-bottom > div > .ant-tabs-nav::before {
+  border-bottom: 1px solid #cecdcd;
+}
