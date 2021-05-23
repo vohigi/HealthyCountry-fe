@@ -1,3 +1,5 @@
+@import "../../../mixins";
+@import "../../../variables";
 .button {
   background-color: transparent;
   border: none;
@@ -25,13 +27,13 @@
 }
 
 .success {
-  background-color: #31b33c;
-  border: 1px solid #31b33c;
+  background-color: $primary-color;
+  border: 1px solid $primary-color;
   color: #fff;
-  border-radius: 2px;
-  font-weight: bold;
+  border-radius: 8px;
+  font-weight: 600;
 }
 
 .danger {
-  color: #944317;
+  color: #b91a35;
 }

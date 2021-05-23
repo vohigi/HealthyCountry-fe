@@ -1,9 +1,27 @@
 @import "../../mixins";
+@import "../../variables";
 .cardsHolder {
   display: flex;
   padding: 20px;
-  width: 100%;
-  flex-wrap: wrap;
+  width: 70%;
+  flex-direction: column;
+  background-color: #fafafa;
+}
+.homeStickyHeader {
+  display: flex;
+  // position: sticky;
+  flex-direction: row;
+  width: 90%;
+  padding: 18px;
+  margin: auto;
+  &Left {
+    width: 30%;
+    min-width: 30%;
+  }
+  &Right {
+    width: 70%;
+    min-width: 70%;
+  }
 }
 .carouselContainer {
   width: 60%;
@@ -22,51 +40,117 @@
   width: 90%;
   margin: auto;
   &Controls {
-    padding-top: 20px;
+    padding: 24px;
+    box-shadow: 0 0 1px RGB(0 0 0 / 8%), 0 1px 4px RGB(0 0 0 / 16%);
     display: flex;
     flex-direction: column;
     width: 30%;
-    max-width: 350px;
+    // max-width: 350px;
+    &Header {
+      margin: 0 0 20px 0;
+    }
   }
   &Controls .input {
     padding-left: 0;
     padding-right: 0;
   }
 }
-
+.filtersDivider {
+  width: 100%;
+  height: 1px;
+  margin: 16px 0;
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg width='813' height='1' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='%23C4C4C4' stroke-linecap='round' stroke-linejoin='round' stroke-dasharray='4 8' d='M.5.5h812'/%3E%3C/svg%3E");
+}
+.searchInputContainer {
+  width: 100%;
+  max-width: 600px;
+  height: 100%;
+  margin-right: 24px;
+  &::after {
+    position: relative;
+    top: -50%;
+    left: 8px;
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg width='24' height='24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M19.755 18.394l-3.627-3.627a6.7 6.7 0 0 0 1.343-4.032A6.743 6.743 0 0 0 10.735 4 6.743 6.743 0 0 0 4 10.735a6.743 6.743 0 0 0 6.735 6.736 6.7 6.7 0 0 0 4.032-1.343l3.627 3.627a.964.964 0 0 0 1.36-1.361zm-13.83-7.659a4.811 4.811 0 1 1 9.621 0 4.811 4.811 0 0 1-9.622 0z' fill='%2305b905'/%3E%3C/svg%3E");
+    background-position: 50%;
+    background-repeat: no-repeat;
+    content: "";
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%);
+  }
+}
 .search {
   display: flex;
   justify-content: center;
   margin: auto;
   align-items: center;
+  width: 100%;
+  height: 40px;
   &Input {
     display: block;
-    width: 50%;
-    max-width: 520px;
-    height: 48px;
-    font-size: 1.5rem;
-    outline: none;
-    border: 1px solid #ccc;
-    background-color: white;
-    padding: 6px 10px;
-    box-sizing: border-box;
-    margin-right: 20px;
+    position: relative;
+    //overflow: hidden;
+    width: 100%;
+    height: 100%;
+    padding: 9px 30px 9px 40px;
+    border: 1px solid #e7e7e7;
+    background-color: #fafafa;
+    border-radius: 8px;
+    caret-color: $primary-color;
+    color: #3e3e3e;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 40px;
+    // background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg width='24' height='24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M19.755 18.394l-3.627-3.627a6.7 6.7 0 0 0 1.343-4.032A6.743 6.743 0 0 0 10.735 4 6.743 6.743 0 0 0 4 10.735a6.743 6.743 0 0 0 6.735 6.736 6.7 6.7 0 0 0 4.032-1.343l3.627 3.627a.964.964 0 0 0 1.36-1.361zm-13.83-7.659a4.811 4.811 0 1 1 9.621 0 4.811 4.811 0 0 1-9.622 0z' fill='%232880DD'/%3E%3C/svg%3E");
+    // background-repeat: no-repeat;
+    // background-size: 20px 20px;
+    // background-position: left center;
     &:focus {
       outline: none;
-      background-color: #ccc;
+      border: 1px solid $primary-color;
     }
+    &::before {
+      border: 2px solid black;
+      display: block;
+      content: "...";
+      position: relative;
+      top: 0;
+      left: 0;
+      z-index: 100;
+      // background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg width='24' height='24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M19.755 18.394l-3.627-3.627a6.7 6.7 0 0 0 1.343-4.032A6.743 6.743 0 0 0 10.735 4 6.743 6.743 0 0 0 4 10.735a6.743 6.743 0 0 0 6.735 6.736 6.7 6.7 0 0 0 4.032-1.343l3.627 3.627a.964.964 0 0 0 1.36-1.361zm-13.83-7.659a4.811 4.811 0 1 1 9.621 0 4.811 4.811 0 0 1-9.622 0z' fill='%232880DD'/%3E%3C/svg%3E");
+      // background-position: 50%;
+      // background-repeat: no-repeat;
+      content: "aaa";
+    }
+    // &::after {
+    //   position: relative;
+    //   // top: 50%;
+    //   left: 8px;
+    //   display: inline-block;
+    //   width: 24px;
+    //   height: 24px;
+    //   background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg width='24' height='24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M19.755 18.394l-3.627-3.627a6.7 6.7 0 0 0 1.343-4.032A6.743 6.743 0 0 0 10.735 4 6.743 6.743 0 0 0 4 10.735a6.743 6.743 0 0 0 6.735 6.736 6.7 6.7 0 0 0 4.032-1.343l3.627 3.627a.964.964 0 0 0 1.36-1.361zm-13.83-7.659a4.811 4.811 0 1 1 9.621 0 4.811 4.811 0 0 1-9.622 0z' fill='%232880DD'/%3E%3C/svg%3E");
+    //   background-position: 50%;
+    //   background-repeat: no-repeat;
+    //   content: "";
+    //   -webkit-transform: translateY(-50%);
+    //   transform: translateY(-50%);
+    // }
   }
   &Button {
     display: block;
     width: 100px;
-    height: 48px;
-    background-color: #31b33c;
+    height: 100%;
+    background-color: $primary-color;
     border: none;
+    border-radius: 8px;
     color: #ffff;
     font-size: 1.1rem;
     cursor: pointer;
     &:hover {
-      background-color: #5ed668;
+      background-color: $primary-color-hover;
     }
   }
 }
@@ -114,10 +198,10 @@
   color: white;
 }
 .pagianateContainer {
-  margin-top: 40px;
-  margin-bottom: 40px;
+  padding: 20px 0;
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
+  width: 90%;
 }
 @include respond-to(medium-screens) {
   .homeContainer {
@@ -215,8 +299,8 @@
       padding: 20px 20px;
       width: 100%;
       text-align: center;
-      color: #ffff;
-      background-color: #888;
+      color: #333;
+      background-color: #e0e4e0;
       margin: 0;
       height: 100%;
       min-height: 40px;
@@ -265,7 +349,7 @@
         left: 0;
         width: 10px;
         height: 10px;
-        background-color: #31b33c;
+        background-color: $primary-color;
         border-radius: 100px;
         content: "";
         opacity: 0.4;

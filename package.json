@@ -4,10 +4,19 @@
   "private": true,
   "dependencies": {
     "@brainhubeu/react-carousel": "^1.18.6",
+    "@craco/craco": "^5.8.0",
+    "@fortawesome/fontawesome-svg-core": "^1.2.35",
+    "@fortawesome/free-regular-svg-icons": "^5.15.3",
+    "@fortawesome/free-solid-svg-icons": "^5.15.3",
+    "@fortawesome/react-fontawesome": "^0.1.14",
+    "antd": "^4.15.6",
     "axios": "^0.21.1",
+    "craco-antd": "^1.19.0",
+    "craco-less": "^1.17.1",
     "google-map-react": "^1.1.7",
     "google-maps-react": "^2.0.6",
     "http-proxy-middleware": "^1.0.4",
+    "lodash": "^4.17.21",
     "moment": "^2.26.0",
     "node-sass": "^4.14.1",
     "react": "^16.13.1",
@@ -26,9 +35,9 @@
     "slick-carousel": "^1.8.1"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
+    "start": "craco start",
+    "build": "craco build",
+    "test": "craco test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

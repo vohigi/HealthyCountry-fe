@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import Layout from "./hoc/layout";
 import * as actions from "./redux/actions/index";
 import PrivateRoute from "./components/PrivateRoute";
+import "./antdGlobalCss";
 const Home = lazy(() => import("./pages/home/Home"));
 const Login = lazy(() => import("./pages/login/Login"));
 const Logout = lazy(() => import("./pages/logout/Logout"));
@@ -48,7 +49,7 @@ class App extends Component {
           role="ANY"
         />
         <PrivateRoute
-          path="/search"
+          path="/doctors"
           exact
           component={Home}
           setAuthRedirectPath={this.props.onSetAuthRedirectPath}

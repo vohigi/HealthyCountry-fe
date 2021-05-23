@@ -24,7 +24,8 @@ class Layout extends Component {
   render() {
     return (
       <>
-        {this.props.location.pathname !== "/login" ? (
+        {this.props.location.pathname !== "/login" &&
+        this.props.location.pathname !== "/register" ? (
           <>
             <Toolbar
               isAuth={this.props.isAuthenticated}

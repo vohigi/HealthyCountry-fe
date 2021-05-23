@@ -1,6 +1,13 @@
 import React from "react";
 import "./_doctorInfo.scss";
 import portrait from "../../img/Portrait_Placeholder.png";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faStar,
+  faMapMarkerAlt,
+  faClinicMedical,
+  faPhone,
+} from "@fortawesome/free-solid-svg-icons";
 import { Map, GoogleApiWrapper, Marker } from "google-maps-react";
 const DoctorInfo = ({
   firstName,
@@ -9,6 +16,7 @@ const DoctorInfo = ({
   address,
   orgName,
   phone,
+  spec,
   appointmentClickHandler,
   google,
 }) => (
@@ -19,41 +27,43 @@ const DoctorInfo = ({
       </div>
     </div>
     <div className="doctorInfoRight">
-      <div className="">
-        <p>{lastName + " " + firstName + " " + middleName}</p>
-        <p>
-          {" "}
-          <strong>Спеціальність:</strong>Терапевт
-        </p>
+      <p className="font-20 font-b">
+        {lastName + " " + firstName + " " + middleName}
+      </p>
+      <p>{spec === "Therapist" ? "Терапевт" : "Педіатр"}</p>
+      <div className="divider"></div>
+      <p>
+        <FontAwesomeIcon icon={faClinicMedical} className="icon" />
+        {orgName}
+      </p>
+      <p>
+        <FontAwesomeIcon icon={faMapMarkerAlt} className="icon" />
+        {address}
+      </p>
+      <p>
+        <FontAwesomeIcon icon={faPhone} className="icon" />
+        {phone}
+      </p>
+
+      <div className="doctorInfoMap">
+        <Map
+          google={google}
+          zoom={17}
+          style={{
+            width: "100%",
+            height: "100%",
+          }}
+          containerStyle={{
+            position: "relative",
+            width: "100%",
+            height: "100%",
+          }}
+          initialCenter={{ lat: 51.52374805, lng: -0.15856988 }}
+        >
+          <Marker name={"Baker Street 221B"} />
+          <Marker />
+        </Map>
       </div>
-      <p>
-        <strong>Організація:</strong> {orgName}
-      </p>
-      <p>
-        <strong>Адреса:</strong> {address}
-      </p>
-      <p>
-        <strong>Телефон:</strong> {phone}
-      </p>
-    </div>
-    <div className="doctorInfoMap">
-      <Map
-        google={google}
-        zoom={17}
-        style={{
-          width: "100%",
-          height: "100%",
-        }}
-        containerStyle={{
-          position: "relative",
-          width: "100%",
-          height: "100%",
-        }}
-        initialCenter={{ lat: 51.52374805, lng: -0.15856988 }}
-      >
-        <Marker name={"Baker Street 221B"} />
-        <Marker />
-      </Map>
     </div>
   </div>
 );
