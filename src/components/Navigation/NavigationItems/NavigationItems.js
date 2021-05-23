@@ -14,12 +14,14 @@ import {
 const NavigationItems = ({ isAuthenticated, userRole, userId, isOpen }) => {
   return (
     <ul className="navigationItems">
+      {isAuthenticated && (
+        <NavigationItem link="/" exact>
+          <FontAwesomeIcon icon={faAlignJustify} />
+          Новини
+        </NavigationItem>
+      )}
       {isAuthenticated && (userRole === "PATIENT" || userRole === "ADMIN") ? (
         <>
-          <NavigationItem link="/" exact>
-            <FontAwesomeIcon icon={faAlignJustify} />
-            Новини
-          </NavigationItem>
           <NavigationItem link="/doctors">
             <FontAwesomeIcon icon={faUserMd} />
             Лікарі
