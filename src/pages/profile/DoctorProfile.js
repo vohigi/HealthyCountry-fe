@@ -117,6 +117,7 @@ class DoctorProfile extends Component {
             address={doctorData.organization.address}
             orgName={doctorData.organization.name}
             phone={doctorData.phone}
+            spec={doctorData.specialization}
           />
         )}
         {appointments && (

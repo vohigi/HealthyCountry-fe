@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import "slick-carousel/slick/slick.css";
 import Slick from "react-slick";
-import medReform from "../../img/med-reform.jpg";
-import medReform2 from "../../img/med-reform2.jpg";
+import medReform from "../../img/moz.png";
+import medReform2 from "../../img/nszu.jpg";
 import "./_home.scss";
 
 class News extends Component {

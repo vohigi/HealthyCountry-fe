@@ -1,9 +1,12 @@
 import React from "react";
 import moment from "moment";
+
 import "./_appointmentDisplay.scss";
+import { Button, Card } from "antd";
 
 export const AppointmentCard = ({
   doctorName,
+  patientName,
   dateTime,
   status,
   reason,
@@ -39,15 +42,47 @@ export const AppointmentCard = ({
     }
     return displayStatus;
   };
+  const actionArray = enableControls
+    ? [
+        <Button
+          type="primary"
+          size="large"
+          disabled={status !== "BOOKED"}
+          onClick={handleStartClick}
+        >
+          Розпочати
+        </Button>,
+        <Button
+          type="primary"
+          size="large"
+          disabled={status !== "BOOKED"}
+          onClick={handleCancelClick}
+        >
+          Відмінити
+        </Button>,
+      ]
+    : [];
   return (
-    <div className="appointmentCard">
+    <Card actions={actionArray} type="inner">
       <div className="appointmentCardRow">
         <div className="appointmentCardColumn">
           <p className="appointmentCardColumnItem">
-            <strong>Лікар:</strong> {doctorName}
+            {enableControls ? (
+              <span>
+                <strong>Пацієнт:</strong> {patientName}
+              </span>
+            ) : (
+              <span>
+                <strong>Лікар:</strong> {doctorName}
+              </span>
+            )}
           </p>
           <p className="appointmentCardColumnItem">
-            <strong>Спеціальність:</strong> Терапевт
+            {!enableControls ? (
+              <span>
+                <strong>Спеціальність:</strong> Терапевт
+              </span>
+            ) : null}
           </p>
         </div>
         <div className="appointmentCardColumn">
@@ -78,28 +113,6 @@ export const AppointmentCard = ({
           </p>
         </div>
       </div>
-      {enableControls && (
-        <div className="appointmentCardRow border padding">
-          <div className="appointmentCardColumnItem">
-            <button
-              disabled={status !== "BOOKED"}
-              className="appointmentCardControl"
-              onClick={handleStartClick}
-            >
-              Розпочати
-            </button>
-          </div>
-          <div className="appointmentCardColumnItem">
-            <button
-              disabled={status !== "BOOKED"}
-              className="appointmentCardControl"
-              onClick={handleCancelClick}
-            >
-              Відмінити
-            </button>
-          </div>
-        </div>
-      )}
-    </div>
+    </Card>
   );
 };

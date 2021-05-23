@@ -2,10 +2,13 @@ import React, { Component } from "react";
 import axios from "axios";
 import Loader from "../../components/Loader/Loader";
 import { connect } from "react-redux";
+import { Modal } from "antd";
+import { ExclamationCircleOutlined } from "@ant-design/icons";
 import * as actions from "../../redux/actions/index";
 import "./_appointmentBooking.scss";
 import DoctorInfo from "../../components/DoctorInfo/DoctorInfo";
 import AppointmentGrid from "../../components/AppointmentGrid/AppointmentGrid";
+import moment from "moment";
 
 class AppointmentBooking extends Component {
   constructor(props) {
@@ -17,6 +20,7 @@ class AppointmentBooking extends Component {
       loading: true,
     };
   }
+
   loadData() {
     axios
       .get(`/api/users/${this.props.match.params.doctorId}`, {
@@ -77,6 +81,38 @@ class AppointmentBooking extends Component {
         this.setState({ errors: errors.data });
       });
   }
+  showPromiseConfirm(id) {
+    const appointment = this.state.appointments.find(
+      (appointment) => appointment.appointmentId === id
+    );
+    const formatedDateTime = moment(appointment.dateTime)
+      .format("DD-MM-YYYY HH:mm")
+      .split(" ");
+    Modal.confirm({
+      title: "Підтвердіть запис",
+      icon: <ExclamationCircleOutlined style={{ color: "#05b905" }} />,
+      centered: true,
+      okText: "Підтвердити",
+      cancelText: "Скасувати",
+      content: (
+        <div>
+          <p>
+            Лікар:{" "}
+            {this.state.doctorData.lastName +
+              " " +
+              this.state.doctorData.firstName +
+              " " +
+              this.state.doctorData.middleName +
+              " "}
+          </p>
+          <p>Дата: {formatedDateTime[0]}</p>
+          <p>Час: {formatedDateTime[1]}</p>
+        </div>
+      ),
+      onOk: () => this.handleAppointmentClick(id),
+      onCancel() {},
+    });
+  }
   componentDidMount() {
     this.loadData();
   }
@@ -93,15 +129,14 @@ class AppointmentBooking extends Component {
             address={doctorData.organization.address}
             orgName={doctorData.organization.name}
             phone={doctorData.phone}
+            spec={doctorData.specialization}
           />
         )}
         <div className="appointmentContainer">
           {appointments && (
             <AppointmentGrid
               appointments={appointments}
-              appointmentClickHandler={(e, id) =>
-                this.handleAppointmentClick(id)
-              }
+              appointmentClickHandler={(e, id) => this.showPromiseConfirm(id)}
             />
           )}
         </div>

@@ -200,7 +200,7 @@ class AppointementEdit extends Component {
           </Form.Item>
           <Form.Item label="Коментар" name="comment">
             <TextArea
-              placeholder="Autosize height with minimum and maximum number of lines"
+              placeholder="Коментар до прийому"
               autoSize={{ minRows: 2, maxRows: 6 }}
             />
           </Form.Item>

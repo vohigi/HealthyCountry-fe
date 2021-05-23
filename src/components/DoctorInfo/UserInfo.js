@@ -18,7 +18,10 @@ const UserInfo = ({
     </div>
     <div className="doctorInfoRight">
       <div className="">
-        <p>{lastName + " " + firstName + " " + middleName}</p>
+        <p className="font-20 font-b">
+          {lastName + " " + firstName + " " + (middleName ? middleName : "")}
+        </p>
+        <div className="divider"></div>
         <p> Дата народження: {moment(birthDate).format("yyyy-MM-DD")}</p>
       </div>
       <p>Стать: {gender === "MALE" ? "Чоловіча" : "Жіноча"}</p>

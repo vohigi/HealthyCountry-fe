@@ -29,18 +29,5 @@
   text-align: center;
   width: 140px;
   height: 68px;
-  background-color: $primary-color;
-  color: #fff;
   padding: 10px;
-  border: none;
-  cursor: pointer;
-  &:hover {
-    background-color: $primary-color-hover;
-  }
-  &:focus {
-    outline: none;
-  }
-  &:disabled {
-    background-color: #7b7e7b;
-  }
 }

@@ -1,5 +1,6 @@
 import React from "react";
 import "./_appointmentGrid.scss";
+import { Button } from "antd";
 import moment from "moment";
 const AppointmentGrid = ({ appointments, appointmentClickHandler }) => (
   <div className="appointmentGrid">
@@ -11,7 +12,9 @@ const AppointmentGrid = ({ appointments, appointmentClickHandler }) => (
             .format("DD-MM-YYYY HH:mm")
             .split(" ");
           return (
-            <button
+            <Button
+              type="primary"
+              size="large"
               className="slot"
               key={appointment.appointmentId}
               disabled={appointment.status !== "FREE"}
@@ -22,7 +25,7 @@ const AppointmentGrid = ({ appointments, appointmentClickHandler }) => (
               {dateTime[0]}
               <br />
               {dateTime[1]}
-            </button>
+            </Button>
           );
         })}
     </div>

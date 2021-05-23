@@ -1,6 +1,6 @@
 import React from "react";
 import { AppointmentCard } from "./AppointmentCard";
-
+import { Col, Row, Card, Space } from "antd";
 export const AppointmentsDisplay = ({
   appointments,
   currentTab,
@@ -9,69 +9,81 @@ export const AppointmentsDisplay = ({
   handleStartClick,
   handleCancelClick,
 }) => {
+  const tabList = [
+    {
+      key: "past",
+      tab: "Минулі",
+    },
+    {
+      key: "today",
+      tab: "Сьогодні",
+    },
+    {
+      key: "future",
+      tab: "Майбутні",
+    },
+  ];
   return (
-    <div>
-      <div className="controls">
-        <button
-          className={
-            currentTab === "past" ? "controlsButton active" : "controlsButton"
-          }
-          onClick={() => changeTabClickHandler("past")}
-        >
-          Минулі
-        </button>
-        <button
-          className={
-            currentTab === "today" ? "controlsButton active" : "controlsButton"
-          }
-          onClick={() => changeTabClickHandler("today")}
-        >
-          Сьогодні
-        </button>
-        <button
-          className={
-            currentTab === "future" ? "controlsButton active" : "controlsButton"
-          }
-          onClick={() => changeTabClickHandler("future")}
-        >
-          Майбутні
-        </button>
-      </div>
-      <div className="cardContainer">
-        {appointments &&
-          appointments.map(
-            ({
-              dateTime,
-              status,
-              appointmentId,
-              employee,
-              reason,
-              diagnosis,
-              action,
-              comment,
-            }) => {
-              console.log(dateTime);
-              return (
-                <AppointmentCard
-                  key={appointmentId}
-                  dateTime={dateTime}
-                  status={status}
-                  reason={reason ? reason.name + " " + reason.code : ""}
-                  diagnosis={
-                    diagnosis ? diagnosis.name + " " + diagnosis.code : ""
-                  }
-                  action={action ? action.name + " " + action.code : ""}
-                  comment={comment}
-                  doctorName={`${employee.lastName} ${employee.firstName} ${employee.middleName}`}
-                  enableControls={enableControls}
-                  handleStartClick={() => handleStartClick(appointmentId)}
-                  handleCancelClick={() => handleCancelClick(appointmentId)}
-                />
-              );
-            }
-          )}
-      </div>
-    </div>
+    <Row justify="center">
+      <Card
+        style={{ width: "90%" }}
+        title="Мої прийоми"
+        tabList={tabList}
+        defaultActiveTabKey={"tab1"}
+        activeTabKey={currentTab}
+        tabProps={{
+          size: "large",
+        }}
+        onTabChange={(key) => {
+          changeTabClickHandler(key);
+        }}
+      >
+        <Space direction="vertical" size="large" style={{ width: "100%" }}>
+          {appointments &&
+            appointments.map(
+              ({
+                dateTime,
+                status,
+                appointmentId,
+                employee,
+                reason,
+                diagnosis,
+                action,
+                comment,
+                patient,
+              }) => {
+                console.log(dateTime);
+                return (
+                  <Row justify="center">
+                    <Col span={22}>
+                      <AppointmentCard
+                        key={appointmentId}
+                        dateTime={dateTime}
+                        status={status}
+                        reason={reason ? reason.name + " " + reason.code : ""}
+                        diagnosis={
+                          diagnosis ? diagnosis.name + " " + diagnosis.code : ""
+                        }
+                        action={action ? action.name + " " + action.code : ""}
+                        comment={comment}
+                        doctorName={`${employee.lastName} ${employee.firstName} ${employee.middleName}`}
+                        patientName={`${patient.lastName} ${
+                          patient.firstName
+                        } ${patient.middleName ? patient.middleName : ""}`}
+                        enableControls={enableControls}
+                        handleStartClick={() => handleStartClick(appointmentId)}
+                        handleCancelClick={() =>
+                          handleCancelClick(appointmentId)
+                        }
+                      />
+                    </Col>
+                  </Row>
+                );
+              }
+            )}
+        </Space>
+      </Card>
+    </Row>
   );
 };
 export default AppointmentsDisplay;
