@@ -1,31 +1,48 @@
+@import "src/variables";
 .doctorCard {
   display: flex;
-  width: 324px;
-  max-width: 324px;
+  width: 100%;
+  // max-width: 324px;
   min-width: 324px;
-  margin-left: 30px;
   margin-bottom: 20px;
-  padding: 10px;
-  flex-direction: column;
+  padding: 24px;
+  flex-direction: row;
   border: 1px solid #c4bdbd;
+  border-radius: 8px;
   box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.25);
   &Top {
     display: flex;
+    flex-direction: column;
+    width: 160px;
+    margin-right: 16px;
     //justify-content: space-evenly;
     &Text {
-      margin-left: 10px;
+      & p {
+        text-align: center;
+      }
+    }
+  }
+  &Bottom {
+    width: 100%;
+    &Controlls {
+      display: flex;
+      width: 100%;
+      justify-content: flex-end;
+      align-items: flex-end;
     }
   }
   &Button {
     display: block;
-    width: 100%;
-    background-color: #31b33c;
+    font-size: 16px;
+    width: 141px;
+    background-color: $primary-color;
     border: none;
+    border-radius: 8px;
     height: 48px;
-    color: #ffff;
+    color: $font-primary;
     cursor: pointer;
     &:hover {
-      background-color: #5ed668;
+      background-color: $primary-color-hover;
     }
     &:focus {
       outline: none;
@@ -33,17 +50,30 @@
   }
 }
 .doctorImageContainer {
-  width: 50%;
-  min-width: 50%;
-  max-width: 50%;
-  height: 151px;
+  width: 160px;
+  overflow: hidden;
+  // min-width: 50%;
+  // max-width: 50%;
+  height: 160px;
   display: flex;
-  background-color: #aaaa;
+  border: 1px solid #e7e7e7;
+  background-color: #fafafa;
+  border-radius: 8px;
   align-items: center;
 }
 .doctorImg {
   width: 100%;
-  // height: 100%;
+  height: 100%;
+}
+.divider {
+  width: 100%;
+  height: 1px;
+  margin: 16px 0;
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg width='813' height='1' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='%23C4C4C4' stroke-linecap='round' stroke-linejoin='round' stroke-dasharray='4 8' d='M.5.5h812'/%3E%3C/svg%3E");
+}
+.icon {
+  display: inline-block;
+  margin-right: 8px;
 }
 @media screen and (max-width: 1024px) {
   .doctorCard {

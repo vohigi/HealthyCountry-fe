@@ -1,7 +1,10 @@
+@import "../../mixins";
+@import "../../variables";
 .appointmentGrid {
   display: flex;
   flex-direction: column;
-  border: 1px solid #c4bdbd;
+  // border: 1px solid #c4bdbd;
+  border-radius: 8px;
   box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.25);
   &Slots {
     display: flex;
@@ -12,24 +15,27 @@
     background-color: #dfdbdb;
     width: 100%;
     margin: auto;
-    text-align: center;
+    text-align: left;
     padding: 20px;
-    border: 1px solid #c4bdbd;
+    font-weight: 600;
+    // border: 1px solid #c4bdbd;
+    border-radius: 8px 8px 0 0;
   }
 }
 .slot {
   margin-left: 30px;
   margin-bottom: 20px;
+  border-radius: 8px;
   text-align: center;
   width: 140px;
   height: 68px;
-  background-color: #31b33c;
+  background-color: $primary-color;
   color: #fff;
   padding: 10px;
   border: none;
   cursor: pointer;
   &:hover {
-    background-color: #5ed668;
+    background-color: $primary-color-hover;
   }
   &:focus {
     outline: none;

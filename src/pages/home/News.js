@@ -31,16 +31,26 @@ class News extends Component {
               href="https://moz.gov.ua/plan-reform"
               target="_blank"
               className="bannerCard"
+              rel="noopener noreferrer"
             >
-              <img src={medReform} className="bannerImg" />
+              <img
+                src={medReform}
+                className="bannerImg"
+                alt="медична реформа баннер"
+              />
               <p className="bannerCardText">Медична реформа</p>
             </a>
             <a
               href="https://moz.gov.ua/plan-reform"
               target="_blank"
               className="bannerCard"
+              rel="noopener noreferrer"
             >
-              <img src={medReform2} className="bannerImg" />
+              <img
+                src={medReform2}
+                className="bannerImg"
+                alt="медична реформа баннер"
+              />
               <p className="bannerCardText">Медична реформа</p>
             </a>
           </Slick>

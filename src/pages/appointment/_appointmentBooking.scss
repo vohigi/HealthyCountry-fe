@@ -1,4 +1,45 @@
+@import "src/variables";
 .appointmentContainer {
   width: 80%;
   margin: auto;
+}
+.ant-select {
+  border-radius: 8px;
+}
+.ant-select-focused {
+  box-shadow: none;
+  border-color: $primary-color !important;
+}
+.ant-select-selection {
+  border-radius: 8px;
+  box-shadow: none;
+}
+.ant-select-selector {
+  border-radius: 8px !important;
+  box-shadow: none !important;
+  &:hover {
+    border: 1px solid $primary-color !important;
+  }
+  &:focus {
+    border: 1px solid $primary-color !important;
+  }
+  //
+}
+.ant-select:not(.ant-select-customize-input) .ant-select-selector {
+  border-radius: 8px;
+  &:hover &:focus &:active {
+    border: 1px solid $primary-color;
+    box-shadow: none;
+  }
+}
+.ant-btn-primary {
+  background-color: $primary-color;
+  border-radius: 8px;
+  border: none;
+  &:hover {
+    background-color: $primary-color-hover;
+  }
+}
+.register {
+  padding: 20px 30px;
 }

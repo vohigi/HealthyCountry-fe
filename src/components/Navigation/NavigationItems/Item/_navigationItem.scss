@@ -6,10 +6,16 @@
   color: #333;
   text-decoration: none;
   width: 100%;
+  margin-right: 10px;
+  text-align: center;
   display: block;
-  border-right: 1px solid #427c0b;
+  // border-right: 1px solid #427c0b;
   &:last-child {
     border-right: none;
+  }
+  & svg {
+    display: inline-block;
+    margin-right: 5px;
   }
   & a {
     color: #333;
@@ -20,12 +26,13 @@
     &:hover,
     &:active,
     &.active {
-      background-color: #5ed668;
-      color: white;
+      background-color: #e0e4e0;
+      color: #333;
+      // color: white;
     }
     &:active,
     &.active {
-      border-bottom: 4px solid #40a4c8;
+      border-bottom: 4px solid #05b905;
     }
   }
 }
@@ -48,13 +55,13 @@
 @media (min-width: 500px) {
   .navigationItem {
     padding: 0;
-    background-color: #31b33c;
+    background-color: #e0e4e0;
     display: flex;
     height: 100%;
     width: auto;
     align-items: center;
     & a {
-      color: white;
+      color: #333;
       height: 100%;
       padding: 16px 10px;
       border-bottom: 4px solid transparent;

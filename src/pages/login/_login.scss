@@ -1,13 +1,22 @@
 .login {
   margin: 20px auto;
   width: 80%;
+}
+.login-form {
   text-align: center;
   box-shadow: 0 2px 3px #ccc;
   border: 1px solid #eee;
   padding: 10px;
   box-sizing: border-box;
+  border-radius: 8px;
 }
-
+.login-logo-container {
+  margin: auto;
+  width: 60%;
+}
+.login-logo-container-img {
+  width: 100%;
+}
 @media (min-width: 600px) {
   .login {
     width: 500px;

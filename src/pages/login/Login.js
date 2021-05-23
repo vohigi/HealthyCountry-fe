@@ -7,6 +7,7 @@ import Button from "../../components/UI/Button/Button";
 import Input from "../../components/UI/Input/Input";
 import * as actions from "../../redux/actions/index";
 import "./_login.scss";
+import Logo from "../../components/Logo/Logo";
 
 export class Login extends Component {
   static propTypes = {};
@@ -110,12 +111,18 @@ export class Login extends Component {
     }
     return (
       <div className="login">
-        {loginRedirect}
-        {errorMessage}
-        <form onSubmit={this.submitHandler}>
-          {form}
-          <Button btnType="success">Увійти</Button>
-        </form>
+        <Logo
+          imageContainerClass="login-logo-container"
+          imageClass="login-logo-container-img"
+        />
+        <div className="login-form">
+          {loginRedirect}
+          {errorMessage}
+          <form onSubmit={this.submitHandler}>
+            {form}
+            <Button btnType="success">Увійти</Button>
+          </form>
+        </div>
       </div>
     );
   }

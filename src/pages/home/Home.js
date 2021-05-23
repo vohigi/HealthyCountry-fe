@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import axios from "axios";
-import ReactPaginate from "react-paginate";
+import PropTypes from "prop-types";
 import Loader from "../../components/Loader/Loader";
 import DoctorCard from "../../components/DoctorCard/DoctorCard";
 import { connect } from "react-redux";
@@ -8,14 +7,13 @@ import * as actions from "../../redux/actions/index";
 import "./_home.scss";
 import Input from "../../components/UI/Input/Input";
 import { updateObject } from "../../shared/utility";
+import Pagination from "../../components/UI/Pagination";
+import { Fragment } from "react";
+
 class Home extends Component {
   state = {
-    doctorData: "",
     query: "",
-    currentPage: 0,
-    pageCount: 0,
-    limit: 2,
-    loading: true,
+    currentPage: 1,
     controls: {
       sort: {
         label: "Сортування",
@@ -52,9 +50,9 @@ class Home extends Component {
       },
     },
   };
-  handlePageClick(e) {
-    const selectedPage = e.selected;
-    console.log(e);
+  handlePageClick(page) {
+    const selectedPage = page;
+    console.log(page);
     this.setState(
       {
         currentPage: selectedPage,
@@ -74,39 +72,21 @@ class Home extends Component {
     this.props.history.push("/doctor/" + id);
   }
   loadData() {
-    this.setState({
-      loading: true,
-    });
-    axios
-      .get("api/users/doctors", {
-        headers: {
-          Authorization: "Bearer " + this.props.token,
-        },
-        params: {
-          page: this.state.currentPage + 1,
-          name: this.state.query,
-          ...(this.state.controls.sort.value && {
-            sort: this.state.controls.sort.value.value,
-          }),
-          ...(this.state.controls.specialization.value && {
-            spec: this.state.controls.specialization.value.value,
-          }),
-          ...(this.state.controls.organization.value && {
-            orgId: this.state.controls.organization.value.value,
-          }),
-          limit: this.state.limit,
-        },
-      })
-      .then((response) =>
-        this.setState({
-          doctorData: response.data.data,
-          loading: false,
-          pageCount:
-            response.data.paging.length % this.state.limit === 0
-              ? response.data.paging.length / this.state.limit
-              : Math.floor(response.data.paging.length / this.state.limit) + 1,
-        })
-      );
+    const params = {
+      page: this.state.currentPage,
+      name: this.state.query,
+      ...(this.state.controls.sort.value && {
+        sort: this.state.controls.sort.value.value,
+      }),
+      ...(this.state.controls.specialization.value && {
+        spec: this.state.controls.specialization.value.value,
+      }),
+      ...(this.state.controls.organization.value && {
+        orgId: this.state.controls.organization.value.value,
+      }),
+      limit: this.props.limit,
+    };
+    this.props.onGetDoctors(params);
   }
   resetFilters() {
     const updatedControls = updateObject(this.state.controls, {
@@ -136,7 +116,7 @@ class Home extends Component {
     const updatedObject =
       controlName === "sort"
         ? { controls: updatedControls }
-        : { currentPage: 0, controls: updatedControls };
+        : { currentPage: 1, controls: updatedControls };
     this.setState(updatedObject, () => {
       this.loadData();
     });
@@ -149,50 +129,64 @@ class Home extends Component {
         config: this.state.controls[key],
       });
     }
-
-    let form = formElementsArray.map((formElement) => (
-      <Input
-        key={formElement.id}
-        label={formElement.config.label}
-        elementType={formElement.config.elementType}
-        elementConfig={formElement.config.elementConfig}
-        value={formElement.config.value}
-        invalid={!formElement.config.valid}
-        shouldValidate={formElement.config.validation}
-        touched={formElement.config.touched}
-        changed={(event) => this.inputChangedHandler(event, formElement.id)}
-      />
+    const elemCount = formElementsArray.length;
+    let form = formElementsArray.map((formElement, i) => (
+      <Fragment key={formElement.id}>
+        <Input
+          key={formElement.id}
+          label={formElement.config.label}
+          elementType={formElement.config.elementType}
+          elementConfig={formElement.config.elementConfig}
+          value={formElement.config.value}
+          invalid={!formElement.config.valid}
+          shouldValidate={formElement.config.validation}
+          touched={formElement.config.touched}
+          changed={(event) => this.inputChangedHandler(event, formElement.id)}
+        />
+        {elemCount !== i + 1 ? <div className="filtersDivider"></div> : null}
+      </Fragment>
     ));
-    const { doctorData, loading } = this.state;
+    const { doctors, loading, errors, pageCount, limit } = this.props;
     return (
       <>
-        <div className="search">
-          <input
-            type="text"
-            placeholder="Введіть прізвище лікаря"
-            className="searchInput"
-            value={this.state.query}
-            onChange={(e) => this.handleSearchChange(e)}
-          />
-          <button className="searchButton" onClick={() => this.loadData()}>
-            Пошук
-          </button>
+        <div className="homeStickyHeader">
+          <div className="homeStickyHeaderLeft"></div>
+          <div className="homeStickyHeaderRight">
+            <div className="search">
+              <div className="searchInputContainer">
+                <input
+                  type="text"
+                  placeholder="Введіть прізвище лікаря"
+                  className="searchInput"
+                  value={this.state.query}
+                  onChange={(e) => this.handleSearchChange(e)}
+                />
+              </div>
+              <button className="searchButton" onClick={() => this.loadData()}>
+                Пошук
+              </button>
+            </div>
+          </div>
         </div>
         <div className="homeContainer">
           <div className="homeContainerControls">
-            <button
+            <h6 className="font-20 font-b homeContainerControlsHeader">
+              Фільтри
+            </h6>
+            {/* <button
               className="searchButton"
               onClick={() => this.resetFilters()}
             >
               Скинути
-            </button>
+            </button> */}
             {form}
           </div>
           <div className="cardsHolder">
             {loading && <Loader />}
-            {doctorData &&
+            {/* {errors && <p>{errors}</p>} */}
+            {doctors &&
               !loading &&
-              doctorData.map(
+              doctors.map(
                 (
                   {
                     userId,
@@ -223,22 +217,13 @@ class Home extends Component {
           </div>
         </div>
         {!loading && (
-          <div className="pagianateContainer">
-            <ReactPaginate
-              previousLabel={"Попередня"}
-              nextLabel={"Наступна"}
-              breakLabel={"..."}
-              breakClassName={"break-me"}
-              pageCount={this.state.pageCount}
-              marginPagesDisplayed={2}
-              pageRangeDisplayed={5}
-              forcePage={this.state.currentPage}
-              onPageChange={(e) => this.handlePageClick(e)}
-              containerClassName={"pagination"}
-              subContainerClassName={"pages pagination"}
-              activeClassName={"active"}
-            />
-          </div>
+          <Pagination
+            containerClassName="pagianateContainer"
+            current={this.state.currentPage}
+            pageSize={limit}
+            onChange={(e) => this.handlePageClick(e)}
+            total={pageCount * limit}
+          />
         )}
       </>
     );
@@ -246,19 +231,34 @@ class Home extends Component {
 }
 const mapStateToProps = (state) => {
   return {
-    loading: state.auth.loading,
-    errors: state.auth.errors,
-    isAuthenticated: state.auth.token !== null,
-    loginRedirectPath: state.auth.authRedirectPath,
-    token: state.auth.token,
+    loading: state.doctors.loading,
+    errors: state.doctors.errors,
+    doctors: state.doctors.doctors,
+    length: state.doctors.length,
+    pageCount: state.doctors.pageCount,
+    limit: state.doctors.limit,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onAuth: (email, password, isSignup) =>
-      dispatch(actions.auth(email, password, isSignup)),
-    onSetAuthRedirectPath: () => dispatch(actions.setAuthRedirectPath("/")),
+    onGetDoctors: (params) => dispatch(actions.getDoctors(params)),
   };
+};
+Home.propTypes = {
+  loading: PropTypes.bool,
+  errors: PropTypes.any,
+  doctors: PropTypes.array,
+  length: PropTypes.number,
+  pageCount: PropTypes.number,
+  limit: PropTypes.number,
+};
+Home.defaultProps = {
+  loading: true,
+  errors: null,
+  doctors: [],
+  length: 0,
+  pageCount: 0,
+  limit: 0,
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

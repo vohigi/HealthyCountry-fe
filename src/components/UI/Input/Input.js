@@ -5,23 +5,33 @@ import AsyncSelect from "react-select/async";
 import "./_input.scss";
 import "react-datepicker/dist/react-datepicker.css";
 const colourStyles = {
-  control: (styles) => ({ ...styles, backgroundColor: "white" }),
+  control: (styles, { isFocused, isSelected }) => ({
+    ...styles,
+    backgroundColor: "white",
+    borderRadius: "8px",
+    boxShadow: "none",
+    border: isFocused || isSelected ? "1px solid #05b905" : "1px solid #cccccc",
+    "&:hover": {
+      borderColor: "#05b905",
+      boxShadow: "none",
+    },
+  }),
   option: (styles, { data, isDisabled, isFocused, isSelected }) => {
     return {
       ...styles,
       backgroundColor: isDisabled
         ? null
         : isSelected
-        ? "#31b33c"
+        ? "#05b905"
         : isFocused
-        ? "#5ed668"
+        ? "#f1f1f1"
         : null,
-      color: isDisabled ? "#ccc" : isSelected || isFocused ? "#fff" : "#333",
+      color: isDisabled ? "#ccc" : isSelected ? "#fff" : "#333",
       cursor: isDisabled ? "not-allowed" : "default",
 
       ":active": {
         ...styles[":active"],
-        backgroundColor: !isDisabled && "#31b33c",
+        backgroundColor: !isDisabled && "#05b905",
       },
     };
   },
@@ -68,17 +78,6 @@ const Input = (props) => {
           styles={colourStyles}
           placeholder={props.elementConfig.placeholder}
         />
-        // <select
-        //   className={inputClasses.join(" ")}
-        //   value={props.value}
-        //   onChange={props.changed}
-        // >
-        //   {props.elementConfig.options.map((option) => (
-        //     <option key={option.value} value={option.value}>
-        //       {option.displayValue}
-        //     </option>
-        //   ))}
-        // </select>
       );
       break;
     case "asyncSelect":
@@ -86,9 +85,8 @@ const Input = (props) => {
         <AsyncSelect
           value={props.value}
           placeholder={props.elementConfig.placeholder}
-          cacheOptions
           loadOptions={props.loadOptions}
-          defaultOptions
+          // defaultOptions
           onInputChange={props.changed}
           styles={colourStyles}
         />

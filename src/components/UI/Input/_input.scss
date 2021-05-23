@@ -1,3 +1,5 @@
+@import "../../../mixins";
+@import "../../../variables";
 .input {
   width: 100%;
   padding: 10px;
@@ -14,7 +16,8 @@
 
 .inputElement {
   outline: none;
-  border: 1px solid #ccc;
+  border-radius: 8px;
+  border: 1px solid #d7dae0;
   background-color: white;
   font: inherit;
   padding: 6px 10px;
@@ -22,17 +25,19 @@
   width: 100%;
   box-sizing: border-box;
   &:focus {
-    outline: none;
-    background-color: #ccc;
+    border-color: $primary-color;
+    -webkit-box-shadow: initial;
+    box-shadow: initial;
+    background: transparent;
   }
 }
 
 .invalid {
   border: 1px solid red;
-  background-color: #fda49a;
+  // background-color: #fda49a;
 }
 .react-datepicker__day--selected {
-  background-color: #31b33c !important;
+  background-color: $primary-color !important;
 }
 .react-datepicker-wrapper {
   display: block !important;
