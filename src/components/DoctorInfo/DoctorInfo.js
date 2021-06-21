@@ -28,7 +28,7 @@ const DoctorInfo = ({
     </div>
     <div className="doctorInfoRight">
       <p className="font-20 font-b">
-        {lastName + " " + firstName + " " + middleName}
+        {lastName + " " + firstName + " " + (middleName ? middleName : "")}
       </p>
       <p>{spec === "Therapist" ? "Терапевт" : "Педіатр"}</p>
       <div className="divider"></div>
@@ -44,6 +44,11 @@ const DoctorInfo = ({
         <FontAwesomeIcon icon={faPhone} className="icon" />
         {phone}
       </p>
+      <p>
+        <FontAwesomeIcon icon={faStar} color="#ffcc00" className="icon" />
+        0.0(0)
+      </p>
+      <p>Стаж: невідомий</p>
 
       <div className="doctorInfoMap">
         <Map

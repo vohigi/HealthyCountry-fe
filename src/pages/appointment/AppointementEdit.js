@@ -1,15 +1,32 @@
 import React, { Component } from "react";
 import Loader from "../../components/Loader/Loader";
 import { checkValidity, updateObject, getBearer } from "../../shared/utility";
-import { Form, Button, Input } from "antd";
+import { Form, Button, Input, List, Select, DatePicker, Divider } from "antd";
+import locale from "antd/es/date-picker/locale/uk_UA";
+import { connect } from "react-redux";
+import moment from "moment";
+import "moment/locale/uk";
+import {
+  EditOutlined,
+  CloseCircleOutlined,
+  PlusOutlined,
+} from "@ant-design/icons";
 import axios from "axios";
 import AsyncSelect from "../../components/UI/AsyncSelect";
 import "./_appointmentBooking.scss";
+import DrawerForm from "../../components/DrawerForm";
+import { clinicalStatuses, severity } from "../../data";
 const { TextArea } = Input;
+const { Option } = Select;
 //import Button from "../../components/UI/Button/Button";
 // import Input from "../../components/UI/Input/Input";
 
 class AppointementEdit extends Component {
+  commentFormRef = React.createRef();
+  reasonFormRef = React.createRef();
+  diagnosisFormRef = React.createRef();
+  actionsFormRef = React.createRef();
+
   state = {
     appointment: null,
     loading: true,
@@ -17,6 +34,9 @@ class AppointementEdit extends Component {
     reason: {
       value: null,
     },
+    reasonsDrawerVisible: false,
+    diagnosisDrawerVisible: false,
+    actionsDrawerVisible: false,
   };
 
   componentDidMount() {
@@ -31,7 +51,76 @@ class AppointementEdit extends Component {
       })
       .then((response) => {
         this.setState({ appointment: response.data });
+        this.commentFormRef.current.setFields([
+          {
+            name: "comment",
+            value: this.state.appointment.comment,
+          },
+        ]);
       });
+  }
+  onDrawerVisibilityChange(name, action) {
+    switch (name) {
+      case "reasons":
+        if (action === "close") {
+          this.setState({ reasonsDrawerVisible: false });
+          this.reasonFormRef.current.resetFields();
+        } else {
+          this.setState({ reasonsDrawerVisible: true });
+        }
+        break;
+      case "diagnosis":
+        if (action === "close") {
+          this.setState({ diagnosisDrawerVisible: false });
+          this.diagnosisFormRef.current.resetFields();
+        } else {
+          this.setState({ diagnosisDrawerVisible: true });
+          if (this.state.appointment.diagnosis) {
+            setTimeout(() => {
+              this.diagnosisFormRef.current.setFields([
+                {
+                  name: "date",
+                  value: moment(this.state.appointment.diagnosis.date),
+                },
+                {
+                  name: "diagnosis",
+                  value: {
+                    key: this.state.appointment.diagnosis.code.id,
+                    label: `${this.state.appointment.diagnosis.code.name} ${this.state.appointment.diagnosis.code.code}`,
+                    value: this.state.appointment.diagnosis.code.id,
+                  },
+                },
+                {
+                  name: "severity",
+                  value:
+                    this.state.appointment.diagnosis.severity.toLowerCase(),
+                },
+                {
+                  name: "clinicalStatus",
+                  value:
+                    this.state.appointment.diagnosis.clinicalStatus.toLowerCase(),
+                },
+              ]); //works with setTimeout
+            }, 500);
+          }
+        }
+        break;
+      case "actions":
+        if (action === "close") {
+          this.setState({ actionsDrawerVisible: false });
+          this.actionsFormRef.current.resetFields();
+        } else {
+          this.setState({ actionsDrawerVisible: true });
+        }
+        break;
+      default:
+        break;
+    }
+  }
+  onBackToListClick() {
+    this.props.currentUser.role !== "PATIENT"
+      ? this.props.history.push("/doctor/profile")
+      : this.props.history.push("/patient/profile");
   }
   inputChangedHandler = (event, controlName) => {
     console.log(event);
@@ -59,12 +148,67 @@ class AppointementEdit extends Component {
     });
     this.setState({ controls: updatedControls });
   };
+  deleteHandler(type, id) {
+    axios
+      .delete(
+        `/api/appointments/${this.state.appointment.appointmentId}/${type}/${id}`,
+        {
+          headers: {
+            Authorization: "Bearer " + getBearer(),
+          },
+        }
+      )
+      .then((response) => {
+        this.setState({ appointment: response.data });
+      });
+  }
+  addHandler(values, type) {
+    if (type !== "diagnosis") {
+      const data = {
+        codeId: values[type].value,
+      };
+      axios
+        .post(
+          `/api/appointments/${this.state.appointment.appointmentId}/${type}`,
+          data,
+          {
+            headers: {
+              Authorization: "Bearer " + getBearer(),
+            },
+          }
+        )
+        .then((response) => {
+          this.onDrawerVisibilityChange(type, "close");
+          this.setState({ appointment: response.data });
+        });
+      return;
+    }
+    console.log(values);
+    const data = {
+      codeId: values[type].value,
+      date: values.date,
+      severity: values.severity,
+      clinicalStatus: values.clinicalStatus,
+    };
+    axios
+      .put(
+        `/api/appointments/${this.state.appointment.appointmentId}/diagnosis`,
+        data,
+        {
+          headers: {
+            Authorization: "Bearer " + getBearer(),
+          },
+        }
+      )
+      .then((response) => {
+        this.onDrawerVisibilityChange(type, "close");
+        this.setState({ appointment: response.data });
+      });
+  }
+
   submitHandler(values) {
     console.log(values);
     const data = this.state.appointment;
-    data.diagnosisId = values.diagnosis.value;
-    data.reasonId = values.reason.value;
-    data.actionId = values.action.value;
     data.comment = values.comment;
     data.status = "FINISHED";
     console.log(data);
@@ -131,85 +275,365 @@ class AppointementEdit extends Component {
     return (
       <div className="register">
         {errorMessage}
+
+        <List
+          size="large"
+          locale={{ emptyText: "Немає даних" }}
+          header={
+            <div
+              style={{
+                fontSize: "18px",
+                display: "flex",
+                justifyContent: "space-between",
+              }}
+            >
+              <strong>Причини</strong>
+              {this.state.appointment?.status !== "FINISHED" && (
+                <Button
+                  type="primary"
+                  size="large"
+                  style={{ fontSize: "18px" }}
+                  onClick={() =>
+                    this.onDrawerVisibilityChange("reasons", "open")
+                  }
+                >
+                  <PlusOutlined />
+                  Додати
+                </Button>
+              )}
+            </div>
+          }
+          className="demo-loadmore-list"
+          itemLayout="horizontal"
+          dataSource={
+            this.state.appointment
+              ? this.state.appointment.reasons
+              : [
+                  { id: "1", code: "A02 / Лихоманка" },
+                  { id: "2", code: "A03 / Біль" },
+                ]
+          }
+          renderItem={(item) => (
+            <List.Item
+              actions={
+                this.state.appointment?.status !== "FINISHED"
+                  ? [
+                      <a
+                        key="list-loadmore-more"
+                        onClick={() => this.deleteHandler("reasons", item?.id)}
+                      >
+                        <CloseCircleOutlined
+                          style={{ fontSize: "32px", color: "#f5222d" }}
+                        />
+                      </a>,
+                    ]
+                  : []
+              }
+            >
+              <div style={{ fontSize: "16px" }}>
+                {item?.coding?.code + " " + item?.coding?.name}
+              </div>
+            </List.Item>
+          )}
+        />
+        <List
+          size="large"
+          locale={{ emptyText: "Немає даних" }}
+          header={
+            <div
+              style={{
+                fontSize: "18px",
+                display: "flex",
+                justifyContent: "space-between",
+              }}
+            >
+              <strong>Діагноз</strong>
+              {!this.state.appointment?.diagnosis &&
+                this.state.appointment?.status !== "FINISHED" && (
+                  <Button
+                    type="primary"
+                    size="large"
+                    style={{ fontSize: "18px" }}
+                    onClick={() =>
+                      this.onDrawerVisibilityChange("diagnosis", "open")
+                    }
+                  >
+                    <PlusOutlined />
+                    Додати
+                  </Button>
+                )}
+            </div>
+          }
+          className="demo-loadmore-list"
+          itemLayout="horizontal"
+          dataSource={
+            this.state.appointment?.diagnosis
+              ? [this.state.appointment.diagnosis]
+              : []
+          }
+          renderItem={(item) => (
+            <List.Item
+              actions={
+                this.state.appointment?.status !== "FINISHED"
+                  ? [
+                      <a
+                        key="list-loadmore-edit"
+                        onClick={() =>
+                          this.onDrawerVisibilityChange("diagnosis", "open")
+                        }
+                      >
+                        <EditOutlined style={{ fontSize: "32px" }} />
+                      </a>,
+                    ]
+                  : []
+              }
+            >
+              <div style={{ fontSize: "16px" }}>
+                {item?.code?.code + " " + item?.code?.name}
+                <Divider type="vertical" />
+                {item?.date && moment(item.date).format("DD-MM-YYYY")}
+                <Divider type="vertical" />
+                {console.log(severity)}
+                <span>Важкість: {severity[item?.severity]}</span>
+                <Divider type="vertical" />
+                <span>
+                  Клінічний стан: {clinicalStatuses[item?.clinicalStatus]}
+                </span>
+              </div>
+            </List.Item>
+          )}
+        />
+        <List
+          size="large"
+          locale={{ emptyText: "Немає даних" }}
+          header={
+            <div
+              style={{
+                fontSize: "18px",
+                display: "flex",
+                justifyContent: "space-between",
+              }}
+            >
+              <strong>Дії</strong>
+              {this.state.appointment?.status !== "FINISHED" && (
+                <Button
+                  type="primary"
+                  size="large"
+                  style={{ fontSize: "18px" }}
+                  onClick={() =>
+                    this.onDrawerVisibilityChange("actions", "open")
+                  }
+                >
+                  <PlusOutlined />
+                  Додати
+                </Button>
+              )}
+            </div>
+          }
+          className="demo-loadmore-list"
+          itemLayout="horizontal"
+          dataSource={
+            this.state.appointment ? this.state.appointment.actions : []
+          }
+          renderItem={(item) => (
+            <List.Item
+              actions={
+                this.state.appointment?.status !== "FINISHED"
+                  ? [
+                      <a
+                        key="list-loadmore-more"
+                        onClick={() => this.deleteHandler("actions", item?.id)}
+                      >
+                        <CloseCircleOutlined
+                          style={{ fontSize: "32px", color: "#f5222d" }}
+                        />
+                      </a>,
+                    ]
+                  : []
+              }
+            >
+              <div style={{ fontSize: "16px" }}>
+                {item?.coding?.code + " " + item?.coding?.name}
+              </div>
+            </List.Item>
+          )}
+        />
+        {this.state.appointment?.status !== "FINISHED" && (
+          <>
+            <DrawerForm
+              visible={this.state.reasonsDrawerVisible}
+              title="Додати причину"
+              onSubmit={(values) => this.addHandler(values, "reasons")}
+              onClose={() => this.onDrawerVisibilityChange("reasons", "close")}
+              formRef={this.reasonFormRef}
+            >
+              <Form.Item
+                label="Причина"
+                name="reasons"
+                rules={[
+                  {
+                    required: true,
+                    message: "Оберіть причину взаємодії",
+                  },
+                ]}
+              >
+                <AsyncSelect
+                  placeholder="Оберіть причину взаємодії"
+                  fetchOptions={(input) => this.searchCode(input, "reason")}
+                  showSearch={true}
+                  style={{
+                    width: "100%",
+                  }}
+                  allowClear
+                />
+              </Form.Item>
+            </DrawerForm>
+            <DrawerForm
+              visible={this.state.diagnosisDrawerVisible}
+              title="Додати діагноз"
+              onSubmit={(values) => this.addHandler(values, "diagnosis")}
+              onClose={() =>
+                this.onDrawerVisibilityChange("diagnosis", "close")
+              }
+              formRef={this.diagnosisFormRef}
+            >
+              <Form.Item
+                label="Діагноз"
+                name="diagnosis"
+                rules={[
+                  {
+                    required: true,
+                    message: "Оберіть дагноз",
+                  },
+                ]}
+              >
+                <AsyncSelect
+                  placeholder="Оберіть дагноз"
+                  fetchOptions={(input) => this.searchCode(input, "diagnosis")}
+                  showSearch={true}
+                  style={{
+                    width: "100%",
+                  }}
+                  allowClear
+                />
+              </Form.Item>
+              <Form.Item
+                label="Дата"
+                name="date"
+                rules={[
+                  {
+                    required: false,
+                  },
+                ]}
+              >
+                <DatePicker locale={locale} />
+              </Form.Item>
+              <Form.Item
+                label="Клінічний статус"
+                name="clinicalStatus"
+                rules={[
+                  {
+                    required: false,
+                  },
+                ]}
+              >
+                <Select>
+                  <Option value="active">Активний</Option>
+                  <Option value="relapse">Рецедив</Option>
+                  <Option value="remission">Ремісія</Option>
+                  <Option value="cured">Вилікуваний</Option>
+                </Select>
+              </Form.Item>
+              <Form.Item
+                label="Важкість"
+                name="severity"
+                rules={[
+                  {
+                    required: false,
+                  },
+                ]}
+              >
+                <Select>
+                  <Option value="light">Легкий</Option>
+                  <Option value="middle">Середній</Option>
+                  <Option value="heavy">Важкий</Option>
+                </Select>
+              </Form.Item>
+            </DrawerForm>
+            <DrawerForm
+              visible={this.state.actionsDrawerVisible}
+              title="Додати дії"
+              onSubmit={(values) => this.addHandler(values, "actions")}
+              onClose={() => this.onDrawerVisibilityChange("actions", "close")}
+              formRef={this.actionsFormRef}
+            >
+              <Form.Item
+                label="Дія"
+                name="actions"
+                rules={[
+                  {
+                    required: true,
+                    message: "Оберіть дії при взаємодії",
+                  },
+                ]}
+              >
+                <AsyncSelect
+                  placeholder="Оберіть причину взаємодії"
+                  fetchOptions={(input) => this.searchCode(input, "action")}
+                  showSearch={true}
+                  style={{
+                    width: "100%",
+                  }}
+                  allowClear
+                />
+              </Form.Item>
+            </DrawerForm>
+          </>
+        )}
         <Form
           {...formItemLayout}
           layout="vertical"
           requiredMark={false}
           onFinish={(values) => this.submitHandler(values)}
+          ref={this.commentFormRef}
         >
           <Form.Item
-            label="Причина"
-            name="reason"
-            rules={[
-              {
-                required: true,
-                message: "Оберіть причину взаємодії",
-              },
-            ]}
+            label={<strong style={{ fontSize: "18px" }}>Коментар</strong>}
+            name="comment"
           >
-            <AsyncSelect
-              placeholder="Оберіть причину взаємодії"
-              fetchOptions={(input) => this.searchCode(input, "reason")}
-              showSearch={true}
-              style={{
-                width: "100%",
-              }}
-              allowClear
-            />
-          </Form.Item>
-
-          <Form.Item
-            label="Діагноз"
-            name="diagnosis"
-            rules={[
-              {
-                required: true,
-                message: "Оберіть причину взаємодії",
-              },
-            ]}
-          >
-            <AsyncSelect
-              placeholder="Оберіть діагноз"
-              fetchOptions={(input) => this.searchCode(input, "diagnosis")}
-              showSearch={true}
-              style={{
-                width: "100%",
-              }}
-              allowClear
-            />
-          </Form.Item>
-          <Form.Item
-            label="Дія"
-            name="action"
-            rules={[
-              {
-                required: true,
-                message: "Оберіть причину взаємодії",
-              },
-            ]}
-          >
-            <AsyncSelect
-              placeholder="Оберіть дії"
-              fetchOptions={(input) => this.searchCode(input, "action")}
-              showSearch={true}
-              style={{
-                width: "100%",
-              }}
-              allowClear
-            />
-          </Form.Item>
-          <Form.Item label="Коментар" name="comment">
             <TextArea
+              disabled={this.state.appointment?.status === "FINISHED"}
               placeholder="Коментар до прийому"
               autoSize={{ minRows: 2, maxRows: 6 }}
             />
           </Form.Item>
-          <Button type="primary" htmlType="submit">
-            Зберегти
-          </Button>
+          {this.state.appointment?.status !== "FINISHED" && (
+            <Button
+              type="primary"
+              htmlType="submit"
+              size="large"
+              style={{ fontSize: "18px" }}
+            >
+              Завершити
+            </Button>
+          )}
+          {this.state.appointment?.status === "FINISHED" && (
+            <Button
+              size="large"
+              style={{ fontSize: "18px" }}
+              onClick={() => this.onBackToListClick()}
+            >
+              Назад до списку
+            </Button>
+          )}
         </Form>
       </div>
     );
   }
 }
-export default AppointementEdit;
+const mapStateToProps = (state) => {
+  return {
+    currentUser: state.auth.user,
+  };
+};
+export default connect(mapStateToProps, () => {})(AppointementEdit);

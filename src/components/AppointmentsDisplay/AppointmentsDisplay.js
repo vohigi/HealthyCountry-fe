@@ -71,7 +71,9 @@ export const AppointmentsDisplay = ({
                           patient.firstName
                         } ${patient.middleName ? patient.middleName : ""}`}
                         enableControls={enableControls}
-                        handleStartClick={() => handleStartClick(appointmentId)}
+                        handleStartClick={() =>
+                          handleStartClick(appointmentId, status === "BOOKED")
+                        }
                         handleCancelClick={() =>
                           handleCancelClick(appointmentId)
                         }

@@ -42,26 +42,39 @@ export const AppointmentCard = ({
     }
     return displayStatus;
   };
-  const actionArray = enableControls
-    ? [
-        <Button
-          type="primary"
-          size="large"
-          disabled={status !== "BOOKED"}
-          onClick={handleStartClick}
-        >
-          Розпочати
-        </Button>,
-        <Button
-          type="primary"
-          size="large"
-          disabled={status !== "BOOKED"}
-          onClick={handleCancelClick}
-        >
-          Відмінити
-        </Button>,
-      ]
-    : [];
+  const actionArray =
+    status === "BOOKED"
+      ? [
+          <Button
+            type="primary"
+            size="large"
+            disabled={status !== "BOOKED"}
+            onClick={handleStartClick}
+          >
+            Розпочати
+          </Button>,
+          <Button
+            type="primary"
+            size="large"
+            disabled={status !== "BOOKED"}
+            onClick={handleCancelClick}
+          >
+            Відмінити
+          </Button>,
+        ]
+      : status === "INPROGRESS"
+      ? [
+          <Button type="primary" size="large" onClick={handleStartClick}>
+            Продовжити заповнення
+          </Button>,
+        ]
+      : status === "FINISHED"
+      ? [
+          <Button type="primary" size="large" onClick={handleStartClick}>
+            Переглянути результати
+          </Button>,
+        ]
+      : [];
   return (
     <Card actions={actionArray} type="inner">
       <div className="appointmentCardRow">
@@ -94,22 +107,6 @@ export const AppointmentCard = ({
           </p>
           <p className="appointmentCardColumnItem">
             <strong>Статус:</strong> {getDisplayStatus(status)}
-          </p>
-        </div>
-        <div className="appointmentCardColumn">
-          <p className="appointmentCardColumnItem">
-            <strong>Причина:</strong> {reason}
-          </p>
-          <p className="appointmentCardColumnItem">
-            <strong>Діагноз:</strong> {diagnosis}
-          </p>
-          <p className="appointmentCardColumnItem">
-            <strong>Дія:</strong> {action}
-          </p>
-        </div>
-        <div className="appointmentCardColumn">
-          <p className="appointmentCardColumnItem">
-            <strong>Коментар:</strong> {comment}
           </p>
         </div>
       </div>

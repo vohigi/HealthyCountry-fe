@@ -80,7 +80,24 @@ class DoctorProfile extends Component {
         })
       );
   }
-  onStartClick(appointmentId) {
+  onStartClick(appointmentId, needToChangeStatus) {
+    if (needToChangeStatus) {
+      const data = this.state.appointments.find(
+        (appointment) => appointment.appointmentId == appointmentId
+      );
+      data.status = "INPROGRESS";
+      console.log(data);
+      axios
+        .patch(`/api/appointments/${data.appointmentId}`, data, {
+          headers: {
+            Authorization: "Bearer " + getBearer(),
+          },
+        })
+        .then((response) => {
+          this.props.history.push(`/appointments/${appointmentId}/edit`);
+        });
+      return;
+    }
     this.props.history.push(`/appointments/${appointmentId}/edit`);
   }
   onCancelClick(appointmentId) {

@@ -102,7 +102,9 @@ class AppointmentBooking extends Component {
               " " +
               this.state.doctorData.firstName +
               " " +
-              this.state.doctorData.middleName +
+              (this.state.doctorData.middleName
+                ? this.state.doctorData.middleName
+                : "") +
               " "}
           </p>
           <p>Дата: {formatedDateTime[0]}</p>

@@ -1,11 +1,13 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Redirect } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import Loader from "../../components/Loader/Loader";
 import { checkValidity, updateObject } from "../../shared/utility";
-import Button from "../../components/UI/Button/Button";
-import Input from "../../components/UI/Input/Input";
+// import Button from "../../components/UI/Button/Button";
+// import Input from "../../components/UI/Input/Input";
 import * as actions from "../../redux/actions/index";
+import { Form, Input, Button, Checkbox } from "antd";
+import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import "./_login.scss";
 import Logo from "../../components/Logo/Logo";
 
@@ -59,14 +61,8 @@ export class Login extends Component {
     this.setState({ controls: updatedControls });
   };
 
-  submitHandler = (event) => {
-    event.preventDefault();
-    if (this.state.controls.email.valid && this.state.controls.password.valid) {
-      this.props.onAuth(
-        this.state.controls.email.value,
-        this.state.controls.password.value
-      );
-    }
+  submitHandler = (values) => {
+    this.props.onAuth(values.email, values.password);
   };
   render() {
     const formElementsArray = [];
@@ -77,23 +73,23 @@ export class Login extends Component {
       });
     }
 
-    let form = formElementsArray.map((formElement) => (
-      <Input
-        key={formElement.id}
-        label={formElement.config.label}
-        elementType={formElement.config.elementType}
-        elementConfig={formElement.config.elementConfig}
-        value={formElement.config.value}
-        invalid={!formElement.config.valid}
-        shouldValidate={formElement.config.validation}
-        touched={formElement.config.touched}
-        changed={(event) => this.inputChangedHandler(event, formElement.id)}
-      />
-    ));
+    // let form = formElementsArray.map((formElement) => (
+    //   <Input
+    //     key={formElement.id}
+    //     label={formElement.config.label}
+    //     elementType={formElement.config.elementType}
+    //     elementConfig={formElement.config.elementConfig}
+    //     value={formElement.config.value}
+    //     invalid={!formElement.config.valid}
+    //     shouldValidate={formElement.config.validation}
+    //     touched={formElement.config.touched}
+    //     changed={(event) => this.inputChangedHandler(event, formElement.id)}
+    //   />
+    // ));
 
-    if (this.props.loading) {
-      form = <Loader />;
-    }
+    // if (this.props.loading) {
+    //   form = <Loader />;
+    // }
 
     let errorMessage = null;
 
@@ -115,14 +111,60 @@ export class Login extends Component {
           imageContainerClass="login-logo-container"
           imageClass="login-logo-container-img"
         />
-        <div className="login-form">
-          {loginRedirect}
-          {errorMessage}
-          <form onSubmit={this.submitHandler}>
-            {form}
-            <Button btnType="success">Увійти</Button>
-          </form>
-        </div>
+        {loginRedirect}
+        {errorMessage}
+        <Form
+          name="normal_login"
+          className="login-form"
+          initialValues={{ remember: true }}
+          onFinish={this.submitHandler}
+        >
+          <Form.Item
+            name="email"
+            rules={[
+              {
+                required: true,
+                message: "Будь-ласка введіть ім'я користувача",
+              },
+            ]}
+          >
+            <Input
+              prefix={<UserOutlined className="site-form-item-icon" />}
+              placeholder="Email"
+            />
+          </Form.Item>
+          <Form.Item
+            name="password"
+            rules={[{ required: true, message: "Будь-ласка введіть пароль" }]}
+          >
+            <Input.Password
+              prefix={<LockOutlined className="site-form-item-icon" />}
+              type="password"
+              placeholder="Пароль"
+            />
+          </Form.Item>
+          {/* <Form.Item>
+            <Form.Item name="remember" valuePropName="checked" noStyle>
+              <Checkbox>Remember me</Checkbox>
+            </Form.Item>
+
+            <a className="login-form-forgot" href="">
+              Forgot password
+            </a>
+          </Form.Item> */}
+
+          <Form.Item>
+            <Button
+              type="primary"
+              htmlType="submit"
+              className="login-form-button"
+            >
+              Увійти
+            </Button>
+            Немає акаунта? <Link to="/register">Зареєструватись</Link>
+            <a href=""></a>
+          </Form.Item>
+        </Form>
       </div>
     );
   }

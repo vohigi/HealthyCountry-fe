@@ -40,7 +40,7 @@ const DoctorCard = ({
     </div>
     <div className="doctorCardBottom">
       <p className="font-20 font-b">
-        {lastName + " " + firstName + " " + middleName}
+        {lastName + " " + firstName + " " + (middleName ? middleName : "")}
       </p>
       <p>{spec === "Therapist" ? "Терапевт" : "Педіатр"}</p>
       <div className="divider"></div>

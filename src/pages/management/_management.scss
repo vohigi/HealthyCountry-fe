@@ -1,3 +1,4 @@
+@import "src/_variables.scss";
 .cardContainer {
   display: flex;
   flex-wrap: wrap;
@@ -9,13 +10,14 @@
   display: block;
   width: 40%;
   min-width: 200px;
-  background-color: #31b33c;
+  border-radius: 8px;
+  background-color: $primary-color;
   border: none;
   height: 48px;
   color: #ffff;
   cursor: pointer;
   &:hover {
-    background-color: #5ed668;
+    background-color: $primary-color-hover;
   }
   &:focus {
     outline: none;
