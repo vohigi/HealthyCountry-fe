@@ -43,7 +43,7 @@ export const AppointmentCard = ({
     return displayStatus;
   };
   const actionArray =
-    status === "BOOKED"
+    status === "BOOKED" && enableControls
       ? [
           <Button
             type="primary"
@@ -62,7 +62,7 @@ export const AppointmentCard = ({
             Відмінити
           </Button>,
         ]
-      : status === "INPROGRESS"
+      : status === "INPROGRESS" && enableControls
       ? [
           <Button type="primary" size="large" onClick={handleStartClick}>
             Продовжити заповнення

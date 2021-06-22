@@ -80,7 +80,7 @@ class App extends Component {
           setAuthRedirectPath={this.props.onSetAuthRedirectPath}
           userId={this.props.userId}
           userRole={this.props.role}
-          role="DOCTOR"
+          role="ANY"
         />
         <PrivateRoute
           path="/management/users"

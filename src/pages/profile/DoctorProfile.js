@@ -2,11 +2,17 @@ import React, { Component } from "react";
 import axios from "axios";
 import Loader from "../../components/Loader/Loader";
 import DoctorInfo from "../../components/DoctorInfo/DoctorInfo";
-import { getBearer } from "../../shared/utility";
+import { getBearer, openInNewTab } from "../../shared/utility";
 import AppointmentsDisplay from "../../components/AppointmentsDisplay/AppointmentsDisplay";
+import { Form, Button, Input, List, Select, DatePicker, Divider } from "antd";
+import locale from "antd/es/date-picker/locale/uk_UA";
 import moment from "moment";
+import "moment/locale/uk";
+import DrawerForm from "../../components/DrawerForm";
+const { Option } = Select;
 
 class DoctorProfile extends Component {
+  printFormRef = React.createRef();
   constructor(props) {
     super(props);
 
@@ -15,6 +21,7 @@ class DoctorProfile extends Component {
       appointments: [],
       loading: true,
       currentTab: "today",
+      printDrawerVisible: false,
     };
   }
   getList = (tab, apps) => {
@@ -80,6 +87,27 @@ class DoctorProfile extends Component {
         })
       );
   }
+  onPrintVisibilityChange(action) {
+    switch (action) {
+      case "open":
+        this.setState({ printDrawerVisible: true });
+        break;
+      case "close":
+        this.setState({ printDrawerVisible: false });
+        this.printFormRef.current.resetFields();
+        break;
+      default:
+        break;
+    }
+  }
+  onPrintSubmit(values) {
+    const url = `http://localhost:5000/api/appointments/${
+      this.state.doctorData.userId
+    }/print?startDate=${values.dateStart.format(
+      "YYYY-MM-DD"
+    )}&endDate=${values.dateEnd.format("YYYY-MM-DD")}&format=${values.format}`;
+    openInNewTab(url);
+  }
   onStartClick(appointmentId, needToChangeStatus) {
     if (needToChangeStatus) {
       const data = this.state.appointments.find(
@@ -137,8 +165,10 @@ class DoctorProfile extends Component {
             spec={doctorData.specialization}
           />
         )}
-        {appointments && (
+        {appointments && doctorData && (
           <AppointmentsDisplay
+            onPrintClick={this.onPrintVisibilityChange.bind(this)}
+            doctorId={doctorData.userId}
             appointments={this.getList(currentTab, appointments)}
             currentTab={currentTab}
             changeTabClickHandler={this.onTabChangeClick.bind(this)}
@@ -147,6 +177,51 @@ class DoctorProfile extends Component {
             handleStartClick={this.onStartClick.bind(this)}
           />
         )}
+        <DrawerForm
+          visible={this.state.printDrawerVisible}
+          title="Форма 074/о"
+          onSubmit={(values) => this.onPrintSubmit(values)}
+          onClose={() => this.onPrintVisibilityChange("close")}
+          formRef={this.printFormRef}
+          submitBtnText="Роздрукувати"
+        >
+          <Form.Item
+            label="Дата з"
+            name="dateStart"
+            rules={[
+              {
+                required: false,
+              },
+            ]}
+          >
+            <DatePicker locale={locale} />
+          </Form.Item>
+          <Form.Item
+            label="Дата по"
+            name="dateEnd"
+            rules={[
+              {
+                required: false,
+              },
+            ]}
+          >
+            <DatePicker locale={locale} />
+          </Form.Item>
+          <Form.Item
+            label="Формат"
+            name="format"
+            rules={[
+              {
+                required: false,
+              },
+            ]}
+          >
+            <Select>
+              <Option value="PDF">Pdf</Option>
+              <Option value="DOCX">Docx</Option>
+            </Select>
+          </Form.Item>
+        </DrawerForm>
       </div>
     );
   }

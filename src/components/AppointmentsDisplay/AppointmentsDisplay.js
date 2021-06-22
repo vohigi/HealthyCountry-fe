@@ -1,13 +1,16 @@
 import React from "react";
 import { AppointmentCard } from "./AppointmentCard";
 import { Col, Row, Card, Space } from "antd";
+import Button from "antd/es/button";
 export const AppointmentsDisplay = ({
   appointments,
+  doctorId,
   currentTab,
   changeTabClickHandler,
   enableControls,
   handleStartClick,
   handleCancelClick,
+  onPrintClick,
 }) => {
   const tabList = [
     {
@@ -25,9 +28,28 @@ export const AppointmentsDisplay = ({
   ];
   return (
     <Row justify="center">
+      {/* <a
+        className="btn"
+        href={`http://localhost:5000/api/appointments/${doctorId}/print`}
+        target="_blank"
+      >
+        Роздрукувати форму 074
+      </a> */}
       <Card
         style={{ width: "90%" }}
-        title="Мої прийоми"
+        title={
+          <div>
+            <span>Мої прийоми</span>
+            {enableControls && (
+              <Button
+                style={{ display: "inline-block", marginLeft: "30px" }}
+                onClick={() => onPrintClick("open")}
+              >
+                Роздрукувати форму 074/о
+              </Button>
+            )}
+          </div>
+        }
         tabList={tabList}
         defaultActiveTabKey={"tab1"}
         activeTabKey={currentTab}
@@ -54,7 +76,7 @@ export const AppointmentsDisplay = ({
               }) => {
                 console.log(dateTime);
                 return (
-                  <Row justify="center">
+                  <Row justify="center" key={appointmentId}>
                     <Col span={22}>
                       <AppointmentCard
                         key={appointmentId}
@@ -66,7 +88,9 @@ export const AppointmentsDisplay = ({
                         }
                         action={action ? action.name + " " + action.code : ""}
                         comment={comment}
-                        doctorName={`${employee.lastName} ${employee.firstName} ${employee.middleName}`}
+                        doctorName={`${employee.lastName} ${
+                          employee.firstName
+                        } ${employee.middleName ?? ""}`}
                         patientName={`${patient.lastName} ${
                           patient.firstName
                         } ${patient.middleName ? patient.middleName : ""}`}

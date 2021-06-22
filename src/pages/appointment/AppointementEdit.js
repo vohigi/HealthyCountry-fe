@@ -636,4 +636,4 @@ const mapStateToProps = (state) => {
     currentUser: state.auth.user,
   };
 };
-export default connect(mapStateToProps, () => {})(AppointementEdit);
+export default connect(mapStateToProps, () => ({}))(AppointementEdit);

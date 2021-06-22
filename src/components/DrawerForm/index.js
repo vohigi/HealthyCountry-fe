@@ -12,7 +12,15 @@ import {
 
 class DrawerForm extends Component {
   render() {
-    let { children, onSubmit, title, visible, onClose, formRef } = this.props;
+    let {
+      children,
+      onSubmit,
+      title,
+      visible,
+      onClose,
+      formRef,
+      submitBtnText,
+    } = this.props;
     return (
       <Drawer
         title={title}
@@ -30,7 +38,7 @@ class DrawerForm extends Component {
               Скасувати
             </Button>
             <Button onClick={() => formRef.current.submit()} type="primary">
-              Зберегти
+              {submitBtnText ?? "Зберегти"}
             </Button>
           </div>
         }

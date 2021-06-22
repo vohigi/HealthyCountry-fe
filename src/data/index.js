@@ -7,6 +7,6 @@ export const clinicalStatuses = {
 
 export const severity = {
   Light: "Легкий",
-  Medium: "Середній",
+  Middle: "Середній",
   Heavy: "Важкий",
 };

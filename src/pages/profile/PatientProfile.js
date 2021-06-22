@@ -80,6 +80,9 @@ class PatientProfile extends Component {
         })
       );
   }
+  onStartClick(appointmentId, needToChangeStatus) {
+    this.props.history.push(`/appointments/${appointmentId}/edit`);
+  }
   onTabChangeClick(tab) {
     this.setState({
       currentTab: tab,
@@ -109,6 +112,7 @@ class PatientProfile extends Component {
             appointments={this.getList(currentTab, appointments)}
             currentTab={currentTab}
             changeTabClickHandler={this.onTabChangeClick.bind(this)}
+            handleStartClick={this.onStartClick.bind(this)}
           />
         )}
       </div>
