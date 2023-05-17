@@ -9,8 +9,10 @@
     "@fortawesome/free-regular-svg-icons": "^5.15.3",
     "@fortawesome/free-solid-svg-icons": "^5.15.3",
     "@fortawesome/react-fontawesome": "^0.1.14",
+    "@microsoft/signalr": "^7.0.5",
     "antd": "^4.15.6",
     "axios": "^0.21.1",
+    "classnames": "^2.3.2",
     "craco-antd": "^1.19.0",
     "craco-less": "^1.17.1",
     "google-map-react": "^1.1.7",
@@ -18,7 +20,6 @@
     "http-proxy-middleware": "^1.0.4",
     "lodash": "^4.17.21",
     "moment": "^2.26.0",
-    "node-sass": "^4.14.1",
     "react": "^16.13.1",
     "react-datepicker": "^2.16.0",
     "react-dom": "^16.13.1",
@@ -32,7 +33,12 @@
     "react-slick": "^0.26.1",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
+    "sass": "^1.49.9",
+    "simple-peer": "^9.11.1",
     "slick-carousel": "^1.8.1"
+  },
+  "devDependencies": {
+    "sass": "^1.49.9"
   },
   "scripts": {
     "start": "craco start",

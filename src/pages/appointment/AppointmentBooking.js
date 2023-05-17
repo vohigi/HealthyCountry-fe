@@ -59,7 +59,7 @@ class AppointmentBooking extends Component {
     console.log(id);
     console.log(this.state.appointments);
     const appointment = this.state.appointments.find(
-      (appointment) => appointment.appointmentId === id
+      (appointment) => appointment.id === id
     );
     console.log(appointment);
     appointment.status = "BOOKED";
@@ -83,7 +83,7 @@ class AppointmentBooking extends Component {
   }
   showPromiseConfirm(id) {
     const appointment = this.state.appointments.find(
-      (appointment) => appointment.appointmentId === id
+      (appointment) => appointment.id === id
     );
     const formatedDateTime = moment(appointment.dateTime)
       .format("DD-MM-YYYY HH:mm")

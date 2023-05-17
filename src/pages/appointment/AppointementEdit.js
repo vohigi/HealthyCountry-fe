@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Loader from "../../components/Loader/Loader";
 import { checkValidity, updateObject, getBearer } from "../../shared/utility";
-import { Form, Button, Input, List, Select, DatePicker, Divider } from "antd";
+import { Form, Button, Input, List, Select, DatePicker, Divider, Col, Row } from "antd";
 import locale from "antd/es/date-picker/locale/uk_UA";
 import { connect } from "react-redux";
 import moment from "moment";
@@ -16,6 +16,8 @@ import AsyncSelect from "../../components/UI/AsyncSelect";
 import "./_appointmentBooking.scss";
 import DrawerForm from "../../components/DrawerForm";
 import { clinicalStatuses, severity } from "../../data";
+import { VideoCall } from "../../components/VideoCall/VideoCall";
+import VideoCallContainer from "../../components/VideoCall/VideoCallContainer";
 const { TextArea } = Input;
 const { Option } = Select;
 //import Button from "../../components/UI/Button/Button";
@@ -151,7 +153,7 @@ class AppointementEdit extends Component {
   deleteHandler(type, id) {
     axios
       .delete(
-        `/api/appointments/${this.state.appointment.appointmentId}/${type}/${id}`,
+        `/api/appointments/${this.state.appointment.id}/${type}/${id}`,
         {
           headers: {
             Authorization: "Bearer " + getBearer(),
@@ -169,7 +171,7 @@ class AppointementEdit extends Component {
       };
       axios
         .post(
-          `/api/appointments/${this.state.appointment.appointmentId}/${type}`,
+          `/api/appointments/${this.state.appointment.id}/${type}`,
           data,
           {
             headers: {
@@ -192,7 +194,7 @@ class AppointementEdit extends Component {
     };
     axios
       .put(
-        `/api/appointments/${this.state.appointment.appointmentId}/diagnosis`,
+        `/api/appointments/${this.state.appointment.id}/diagnosis`,
         data,
         {
           headers: {
@@ -213,7 +215,7 @@ class AppointementEdit extends Component {
     data.status = "FINISHED";
     console.log(data);
     axios
-      .patch(`/api/appointments/${data.appointmentId}`, data, {
+      .patch(`/api/appointments/${data.id}`, data, {
         headers: {
           Authorization: "Bearer " + getBearer(),
         },
@@ -275,7 +277,8 @@ class AppointementEdit extends Component {
     return (
       <div className="register">
         {errorMessage}
-
+        <Row gutter={[24,0]}>
+        <Col span={16}>
         <List
           size="large"
           locale={{ emptyText: "Немає даних" }}
@@ -627,6 +630,11 @@ class AppointementEdit extends Component {
             </Button>
           )}
         </Form>
+        </Col>
+        <Col span={8}>
+        {this.state.appointment && <VideoCallContainer userId={this.props.currentUser.id} roomId={this.state.appointment.id} userRole={this.props.currentUser.role}/>}
+        </Col>
+        </Row>
       </div>
     );
   }

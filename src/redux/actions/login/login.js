@@ -12,7 +12,7 @@ export const authSuccess = (token, user) => {
   return {
     type: actionTypes.AUTH_SUCCESS,
     idToken: token,
-    userId: user.userId,
+    userId: user.id,
     user: user,
   };
 };
@@ -56,7 +56,7 @@ export const auth = (email, password) => {
         console.log(expirationDate);
         localStorage.setItem("token", response.data.token);
         localStorage.setItem("expirationDate", expirationDate);
-        localStorage.setItem("userId", response.data.user.userId);
+        localStorage.setItem("userId", response.data.user.id);
         dispatch(authSuccess(response.data.token, response.data.user));
         dispatch(
           checkAuthTimeout(new Date(new Date().getTime() + 3600 * 1000))

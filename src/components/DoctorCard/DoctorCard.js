@@ -9,6 +9,7 @@ import { faMap } from "@fortawesome/free-regular-svg-icons";
 import "./_doctorCard.scss";
 import portrait from "../../img/Portrait_Placeholder.png";
 import cat from "../../img/cat.jpg";
+import Photo from "../Photo/Photo";
 
 const DoctorCard = ({
   userId,
@@ -18,17 +19,19 @@ const DoctorCard = ({
   address,
   orgName,
   spec,
+  sex,
   appointmentClickHandler,
   isCat,
 }) => (
   <div className="doctorCard">
     <div className="doctorCardTop">
       <div className="doctorImageContainer">
-        <img
-          src={isCat ? cat : portrait}
+        <Photo classImg={"doctorImg"} type={"resource"} sex={sex}/>
+        {/* <img
+          src={portrait}
           alt="doctor"
           className="doctorImg"
-        ></img>
+        ></img> */}
       </div>
       <div className="doctorCardTopText">
         <p>

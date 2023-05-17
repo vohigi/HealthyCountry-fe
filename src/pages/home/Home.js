@@ -31,7 +31,10 @@ class Home extends Component {
         label: "Організація",
         elementType: "select",
         elementConfig: {
-          options: [{ label: "Тестова Поліклініка", value: "org_1" }],
+          options: [
+            { label: "-", value: null },
+            { label: "Тестова Поліклініка", value: "650d70c4-5136-4c13-9a60-aa3aebae8ea5" }
+          ],
           placeholder: "Організація",
         },
         value: "",
@@ -189,12 +192,13 @@ class Home extends Component {
               doctors.map(
                 (
                   {
-                    userId,
+                    id:userId,
                     firstName,
                     lastName,
                     middleName,
                     organization,
                     specialization,
+                    gender
                   },
                   index
                 ) => (
@@ -208,6 +212,7 @@ class Home extends Component {
                     address={organization.address}
                     orgName={organization.name}
                     spec={specialization}
+                    sex={gender==="MALE"}
                     appointmentClickHandler={(e, id) =>
                       this.handleAppointmentClick(id)
                     }

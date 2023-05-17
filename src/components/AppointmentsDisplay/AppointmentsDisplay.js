@@ -64,9 +64,9 @@ export const AppointmentsDisplay = ({
           {appointments &&
             appointments.map(
               ({
+                id,
                 dateTime,
                 status,
-                appointmentId,
                 employee,
                 reason,
                 diagnosis,
@@ -76,10 +76,10 @@ export const AppointmentsDisplay = ({
               }) => {
                 console.log(dateTime);
                 return (
-                  <Row justify="center" key={appointmentId}>
+                  <Row justify="center" key={id}>
                     <Col span={22}>
                       <AppointmentCard
-                        key={appointmentId}
+                        key={id}
                         dateTime={dateTime}
                         status={status}
                         reason={reason ? reason.name + " " + reason.code : ""}
@@ -96,10 +96,10 @@ export const AppointmentsDisplay = ({
                         } ${patient.middleName ? patient.middleName : ""}`}
                         enableControls={enableControls}
                         handleStartClick={() =>
-                          handleStartClick(appointmentId, status === "BOOKED")
+                          handleStartClick(id, status === "BOOKED")
                         }
                         handleCancelClick={() =>
-                          handleCancelClick(appointmentId)
+                          handleCancelClick(id)
                         }
                       />
                     </Col>

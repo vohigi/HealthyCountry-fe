@@ -1,0 +1,64 @@
+@import "src/variables";
+
+.icon__svg {
+	width: 1em;
+	height: 1em;
+	margin-right: 5px;
+	color: inherit;
+	vertical-align: middle;
+	line-height: 1em;
+
+	svg {
+		width: 1em;
+		height: 1em;
+		fill: currentColor;
+
+		* {
+			fill: inherit!important;
+		}
+	}
+}
+
+.icon__svg.fa-xs {
+	font-size: 12px;
+}
+
+.icon__svg.fa-sm {
+	font-size: 14px;
+}
+
+.icon__svg.fa-lg {
+	font-size: 18px;
+	vertical-align: -25%;
+}
+
+.icon__svg.fa-1x {
+	font-size: 22px;
+}
+
+.icon__svg.fa-2x {
+	font-size: 2em;
+}
+
+.icon__svg.fa-3x {
+	font-size: 56px;
+}
+
+.icon__svg.fa-10x {
+	font-size: 10em;
+}
+
+.icon__svg.fa-pause.color-gray {
+	color: $primary-color;
+}
+
+.icon__svg.removeOffset {
+	margin: 0;
+}
+
+.icon__svg_cursor {
+	cursor: pointer;
+}
+
+
+

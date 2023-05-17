@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="22px" height="21px" viewBox="0 0 22 21" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="icons" transform="translate(-587.000000, -1159.000000)" fill="#9B9FAB">
+            <g id="fa-loading" transform="translate(587.000000, 1159.000000)">
+                <g id="loading">
+                    <ellipse id="Oval" fill-rule="nonzero" cx="11.6701538" cy="2.45444344" rx="2.60784615" ry="2.45444344"></ellipse>
+                    <ellipse id="Oval" fill-rule="nonzero" cx="11.6701538" cy="19.5121086" rx="1.56453846" ry="1.47250679"></ellipse>
+                    <ellipse id="Oval" fill-rule="nonzero" cx="5.26223077" cy="4.9518914" rx="2.34723077" ry="2.20915837"></ellipse>
+                    <ellipse id="Oval" fill-rule="nonzero" cx="18.0780769" cy="17.0130679" rx="1.30392308" ry="1.22722172"></ellipse>
+                    <ellipse id="Oval" fill-rule="nonzero" cx="2.60784615" cy="10.9836742" rx="2.08576923" ry="1.96307692"></ellipse>
+                    <ellipse id="Oval" fill-rule="nonzero" cx="20.7316154" cy="10.9828778" rx="1.04246154" ry="1"></ellipse>
+                    <path d="M3.97184615,15.800181 C3.25853846,16.4715294 3.25853846,17.5577919 3.97184615,18.2291403 C4.68430769,18.9004887 5.84015385,18.9004887 6.55261538,18.2291403 C7.26592308,17.5577919 7.26592308,16.4715294 6.55261538,15.800181 C5.84015385,15.1280362 4.68515385,15.1216652 3.97184615,15.800181 Z" id="Path" fill-rule="nonzero"></path>
+                    <ellipse id="Oval" fill-rule="nonzero" cx="18.0772308" cy="4.9518914" rx="1" ry="1"></ellipse>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

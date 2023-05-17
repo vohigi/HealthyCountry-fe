@@ -5,6 +5,7 @@ import Layout from "./hoc/layout";
 import * as actions from "./redux/actions/index";
 import PrivateRoute from "./components/PrivateRoute";
 import "./antdGlobalCss";
+import AppointmentView from "./pages/appointment/AppointmentView";
 const Home = lazy(() => import("./pages/home/Home"));
 const Login = lazy(() => import("./pages/login/Login"));
 const Logout = lazy(() => import("./pages/logout/Logout"));
@@ -81,6 +82,14 @@ class App extends Component {
           userId={this.props.userId}
           userRole={this.props.role}
           role="ANY"
+        />
+        <PrivateRoute
+          path="/appointments/:appointmentId/view"
+          component={AppointmentView}
+          setAuthRedirectPath={this.props.onSetAuthRedirectPath}
+          userId={this.props.userId}
+          userRole={this.props.role}
+          role="PATIENT"
         />
         <PrivateRoute
           path="/management/users"

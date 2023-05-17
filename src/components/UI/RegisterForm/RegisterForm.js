@@ -194,11 +194,11 @@ class RegisterForm extends Component {
           label: "Організація",
           elementType: "select",
           elementConfig: {
-            options: [{ label: "Тестова Поліклініка", value: "org_1" }],
+            options: [{ label: "Тестова Поліклініка", value: "650d70c4-5136-4c13-9a60-aa3aebae8ea5" }],
             placeholder: "Організація",
           },
           value: this.props.organization
-            ? { label: "Тестова Поліклініка", value: "org_1" }
+            ? { label: "Тестова Поліклініка", value: "650d70c4-5136-4c13-9a60-aa3aebae8ea5" }
             : {},
           validation: {
             required: true,

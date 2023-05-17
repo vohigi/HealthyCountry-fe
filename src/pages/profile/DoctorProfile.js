@@ -102,7 +102,7 @@ class DoctorProfile extends Component {
   }
   onPrintSubmit(values) {
     const url = `http://localhost:5000/api/appointments/${
-      this.state.doctorData.userId
+      this.state.doctorData.id
     }/print?startDate=${values.dateStart.format(
       "YYYY-MM-DD"
     )}&endDate=${values.dateEnd.format("YYYY-MM-DD")}&format=${values.format}`;
@@ -111,12 +111,12 @@ class DoctorProfile extends Component {
   onStartClick(appointmentId, needToChangeStatus) {
     if (needToChangeStatus) {
       const data = this.state.appointments.find(
-        (appointment) => appointment.appointmentId == appointmentId
+        (appointment) => appointment.id == appointmentId
       );
       data.status = "INPROGRESS";
       console.log(data);
       axios
-        .patch(`/api/appointments/${data.appointmentId}`, data, {
+        .patch(`/api/appointments/${data.id}`, data, {
           headers: {
             Authorization: "Bearer " + getBearer(),
           },
@@ -130,7 +130,7 @@ class DoctorProfile extends Component {
   }
   onCancelClick(appointmentId) {
     const data = this.state.appointments.find(
-      (appointment) => appointment.appointmentId === appointmentId
+      (appointment) => appointment.id === appointmentId
     );
     data.status = "CANCELED";
     axios
