@@ -30,6 +30,7 @@
 	}
 
 	&__actionBlock {
+        padding-top: 12px;
 		padding-left: 12px;
 		padding-right: 12px;
 	}
@@ -60,7 +61,11 @@
 			&--fullScreen {
 				position: fixed;
 			}
+			&--disabled {
+				z-index: -2;
+			}
 		}
+	
 
 		.remoteAudioIcon {
 			position: absolute;
@@ -85,6 +90,7 @@
 			align-items: center;
 			justify-content: center;
 			background-color: black;
+			overflow: hidden;
 
 			&--fullScreen {
 				position: fixed;
@@ -92,7 +98,9 @@
 
 			.remotePatientPhoto {
 				max-height: 100%;
-				max-width: 100%;
+				//max-width: 100%;
+				height: 100%;
+				overflow: hidden;
 			}
 		}
 
@@ -137,3 +145,8 @@
 		}
 	}
 }
+
+video {
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
+  }

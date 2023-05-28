@@ -83,6 +83,9 @@ class PatientProfile extends Component {
   onStartClick(appointmentId, needToChangeStatus) {
     this.props.history.push(`/appointments/${appointmentId}/edit`);
   }
+  onViewClick(appointmentId) {
+    this.props.history.push(`/appointments/${appointmentId}/view`);
+  }
   onTabChangeClick(tab) {
     this.setState({
       currentTab: tab,
@@ -113,6 +116,8 @@ class PatientProfile extends Component {
             currentTab={currentTab}
             changeTabClickHandler={this.onTabChangeClick.bind(this)}
             handleStartClick={this.onStartClick.bind(this)}
+            handleViewClick={this.onViewClick.bind(this)}
+            enablePatientControls={true}
           />
         )}
       </div>

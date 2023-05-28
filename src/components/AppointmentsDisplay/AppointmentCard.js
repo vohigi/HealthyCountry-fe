@@ -14,7 +14,9 @@ export const AppointmentCard = ({
   action,
   comment,
   enableControls,
+  enablePatientControls,
   handleStartClick,
+  handleViewClick,
   handleCancelClick,
 }) => {
   let dateArr = moment(dateTime).format("DD-MM-YYYY HH:mm").split(" ");
@@ -66,6 +68,12 @@ export const AppointmentCard = ({
       ? [
           <Button type="primary" size="large" onClick={handleStartClick}>
             Продовжити заповнення
+          </Button>,
+        ]
+        : status === "INPROGRESS" && enablePatientControls
+      ? [
+          <Button type="primary" size="large" onClick={handleViewClick}>
+            До прийому
           </Button>,
         ]
       : status === "FINISHED"

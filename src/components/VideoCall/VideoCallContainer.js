@@ -4,7 +4,7 @@ import { getBearer } from "../../shared/utility";
 import Signalr from './SignalR';
 import RtcService from './RTCService';
 import Icon from '../Icon/Icon';
-import { Button, Card } from 'antd';
+import { Button, Card, Row } from 'antd';
 import { getUserMedia } from '../../shared/utility';
 import Photo from '../Photo/Photo';
 import classnames from 'classnames';
@@ -29,6 +29,8 @@ const getStatusName = ({
     isCallingToPatient,
     isPatientCanceledCall,
     isCallTimedOut,
+    userRole,
+    patientSex
 }) => {
     switch (true) {
         case isPatientCanceledCall:
@@ -58,7 +60,7 @@ const getStatusName = ({
         case !isInRoom:
             return <b>Увійдіть в кабінет відеозв'язку</b>;
         case isInRoom:
-            return <b>{isPatientInRoom ? 'Пацієнт приєднався та очікує' : 'Пацієнт ще не підключився'}</b>;
+            return <b>{userRole === "DOCTOR" ? isPatientInRoom ? 'Пацієнт приєднався та очікує' : 'Пацієнт ще не підключився' : 'Незабаром лікар розпочне відео консультацію'}</b>;
         default:
     }
 };
@@ -130,22 +132,8 @@ export default class VideoCallContainer extends React.Component {
             console.log('НЕ ЗМОГЛИ ВСТАНОВИТИ WS CONNECT :(');
         }
     };
-    // startCall = async () => {
-    //     const offer = await peerConnection.createOffer();
-    //     await peerConnection.setLocalDescription(offer);
-
-    //     connection.send('message', JSON.stringify({ 'sdp': peerConnection.localDescription }));
-
-    //     navigator.mediaDevices.getUserMedia({ video: true, audio: true }).then(stream => {
-    //         stream.getTracks().forEach(track => peerConnection.addTrack(track, stream));
-
-    //         if (localVideoRef.current) {
-    //             localVideoRef.current.srcObject = stream;
-    //         }
-    //     });
-    // };
     createPeer = async () => {
-        const {roomId} = this.props;
+        const { roomId } = this.props;
 
         try {
             await this.getCameraAccess();
@@ -158,7 +146,7 @@ export default class VideoCallContainer extends React.Component {
     };
     enterRoom = async () => {
         const { isConnectedToWsServer } = this.state;
-        const {roomId} = this.props;
+        const { roomId } = this.props;
 
         if (!isConnectedToWsServer) return;
 
@@ -168,8 +156,8 @@ export default class VideoCallContainer extends React.Component {
 
             if (!this.stream) {
                 await this.getCameraAccess();
-              }
-              
+            }
+
             await this.signalR.joinToRoomAsync(roomId);
             if ('srcObject' in this.videoPlayer) {
                 this.miniVideoPlayer.srcObject = this.stream;
@@ -218,14 +206,10 @@ export default class VideoCallContainer extends React.Component {
     rtcOnStream = (data) => {
         this.setState({ isRemoteVideoActive: true, isRemoteAudioActive: true });
 
-        if ('srcObject' in this.videoPlayer) {
-            this.videoPlayer.srcObject = data.data;
-            this.miniVideoPlayer.srcObject = this.stream;
-        } else {
-            // Avoid using this in new browsers, as it is going away.
-            this.videoPlayer.src = URL.createObjectURL(data.data);
-            this.miniVideoPlayer.src = URL.createObjectURL(this.stream);
-        }
+
+        this.videoPlayer.srcObject = data.data;
+        this.miniVideoPlayer.srcObject = this.stream;
+
 
         this.videoPlayer.onloadedmetadata = () => {
             this.videoPlayer.play();
@@ -274,19 +258,15 @@ export default class VideoCallContainer extends React.Component {
 
         const tracks = this.stream.getTracks();
 
-        if(disableTracks){
-        tracks.forEach((track) => {
-            track.stop();
-        });
-    }
-
-        if ('srcObject' in this.videoPlayer) {
-            this.videoPlayer.srcObject = null;
-            this.miniVideoPlayer.srcObject = null;
-        } else {
-            this.videoPlayer.src = null;
-            this.miniVideoPlayer.src = null;
+        if (disableTracks) {
+            tracks.forEach((track) => {
+                track.stop();
+            });
         }
+
+        this.videoPlayer.srcObject = null;
+        this.miniVideoPlayer.srcObject = null;
+        this.stream = null;
     };
 
     checkPatientInRoom = () => {
@@ -335,19 +315,19 @@ export default class VideoCallContainer extends React.Component {
     toggleFullScreen = () => {
         this.setState(({ isFullScreen }) => ({ isFullScreen: !isFullScreen }));
     };
-    loadRoomInfo(roomId){
+    loadRoomInfo(roomId) {
         axios
-      .get(`/api/websocket/v1/sockethub/rooms/${roomId}`, {
-        headers: {
-          Authorization: "Bearer " + getBearer(),
-        },
-      })
-      .then((response) => {
-        this.setState({ users: response.data ? response.data.users : [] });
-      });
+            .get(`/api/websocket/v1/sockethub/rooms/${roomId}`, {
+                headers: {
+                    Authorization: "Bearer " + getBearer(),
+                },
+            })
+            .then((response) => {
+                this.setState({ users: response.data ? response.data.users : [] });
+            });
     }
     onSignalrNewUserArrived = (user) => {
-        
+
         this.setState({ users: [user] });
     };
     closeVideoRoom = async () => {
@@ -355,7 +335,7 @@ export default class VideoCallContainer extends React.Component {
         try {
             this.setState({ isLeavingRoom: true });
 
-            await  this.leaveRoomAsync();
+            await this.leaveRoomAsync();
             //this.closeModal();
         } catch (error) {
             console.log("error : ", error)
@@ -366,7 +346,7 @@ export default class VideoCallContainer extends React.Component {
     leaveRoomAsync = async () => {
         try {
             const { isInRoom } = this.state;
-            const {roomId} = this.props;
+            const { roomId } = this.props;
 
             if (isInRoom && this.signalR) {
                 await this.signalR.leaveRoomAsync(roomId);
@@ -379,7 +359,7 @@ export default class VideoCallContainer extends React.Component {
         }
     };
     render() {
-        const { userId } = this.props;
+        const { userId, userRole, patientSex} = this.props;
         const {
             isConnectingToWsServer,
             isLoadingEnterRoom,
@@ -442,6 +422,7 @@ export default class VideoCallContainer extends React.Component {
                                         isCallingToPatient,
                                         isPatientCanceledCall,
                                         isCallTimedOut,
+                                        userRole
                                     })}
                                 </div>
                             </div>
@@ -457,11 +438,13 @@ export default class VideoCallContainer extends React.Component {
                                 width="100%"
                             />
 
-                            {event.patient && !isRemoteVideoActive && (
+                            {!isRemoteVideoActive && (
                                 <div
-                                    className={''}
+                                    className={classnames('remotePatientPhotoWrapper', {
+                                        'remotePatientPhotoWrapper--fullScreen': isFullScreen,
+                                    })}
                                 >
-                                    <Photo type="patient" sex={event.patient.sex} classImg="remotePatientPhoto" />
+                                    <Photo type={userRole === "DOCTOR"?"patient":"resource"} sex={patientSex} classImg="remotePatientPhoto" />
                                 </div>
                             )}
 
@@ -479,7 +462,7 @@ export default class VideoCallContainer extends React.Component {
                                     this.miniVideoPlayer = domNode;
                                 }}
                                 id="mini-video"
-                                className={classnames('miniVideo', { 'miniVideo--fullScreen': isFullScreen })}
+                                className={classnames('miniVideo', { 'miniVideo--fullScreen': isFullScreen, 'miniVideo--disabled': !isVideoActive })}
                                 autoPlay
                                 playsInline
                                 muted
@@ -495,7 +478,7 @@ export default class VideoCallContainer extends React.Component {
                                     </Button>
                                 )}
 
-                                {isInRoom && isPatientInRoom && !isPeerCreated && this.props.userRole !== "PATIENT"&& (
+                                {isInRoom && isPatientInRoom && !isPeerCreated && this.props.userRole !== "PATIENT" && (
                                     <Button
                                         type="primary"
                                         size="large"
@@ -512,14 +495,14 @@ export default class VideoCallContainer extends React.Component {
                                 {isInRoom && !isPeerCreated && !isCallingToPatient && (
                                     <div>
                                         <div>
-                                            <div className="flex-container margin-bottom-offset-10">
+                                            <Row className="flex-container margin-bottom-offset-10">
                                                 <div className="font-size-middle">
                                                     <Icon name="info-circle" className="text-info" />
                                                 </div>
                                                 <div className="text-disabled font-size-small">
                                                     Якщо консультація надається іншими засобами зв’язку, закрийте вікно відеозв’язку
                                                 </div>
-                                            </div>
+                                            </Row>
                                             <Button
                                                 bsStyle="default"
                                                 className="block"
@@ -542,8 +525,9 @@ export default class VideoCallContainer extends React.Component {
                                                     onClick={this.toggleVideo}
                                                 >
                                                     <Icon
-                                                        color={isVideoActive ? 'white' : undefined}
+                                                        color={isVideoActive ? 'green' : 'gray'}
                                                         name={isVideoActive ? 'camera' : 'cameraoff'}
+                                                        size={"1x"}
                                                     />
                                                 </Button>
 
@@ -554,18 +538,19 @@ export default class VideoCallContainer extends React.Component {
                                                     onClick={this.toggleAudio}
                                                 >
                                                     <Icon
-                                                        color={isVideoActive ? 'white' : undefined}
+                                                        color={isAudioActive ? 'green' : 'gray'}
                                                         name={isAudioActive ? 'microphone' : 'microphoneoff'}
+                                                        size={"1x"}
                                                     />
                                                 </Button>
 
-                                                <Button
+                                                {/* <Button
                                                     title={isFullScreen ? 'Выход из полноэкранного режима' : 'Во весь экран'}
                                                     active={"false"}
                                                     onClick={this.toggleFullScreen}
                                                 >
                                                     <Icon name={isFullScreen ? 'expand-o' : 'expand'} />
-                                                </Button>
+                                                </Button> */}
                                             </div>
 
                                             <Button
@@ -573,7 +558,7 @@ export default class VideoCallContainer extends React.Component {
                                                 className="VideoRoom__btnIcon"
                                                 onClick={this.closeVideoRoom}
                                             >
-                                                <Icon name="callend" />
+                                                <Icon name="callend" color={"red"} size={"1x"} />
                                             </Button>
                                         </div>
                                     </div>

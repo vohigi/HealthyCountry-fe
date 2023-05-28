@@ -18,6 +18,7 @@ import DrawerForm from "../../components/DrawerForm";
 import { clinicalStatuses, severity } from "../../data";
 import { VideoCall } from "../../components/VideoCall/VideoCall";
 import VideoCallContainer from "../../components/VideoCall/VideoCallContainer";
+import { AppointmentInfoCard } from "../../components/AppointmentInfoCard/AppointmentInfoCard";
 const { TextArea } = Input;
 const { Option } = Select;
 //import Button from "../../components/UI/Button/Button";
@@ -53,13 +54,13 @@ class AppointmentView extends Component {
             })
             .then((response) => {
                 this.setState({ appointment: response.data });
-                if(response.data.status=="FINISHED")
-                this.commentFormRef.current.setFields([
-                    {
-                        name: "comment",
-                        value: this.state.appointment.comment,
-                    },
-                ]);
+                if (response.data.status == "FINISHED")
+                    this.commentFormRef.current.setFields([
+                        {
+                            name: "comment",
+                            value: this.state.appointment.comment,
+                        },
+                    ]);
             });
     }
     onDrawerVisibilityChange(name, action) {
@@ -278,7 +279,16 @@ class AppointmentView extends Component {
         return (
             <div className="register">
                 {errorMessage}
-
+                {this.state.appointment && 
+                <AppointmentInfoCard
+                    status={this.state.appointment.status}
+                    doctorName={`${this.state.appointment.employee.lastName} ${this.state.appointment.employee.firstName
+                        } ${this.state.appointment.employee.middleName ?? ""}`}
+                    patientName={`${this.state.appointment.patient.lastName} ${this.state.appointment.patient.firstName
+                        } ${this.state.appointment.patient.middleName ? this.state.appointment.patient.middleName : ""}`}
+                    dateTime = {this.state.appointment.dateTime}
+                />
+                }
                 {this.state.appointment?.status == "FINISHED" && (
                     <>
                         <List
@@ -502,7 +512,8 @@ class AppointmentView extends Component {
                         </Form>
                     </>
                 )}
-                {this.state.appointment?.status==="INPROGRESS" && <VideoCallContainer userId={this.props.currentUser.id} roomId={this.state.appointment.id} userRole={this.props.currentUser.role} />}
+
+                {this.state.appointment?.status === "INPROGRESS" && <VideoCallContainer userId={this.props.currentUser.id} roomId={this.state.appointment.id} userRole={this.props.currentUser.role} patientSex={true}/>}
             </div>
         );
     }

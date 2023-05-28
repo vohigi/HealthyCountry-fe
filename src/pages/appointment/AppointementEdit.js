@@ -18,6 +18,7 @@ import DrawerForm from "../../components/DrawerForm";
 import { clinicalStatuses, severity } from "../../data";
 import { VideoCall } from "../../components/VideoCall/VideoCall";
 import VideoCallContainer from "../../components/VideoCall/VideoCallContainer";
+import { AppointmentInfoCard } from "../../components/AppointmentInfoCard/AppointmentInfoCard";
 const { TextArea } = Input;
 const { Option } = Select;
 //import Button from "../../components/UI/Button/Button";
@@ -277,8 +278,18 @@ class AppointementEdit extends Component {
     return (
       <div className="register">
         {errorMessage}
+        {this.state.appointment && 
+                <AppointmentInfoCard
+                    status={this.state.appointment.status}
+                    doctorName={`${this.state.appointment.employee.lastName} ${this.state.appointment.employee.firstName
+                        } ${this.state.appointment.employee.middleName ?? ""}`}
+                    patientName={`${this.state.appointment.patient.lastName} ${this.state.appointment.patient.firstName
+                        } ${this.state.appointment.patient.middleName ? this.state.appointment.patient.middleName : ""}`}
+                    dateTime = {this.state.appointment.dateTime}
+                />
+                }
         <Row gutter={[24,0]}>
-        <Col span={16}>
+        <Col span={this.state.appointment && this.state.appointment.status == "FINISHED" ? 24 : 16}>
         <List
           size="large"
           locale={{ emptyText: "Немає даних" }}
@@ -632,7 +643,7 @@ class AppointementEdit extends Component {
         </Form>
         </Col>
         <Col span={8}>
-        {this.state.appointment && <VideoCallContainer userId={this.props.currentUser.id} roomId={this.state.appointment.id} userRole={this.props.currentUser.role}/>}
+        {this.state.appointment && this.state.appointment?.status !=="FINISHED" && <VideoCallContainer userId={this.props.currentUser.id} roomId={this.state.appointment?.id} userRole={this.props.currentUser.role} patientSex={true}/>}
         </Col>
         </Row>
       </div>

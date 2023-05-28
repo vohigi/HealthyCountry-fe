@@ -8,7 +8,9 @@ export const AppointmentsDisplay = ({
   currentTab,
   changeTabClickHandler,
   enableControls,
+  enablePatientControls,
   handleStartClick,
+  handleViewClick,
   handleCancelClick,
   onPrintClick,
 }) => {
@@ -95,9 +97,11 @@ export const AppointmentsDisplay = ({
                           patient.firstName
                         } ${patient.middleName ? patient.middleName : ""}`}
                         enableControls={enableControls}
+                        enablePatientControls ={enablePatientControls}
                         handleStartClick={() =>
                           handleStartClick(id, status === "BOOKED")
                         }
+                        handleViewClick={()=>handleViewClick(id)}
                         handleCancelClick={() =>
                           handleCancelClick(id)
                         }
